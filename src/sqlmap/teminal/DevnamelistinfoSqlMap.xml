@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevnamelistinfoMapper" >
+
+    <resultMap id="RM.Devnamelistinfo" type="com.sc.teminal.pojo.Devnamelistinfo">
+        <result property="nameListId" column="NameListID"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="editTime" column="EditTime"/>
+        <result property="syncState" column="SyncState"/>
+        <result property="cardNo" column="CardNo"/>
+        <result property="content" column="Content"/>
+        <result property="updateType" column="UpdateType"/>
+    </resultMap>
+
+	<sql id="Devnamelistinfo.columns">
+	    <![CDATA[
+        NameListID ,TerminalID ,EditTime ,SyncState ,CardNo ,Content ,UpdateType 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO devnamelistinfo ( 
+        	
+        	TerminalID ,
+        	EditTime ,
+        	SyncState ,
+        	CardNo ,
+        	Content ,
+        	UpdateType 
+        ) VALUES (
+			
+			#{terminalId} ,
+			#{editTime} ,
+			#{syncState} ,
+			#{cardNo} ,
+			#{content} ,
+			#{updateType} 
+        )
+    ]]>
+      	<selectKey  resultType="java.lang.Integer" keyProperty="nameListId" >
+           SELECT  @@identity  AS  NameListID
+    	</selectKey>
+    </insert>
+    
+	
+    <insert id="insertlog" >
+    <![CDATA[
+        INSERT INTO devnamelistinfolog (
+        	NameListID ,
+        	TerminalID ,
+        	EditTime ,
+        	SyncState ,
+        	CardNo ,
+        	Content ,
+        	UpdateType 
+        ) VALUES (
+			#{nameListId} ,
+			#{terminalId} ,
+			#{editTime} ,
+			#{syncState} ,
+			#{cardNo} ,
+			#{content} ,
+			#{updateType} 
+        )
+    ]]>
+    </insert>
+   
+   	<delete id="deleteLogByCardNo">
+    <![CDATA[
+        DELETE FROM devnamelistinfolog WHERE   CardNo = #{cardNo}
+    ]]>
+    </delete>
+    
+    <select id="queryLog" resultMap="RM.Devnamelistinfo">
+    	SELECT DISTINCT  <include refid="Devnamelistinfo.columns"/> FROM devnamelistinfolog 
+		<include refid="Devnamelistinfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="nameListId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE devnamelistinfo SET
+	        TerminalID = #{terminalId} ,
+	        EditTime = #{editTime} ,
+	        SyncState = #{syncState} ,
+	        CardNo = #{cardNo} ,
+	        Content = #{content} ,
+	        UpdateType = #{updateType} 
+        WHERE 
+	        NameListID = #{nameListId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM devnamelistinfo WHERE
+        NameListID = #{nameListId} 
+    ]]>
+    </delete>
+    
+   	<delete id="deleteByTerminalIDCardNo">
+    <![CDATA[
+        DELETE FROM devnamelistinfo WHERE
+        TerminalID = #{terminalId}  and  CardNo = #{cardNo}
+    ]]>
+    </delete>
+    
+    <select id="getByTerminalIDCardNo" resultMap="RM.Devnamelistinfo">
+    <![CDATA[
+        select * FROM devnamelistinfo WHERE
+        TerminalID = #{terminalId}  and  CardNo = #{cardNo}
+    ]]>
+    </select>
+    
+    
+    <select id="getById" resultMap="RM.Devnamelistinfo">
+	    SELECT <include refid="Devnamelistinfo.columns"/>
+	    <![CDATA[
+	        FROM devnamelistinfo 
+	        WHERE 
+		        NameListID = #{nameListId} 
+	    ]]>
+    </select>
+
+	<sql id="Devnamelistinfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="nameListId !=null">
+		            AND NameListID = #{nameListId}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="editTimeBegin !=null">
+		            AND EditTime >= #editTimeBegin#
+		       </if>
+		       <if test="editTimeEnd !=null">
+		            AND EditTime &lt;= #editTimeEnd#
+		       </if>
+		       <if test="syncState !=null">
+		            AND SyncState = #{syncState}
+		       </if>
+		       <if test="cardNo !=null">
+		            AND CardNo = #{cardNo}
+		       </if>
+		       <if test="content !=null">
+		            AND Content = #{content}
+		       </if>
+		       <if test="updateType !=null">
+		            AND UpdateType = #{updateType}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM devnamelistinfo <include refid="Devnamelistinfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Devnamelistinfo">
+    	SELECT <include refid="Devnamelistinfo.columns"/> FROM devnamelistinfo 
+		<include refid="Devnamelistinfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Devnamelistinfo">
+    	SELECT <include refid="Devnamelistinfo.columns"/> FROM devnamelistinfo 
+		<include refid="Devnamelistinfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+    <select id="getMaxVersion" resultType="java.lang.String">
+        SELECT ISNULL(max(NameListID),1) FROM devnamelistinfo 
+    </select>
+</mapper>
+

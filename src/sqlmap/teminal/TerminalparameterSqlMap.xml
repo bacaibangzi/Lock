@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.TerminalparameterMapper" >
+
+    <resultMap id="RM.Terminalparameter" type="com.sc.teminal.pojo.Terminalparameter">
+        <result property="parameterId" column="ParameterID"/>
+        <result property="templateId" column="TemplateID"/>
+        <result property="paraNo" column="ParaNo"/>
+        <result property="paraContent" column="ParaContent"/>
+        <result property="isChange" column="IsChange"/>
+    </resultMap>
+
+	<sql id="Terminalparameter.columns">
+	    <![CDATA[
+        ParameterID ,TemplateID ,ParaNo ,ParaContent ,IsChange 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO terminalparameter (
+        	ParameterID ,
+        	TemplateID ,
+        	ParaNo ,
+        	ParaContent ,
+        	IsChange 
+        ) VALUES (
+			#{parameterId} ,
+			#{templateId} ,
+			#{paraNo} ,
+			#{paraContent} ,
+			#{isChange} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="parameterId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE terminalparameter SET
+	        TemplateID = #{templateId} ,
+	        ParaNo = #{paraNo} ,
+	        ParaContent = #{paraContent} ,
+	        IsChange = #{isChange} 
+        WHERE 
+	        ParameterID = #{parameterId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM terminalparameter WHERE
+        ParameterID = #{parameterId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Terminalparameter">
+	    SELECT <include refid="Terminalparameter.columns"/>
+	    <![CDATA[
+	        FROM terminalparameter 
+	        WHERE 
+		        ParameterID = #{parameterId} 
+	    ]]>
+    </select>
+
+	<sql id="Terminalparameter.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="parameterId !=null">
+		            AND ParameterID = #{parameterId}
+		       </if>
+		       <if test="templateId !=null">
+		            AND TemplateID = #{templateId}
+		       </if>
+		       <if test="paraNo !=null">
+		            AND ParaNo = #{paraNo}
+		       </if>
+		       <if test="paraContent !=null">
+		            AND ParaContent = #{paraContent}
+		       </if>
+		       <if test="isChange !=null">
+		            AND IsChange = #{isChange}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM terminalparameter <include refid="Terminalparameter.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Terminalparameter">
+    	SELECT <include refid="Terminalparameter.columns"/> FROM terminalparameter 
+		<include refid="Terminalparameter.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Terminalparameter">
+    	SELECT <include refid="Terminalparameter.columns"/> FROM terminalparameter 
+		<include refid="Terminalparameter.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

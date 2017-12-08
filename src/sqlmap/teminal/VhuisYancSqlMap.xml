@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.VhuisYancMapper" >
+
+    <resultMap id="RM.VhuisYanc" type="com.sc.teminal.pojo.VhuisYanc">
+        <result property="uiName" column="ui_name"/>
+        <result property="uiNum" column="ui_num"/>
+        <result property="cardNum" column="card_num"/>
+        <result property="oiName" column="oi_name"/>
+        <result property="edittime" column="edittime"/>
+        <result property="content" column="content"/>
+        <result property="terminalname" column="terminalname"/>
+        <result property="namelistid" column="namelistid"/>
+        <result property="type" column="type"/>
+        <result property="updatetype" column="updatetype"/>
+        <result property="syncstate" column="syncstate"/>
+    </resultMap>
+
+	<sql id="VhuisYanc.columns">
+	    <![CDATA[
+        ui_name ,ui_num ,card_num ,oi_name ,edittime ,content ,terminalname ,namelistid,type,syncstate,updatetype
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO v_huis_yanc (
+        	ui_name ,
+        	ui_num ,
+        	card_num ,
+        	oi_name ,
+        	edittime ,
+        	content ,
+        	terminalname 
+        ) VALUES (
+			#{uiName} ,
+			#{uiNum} ,
+			#{cardNum} ,
+			#{oiName} ,
+			#{edittime} ,
+			#{content} ,
+			#{terminalname} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE v_huis_yanc SET
+	        ui_name = #{uiName} ,
+	        ui_num = #{uiNum} ,
+	        card_num = #{cardNum} ,
+	        oi_name = #{oiName} ,
+	        edittime = #{edittime} ,
+	        content = #{content} ,
+	        terminalname = #{terminalname} 
+        WHERE 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM v_huis_yanc WHERE
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.VhuisYanc">
+	    SELECT <include refid="VhuisYanc.columns"/>
+	    <![CDATA[
+	        FROM v_huis_yanc 
+	        WHERE 
+	        
+	        namelistid = #{namelistid} 
+	    ]]>
+    </select>
+
+	<sql id="VhuisYanc.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="uiName !=null">
+		            AND ui_name   like '%'+#{uiName}+'%'
+		       </if>
+		       <if test="uiNum !=null">
+		            AND ui_num  like '%'+#{uiNum}+'%'
+		       </if>
+		       <if test="cardNum !=null">
+		            AND card_num like '%'+#{cardNum}+'%'
+		       </if>
+		       <if test="oiName !=null">
+		            AND oi_name = #{oiName}
+		       </if>
+		       <if test="edittimeBegin !=null">
+		            AND '20'+(case when LEN(content)=32 then SUBSTRING(content,9,10) else SUBSTRING(content,37,10) end)  >=  #{edittimeBegin}
+		       </if>
+		       <if test="edittimeEnd !=null">
+		            AND '20'+(case when LEN(content)=32 then SUBSTRING(content,9,10) else SUBSTRING(content,37,10) end)  &lt;=  #{edittimeEnd}
+		       </if>
+		       <if test="content !=null">
+		            AND content = #{content}
+		       </if>
+		       <if test="terminalname !=null">
+		            AND terminalname  like '%'+#{terminalname}+'%'
+		       </if>
+		       <if test="syncstate !=null">
+		            AND syncstate = #{syncstate}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM v_huis_yanc <include refid="VhuisYanc.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.VhuisYanc">
+		
+    	select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="VhuisYanc.columns"/> FROM v_huis_yanc 
+		<include refid="VhuisYanc.findPage.where"/>  
+		) z where   ( namelistid NOT IN (SELECT TOP ${oracleStart} namelistid FROM v_huis_yanc <include refid="VhuisYanc.findPage.where"/>   ORDER by namelistid )) order by namelistid
+		
+    </select>
+    
+    <select id="query" resultMap="RM.VhuisYanc">
+    	SELECT <include refid="VhuisYanc.columns"/> FROM v_huis_yanc 
+		<include refid="VhuisYanc.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

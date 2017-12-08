@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.OrgInfoMapper" >
+
+    <resultMap id="RM.OrgInfo" type="com.sc.system.pojo.OrgInfo">
+        <result property="oiId" column="OI_ID"/>
+        <result property="oiCode" column="OI_CODE"/>
+        <result property="oiName" column="OI_NAME"/>
+        <result property="oiMemo" column="OI_MEMO"/>
+        <result property="oiType" column="OI_TYPE"/>
+        <result property="areaCode" column="AREA_CODE"/>
+        <result property="areaName" column="AREA_NAME"/>
+        <result property="printContext" column="PRINT_CONTEXT"/>
+    </resultMap>
+
+	<sql id="OrgInfo.columns">
+	    <![CDATA[
+        OI_ID ,OI_CODE ,OI_NAME ,OI_MEMO ,OI_TYPE, AREA_CODE, AREA_NAME
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_org_info ( 
+        	OI_CODE ,
+        	OI_NAME ,
+        	OI_MEMO ,
+        	OI_TYPE ,
+        	AREA_CODE,
+        	AREA_NAME ,
+        	PRINT_CONTEXT
+        ) VALUES ( 
+			#{oiCode} ,
+			#{oiName} ,
+			#{oiMemo} ,
+			#{oiType} ,
+			#{areaCode},
+			#{areaName},
+			#{printContext}
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="oiId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+
+	<insert id='insertForValue'>
+	<![CDATA[
+        INSERT INTO dev_org_info (
+        	OI_CODE ,
+        	OI_NAME ,
+        	OI_MEMO ,
+        	OI_TYPE ,
+        	AREA_CODE,
+        	AREA_NAME
+        ) VALUES (
+			#{oiCode} ,
+			#{oiName} ,
+			#{oiMemo} ,
+			#{oiType} ,
+			#{areaCode},
+			#{areaName}
+        )
+    ]]>
+	</insert>
+
+   <select id="nextValue" resultType="string">
+    	SELECT nextorgval(#{oiCode}) as OI_CODE
+   </select>
+
+    <update id="update" >
+        UPDATE dev_org_info SET
+        	<!-- 
+	    	<if test="oiCode!=null">
+	        OI_CODE = #{oiCode} ,
+	        </if>
+	         -->
+	        <if test="oiMemo!=null">
+	        OI_MEMO = #{oiMemo} ,
+	        </if>
+	        <if test="oiName!=null">
+	        OI_NAME = #{oiName} ,
+	        </if>
+	        <if test="areaName!=null">
+	        AREA_NAME = #{areaName} ,
+	        </if>
+	        <if test="areaCode!=null">
+	        AREA_CODE = #{areaCode} ,
+	        </if>
+	        <if test="oiType!=null">
+	        OI_TYPE = #{oiType} ,
+	        </if>
+	         OI_CODE = #{oiCode}
+        WHERE 
+	        OI_ID = #{oiId} 
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_org_info WHERE
+        OI_ID = #{oiId} 
+    ]]>
+    </delete>
+    
+    <delete id="deleteSyn">
+    <![CDATA[
+        DELETE FROM dev_org_info
+        where PRINT_CONTEXT = 'syn'
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.OrgInfo">
+	    SELECT <include refid="OrgInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_org_info 
+	        WHERE 
+		        OI_ID = #{oiId} 
+	    ]]>
+    </select>
+    
+    
+    <select id="getByCode" resultMap="RM.OrgInfo">
+	    SELECT <include refid="OrgInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_org_info 
+	        WHERE 
+		        OI_CODE = #{oiCode}
+	    ]]>
+    </select>
+    
+    <select id="getByName" resultMap="RM.OrgInfo">
+	    SELECT <include refid="OrgInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_org_info 
+	        WHERE 
+		       OI_TYPE = #{oiName}
+	    ]]>
+    </select>
+
+	<sql id="OrgInfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="oiId !=null">
+		            AND OI_ID = #{oiId}
+		       </if>
+		       <if test="oiCode !=null">
+		            AND OI_CODE like   '%'+ #{oiCode} +'%'   
+		       </if>
+		       <if test="wholeOiCode !=null">
+		            AND OI_CODE = #{wholeOiCode}
+		       </if>
+		       <if test="subOiCode !=null">
+		       </if>
+		       <if test="oiName !=null and oiName!='' ">
+		            AND OI_NAME like  '%'+ #{oiName} +'%'
+		       </if>
+		       <if test="oiMemo !=null">
+		            AND OI_MEMO = #{oiMemo}
+		       </if>
+		       <if test="oiType !=null"> 
+		            AND OI_TYPE = #{oiType}
+		       </if>
+		       <if test="areaCode !=null">
+		            AND AREA_CODE = #{areaCode}
+		       </if>
+		       <if test="value !=null">
+		           
+		       </if>
+		       <if test="notOiCode1 !=null">
+		             and len(OI_CODE) = len(''+#{oiCode}+'')  +4
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_org_info <include refid="OrgInfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.OrgInfo">
+    
+    
+    	select top ${oracleEnd} * from
+	    (
+    
+    	SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info 
+		<include refid="OrgInfo.findPage.where"/>
+		
+		) z where   ( OI_ID NOT IN (SELECT TOP ${oracleStart} OI_ID FROM dev_org_info  <include refid="OrgInfo.findPage.where"/> ORDER BY OI_ID ))  ORDER BY OI_ID 
+    </select>
+    
+    <select id="findPageByOrgCode" resultMap="RM.OrgInfo">
+    	SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info 
+		<include refid="OrgInfo.findPage.where"/> 
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by OI_ID asc
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+        <select id="findPageByOrgCodeData" resultMap="RM.OrgInfo">
+    	SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info 
+		<include refid="OrgInfo.findPage.where"/> 
+		
+		and OI_CODE in (select ORG_CODE from user_orgs where USER_ID = #{userId})
+		
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by OI_ID asc
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="findPageByOrgCodeAndOiType" resultMap="RM.OrgInfo">
+    	SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info 
+		 where OI_CODE like   '%'+ #{oiCode} +'%'
+		 and OI_TYPE in('4','6','5','7')
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by OI_ID asc
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.OrgInfo">
+    	SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info 
+		<include refid="OrgInfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		
+		order by OI_ID asc
+    </select>
+    
+    <select id="querySubOrgByOrgCode" resultMap="RM.OrgInfo">
+    	SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info 
+    	<include refid="OrgInfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by OI_ID asc
+    </select>
+
+	<select id="findZongdByOrgCode" resultMap="RM.OrgInfo">
+		SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info where OI_CODE like  '%'+ #{oiCode} +'%' and OI_TYPE = 4
+	</select>
+	
+	<select id="findMengdByOrgCode" resultMap="RM.OrgInfo">
+		SELECT <include refid="OrgInfo.columns"/> FROM dev_org_info where OI_CODE = #{orgCode} 
+	</select>
+	
+	
+	<select id="findNextCode" resultType="string">
+		SELECT max(OI_CODE) FROM dev_org_info where OI_CODE like  '%'+ #{oiCode} +'%' and len(OI_CODE) &lt; =   (len(#{oiCode}) +4)
+	</select>
+	
+</mapper>
+

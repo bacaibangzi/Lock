@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.WebLocationMapper" >
+
+    <resultMap id="RM.WebLocation" type="com.sc.system.pojo.WebLocation">
+        <result property="sn" column="SN"/>
+        <result property="lon" column="LON"/>
+        <result property="lat" column="LAT"/>
+        <result property="date" column="DATE"/>
+    </resultMap>
+
+	<sql id="WebLocation.columns">
+	    <![CDATA[
+        SN ,LON ,LAT ,DATE 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_web_location (
+        	SN ,
+        	LON ,
+        	LAT ,
+        	DATE 
+        ) VALUES (
+			#{sn} ,
+			#{lon} ,
+			#{lat} ,
+			getdate()
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_web_location SET
+	        LON = #{lon} ,
+	        LAT = #{lat} ,
+	        DATE = #{date} 
+        WHERE 
+	        SN = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_web_location WHERE
+        SN = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.WebLocation">
+	    SELECT <include refid="WebLocation.columns"/>
+	    <![CDATA[
+	        FROM dev_web_location 
+	        WHERE 
+		        SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="WebLocation.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="lon !=null">
+		            AND LON = #{lon}
+		       </if>
+		       <if test="lat !=null">
+		            AND LAT = #{lat}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND DATE >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND DATE &lt;= #dateEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_web_location <include refid="WebLocation.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.WebLocation">
+    	SELECT <include refid="WebLocation.columns"/> FROM dev_web_location 
+		<include refid="WebLocation.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.WebLocation">
+    	SELECT <include refid="WebLocation.columns"/> FROM dev_web_location 
+		<include refid="WebLocation.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

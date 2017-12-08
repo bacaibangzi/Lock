@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.TerminaltemplateMapper" >
+
+    <resultMap id="RM.Terminaltemplate" type="com.sc.teminal.pojo.Terminaltemplate">
+        <result property="templateId" column="TemplateID"/>
+        <result property="templateName" column="TemplateName"/>
+        <result property="terminalType" column="TerminalType"/>
+        <result property="templateVersion" column="TemplateVersion"/>
+    </resultMap>
+
+	<sql id="Terminaltemplate.columns">
+	    <![CDATA[
+        TemplateID ,TemplateName ,TerminalType ,TemplateVersion 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO terminaltemplate (
+        	TemplateID ,
+        	TemplateName ,
+        	TerminalType ,
+        	TemplateVersion 
+        ) VALUES (
+			#{templateId} ,
+			#{templateName} ,
+			#{terminalType} ,
+			#{templateVersion} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="templateId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE terminaltemplate SET
+	        TemplateName = #{templateName} ,
+	        TerminalType = #{terminalType} ,
+	        TemplateVersion = #{templateVersion} 
+        WHERE 
+	        TemplateID = #{templateId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM terminaltemplate WHERE
+        TemplateID = #{templateId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Terminaltemplate">
+	    SELECT <include refid="Terminaltemplate.columns"/>
+	    <![CDATA[
+	        FROM terminaltemplate 
+	        WHERE 
+		        TemplateID = #{templateId} 
+	    ]]>
+    </select>
+
+	<sql id="Terminaltemplate.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="templateId !=null">
+		            AND TemplateID = #{templateId}
+		       </if>
+		       <if test="templateName !=null">
+		            AND TemplateName = #{templateName}
+		       </if>
+		       <if test="terminalType !=null">
+		            AND TerminalType = #{terminalType}
+		       </if>
+		       <if test="templateVersion !=null">
+		            AND TemplateVersion = #{templateVersion}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM terminaltemplate <include refid="Terminaltemplate.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Terminaltemplate">
+    	SELECT <include refid="Terminaltemplate.columns"/> FROM terminaltemplate 
+		<include refid="Terminaltemplate.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Terminaltemplate">
+    	SELECT <include refid="Terminaltemplate.columns"/> FROM terminaltemplate 
+		<include refid="Terminaltemplate.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

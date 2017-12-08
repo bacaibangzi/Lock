@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.ControllerinfoMapper" >
+
+    <resultMap id="RM.Controllerinfo" type="com.sc.teminal.pojo.Controllerinfo">
+        <result property="controllerId" column="ControllerID"/>
+        <result property="stationId" column="StationID"/>
+        <result property="channel" column="Channel"/>
+        <result property="controllerName" column="ControllerName"/>
+        <result property="ip" column="IP"/>
+        <result property="port" column="Port"/>
+        <result property="position" column="Position"/>
+        <result property="isUse" column="IsUse"/>
+        <result property="remark" column="Remark"/>
+    </resultMap>
+
+	<sql id="Controllerinfo.columns">
+	    <![CDATA[
+        ControllerID ,StationID ,Channel ,ControllerName ,IP ,Port ,Position ,IsUse ,Remark 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO controllerinfo (
+        	ControllerID ,
+        	StationID ,
+        	Channel ,
+        	ControllerName ,
+        	IP ,
+        	Port ,
+        	Position ,
+        	IsUse ,
+        	Remark 
+        ) VALUES (
+			#{controllerId} ,
+			#{stationId} ,
+			#{channel} ,
+			#{controllerName} ,
+			#{ip} ,
+			#{port} ,
+			#{position} ,
+			#{isUse} ,
+			#{remark} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="controllerId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE controllerinfo SET
+	        StationID = #{stationId} ,
+	        Channel = #{channel} ,
+	        ControllerName = #{controllerName} ,
+	        IP = #{ip} ,
+	        Port = #{port} ,
+	        Position = #{position} ,
+	        IsUse = #{isUse} ,
+	        Remark = #{remark} 
+        WHERE 
+	        ControllerID = #{controllerId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM controllerinfo WHERE
+        ControllerID = #{controllerId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Controllerinfo">
+	    SELECT <include refid="Controllerinfo.columns"/>
+	    <![CDATA[
+	        FROM controllerinfo 
+	        WHERE 
+		        ControllerID = #{controllerId} 
+	    ]]>
+    </select>
+
+	<sql id="Controllerinfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="controllerId !=null">
+		            AND ControllerID = #{controllerId}
+		       </if>
+		       <if test="stationId !=null">
+		            AND StationID = #{stationId}
+		       </if>
+		       <if test="channel !=null">
+		            AND Channel = #{channel}
+		       </if>
+		       <if test="controllerName !=null">
+		            AND ControllerName like '%'+#{controllerName}+'%'
+		       </if>
+		       <if test="ip !=null">
+		            AND IP = #{ip}
+		       </if>
+		       <if test="port !=null">
+		            AND Port = #{port}
+		       </if>
+		       <if test="position !=null">
+		            AND Position = #{position}
+		       </if>
+		       <if test="isUse !=null">
+		            AND IsUse = #{isUse}
+		       </if>
+		       <if test="remark !=null">
+		            AND Remark = #{remark}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM controllerinfo <include refid="Controllerinfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Controllerinfo"> 
+		select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="Controllerinfo.columns"/> FROM controllerinfo 
+		<include refid="Controllerinfo.findPage.where"/>  
+		) z where   ( ControllerID NOT IN (SELECT TOP ${oracleStart} ControllerID FROM controllerinfo <include refid="Controllerinfo.findPage.where"/>   ORDER BY ControllerID))
+		
+    </select>
+    
+    <select id="query" resultMap="RM.Controllerinfo">
+    	SELECT <include refid="Controllerinfo.columns"/> FROM controllerinfo 
+		<include refid="Controllerinfo.findPage.where"/>
+		order by ControllerName
+    </select>
+
+	
+</mapper>
+

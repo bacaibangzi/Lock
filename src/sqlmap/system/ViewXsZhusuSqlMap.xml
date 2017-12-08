@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.ViewXsZhusuDao" >
+
+    <resultMap id="RM.ViewXsZhusu" type="com.sc.system.pojo.ViewXsZhusu">
+        <result property="stuNo" column="stu_no"/>
+        <result property="studentName" column="student_name"/>
+        <result property="lymc" column="lymc"/>
+        <result property="fjmc" column="fjmc"/>
+        <result property="cwh" column="cwh"/>
+    </resultMap>
+
+	<sql id="ViewXsZhusu.columns">
+	    <![CDATA[
+        stu_no ,student_name ,lymc ,fjmc ,cwh 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO view_xs_zhusu (
+        	stu_no ,
+        	student_name ,
+        	lymc ,
+        	fjmc ,
+        	cwh 
+        ) VALUES (
+			#{stuNo} ,
+			#{studentName} ,
+			#{lymc} ,
+			#{fjmc} ,
+			#{cwh} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="stuNo" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE view_xs_zhusu SET
+	        student_name = #{studentName} ,
+	        lymc = #{lymc} ,
+	        fjmc = #{fjmc} ,
+	        cwh = #{cwh} 
+        WHERE 
+	        stu_no = #{stuNo} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM view_xs_zhusu WHERE
+        stu_no = #{stuNo} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.ViewXsZhusu">
+	    SELECT   stu_no ,student_name ,lymc ,fjmc ,cwh 
+	        FROM view_xs_zhusu 
+	        WHERE 
+		        stu_no = #{stuNo} 
+	    
+    </select>
+
+	<sql id="ViewXsZhusu.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="stuNo !=null">
+		            AND stu_no = #{stuNo}
+		       </if>
+		       <if test="studentName !=null">
+		            AND student_name = #{studentName}
+		       </if>
+		       <if test="lymc !=null">
+		            AND lymc = #{lymc}
+		       </if>
+		       <if test="fjmc !=null">
+		            AND fjmc = #{fjmc}
+		       </if>
+		       <if test="cwh !=null">
+		            AND cwh = #{cwh}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM view_xs_zhusu <include refid="ViewXsZhusu.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.ViewXsZhusu">
+    	SELECT <include refid="ViewXsZhusu.columns"/> FROM view_xs_zhusu 
+		<include refid="ViewXsZhusu.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.ViewXsZhusu">
+    	SELECT   stu_no ,student_name ,lymc ,fjmc ,cwh  FROM  opendatasource('SQLOLEDB','server=172.16.10.25;uid=sa;pwd=sa!@#123;database=Third_SyncData').[Third_SyncData].dbo.view_xs_zhusu
+		where stu_no = #{stuNo}
+    </select>
+
+	
+</mapper>
+

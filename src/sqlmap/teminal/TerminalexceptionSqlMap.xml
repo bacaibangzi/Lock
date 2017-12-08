@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.TerminalexceptionMapper" >
+
+    <resultMap id="RM.Terminalexception" type="com.sc.teminal.pojo.Terminalexception">
+        <result property="exceptionId" column="ExceptionID"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="terminalCode" column="TerminalCode"/>
+        <result property="terminalType" column="TerminalType"/>
+        <result property="exceptionType" column="ExceptionType"/>
+        <result property="exceptionTime" column="ExceptionTime"/>
+    </resultMap>
+
+	<sql id="Terminalexception.columns">
+	    <![CDATA[
+        ExceptionID ,TerminalID ,TerminalCode ,TerminalType ,ExceptionType ,ExceptionTime 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO terminalexception (
+        	ExceptionID ,
+        	TerminalID ,
+        	TerminalCode ,
+        	TerminalType ,
+        	ExceptionType ,
+        	ExceptionTime 
+        ) VALUES (
+			#{exceptionId} ,
+			#{terminalId} ,
+			#{terminalCode} ,
+			#{terminalType} ,
+			#{exceptionType} ,
+			#{exceptionTime} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="exceptionId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE terminalexception SET
+	        TerminalID = #{terminalId} ,
+	        TerminalCode = #{terminalCode} ,
+	        TerminalType = #{terminalType} ,
+	        ExceptionType = #{exceptionType} ,
+	        ExceptionTime = #{exceptionTime} 
+        WHERE 
+	        ExceptionID = #{exceptionId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM terminalexception WHERE
+        ExceptionID = #{exceptionId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Terminalexception">
+	    SELECT <include refid="Terminalexception.columns"/>
+	    <![CDATA[
+	        FROM terminalexception 
+	        WHERE 
+		        ExceptionID = #{exceptionId} 
+	    ]]>
+    </select>
+
+	<sql id="Terminalexception.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="exceptionId !=null">
+		            AND ExceptionID = #{exceptionId}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="terminalCode !=null">
+		            AND TerminalCode = #{terminalCode}
+		       </if>
+		       <if test="terminalType !=null">
+		            AND TerminalType = #{terminalType}
+		       </if>
+		       <if test="exceptionType !=null">
+		            AND ExceptionType = #{exceptionType}
+		       </if>
+		       <if test="exceptionTimeBegin !=null">
+		            AND ExceptionTime >= #exceptionTimeBegin#
+		       </if>
+		       <if test="exceptionTimeEnd !=null">
+		            AND ExceptionTime &lt;= #exceptionTimeEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM terminalexception <include refid="Terminalexception.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Terminalexception">
+    	SELECT <include refid="Terminalexception.columns"/> FROM terminalexception 
+		<include refid="Terminalexception.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Terminalexception">
+    	SELECT <include refid="Terminalexception.columns"/> FROM terminalexception 
+		<include refid="Terminalexception.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.UserRoleMapper" >
+
+    <resultMap id="RM.UserRole" type="com.sc.system.pojo.UserRole">
+        <result property="urId" column="UR_ID"/>
+        <result property="uiId" column="UI_ID"/>
+        <result property="riId" column="RI_ID"/>
+        <result property="urTime" column="UR_TIME"/>
+    </resultMap>
+
+	<sql id="UserRole.columns">
+	    <![CDATA[
+        UR_ID ,UI_ID ,RI_ID ,UR_TIME 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_user_role (
+        	UI_ID ,
+        	RI_ID ,
+        	UR_TIME 
+        ) VALUES (
+			#{uiId} ,
+			#{riId} ,
+			getdate()
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="urId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_user_role SET
+	        UI_ID = #{uiId} ,
+	        RI_ID = #{riId} ,
+	        UR_TIME = #{urTime} 
+        WHERE 
+	        UR_ID = #{urId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_user_role WHERE
+        UI_ID = #{uiId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.UserRole">
+	    SELECT <include refid="UserRole.columns"/>
+	    <![CDATA[
+	        FROM dev_user_role 
+	        WHERE 
+		        UR_ID = #{urId} 
+	    ]]>
+    </select>
+
+	<sql id="UserRole.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="urId !=null">
+		            AND UR_ID = #{urId}
+		       </if>
+		       <if test="uiId !=null">
+		            AND UI_ID = #{uiId}
+		       </if>
+		       <if test="riId !=null">
+		            AND RI_ID = #{riId}
+		       </if>
+		       <if test="urTimeBegin !=null">
+		            AND UR_TIME >= #urTimeBegin#
+		       </if>
+		       <if test="urTimeEnd !=null">
+		            AND UR_TIME &lt;= #urTimeEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_user_role <include refid="UserRole.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.UserRole">
+    	select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="UserRole.columns"/> FROM dev_user_role 
+		<include refid="UserRole.findPage.where"/>
+		) z where   ( UR_ID NOT IN (SELECT TOP ${oracleStart} UR_ID FROM dev_user_role  ORDER BY UR_ID))
+    </select>
+    
+    <select id="query" resultMap="RM.UserRole">
+    	SELECT <include refid="UserRole.columns"/> FROM dev_user_role 
+		<include refid="UserRole.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

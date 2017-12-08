@@ -1,0 +1,130 @@
+html,body {
+	height:100%;
+}
+#coverBox {
+	height:100%;
+	z-index: 99;
+}
+#topItem_content {
+	width: 95%;
+	height: 50px;
+	margin-left: 2%;
+	margin-top: 2px;
+}
+
+
+#topItem_content div
+{
+	width: 125px;
+	height: 20px;
+	margin-top: 2px;
+	float: left;
+	margin-left: 4px;
+}
+
+#topItem_content div div {
+	width: 85px;
+	height: 20px;
+	margin-left: 3px;
+	float: left;
+}
+#topItem_content .title {
+	width: 30px;
+	height: 20px;
+	float: left;
+}
+#topItem_content div .title {
+	width: 30px;
+	height: 20px;
+	float: left;
+	padding-top:2px;
+}
+#topItem_content div div select {
+	width: 100%;
+	height: 20px;
+	margin-bottom: 0px;
+}
+#topItem_content div div input {
+	width: 100%;
+	height: 20px;
+	margin-bottom: 0px;
+}
+#apply_button
+{
+	background: url("../../images/bi/img_ent_en_commimg_ent_btn.gif") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    margin-top: 2px;
+    color: #FFFFFF;
+    cursor: pointer;
+    height: 22px;
+    line-height: 22px;
+    width: 55px;
+    float:left;
+}
+#map_container {
+	padding: 2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc #ccc #999 #ccc;
+	-webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+	-moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+	box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
+	width: 95%;
+	float: left;
+	height: 90%;
+	margin-left: 2%;
+	overflow:hidden;
+}
+#map {
+	width: 100%;
+	height: 100%
+}
+#coverBox {
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+}
+#chart_div {
+	height: 43%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	background: #eeeeee;
+}
+#table_div {
+	overflow-x: auto;
+	overflow-y: auto;
+	height: 57%;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+#marker_div {
+	overflow-x: auto;
+	overflow-y: auto;
+	height: 100%;
+	width: 100%;
+	padding: 4px;
+	margin: 0px;
+}
+.datagrid-header td {
+	background: #EFEFEF !important;;
+}
+#icon_button_div a{
+	background: url("../../images/bi/navigation-up-button24_b.png") no-repeat scroll 0 0 transparent;
+ 	border:0px;
+ 	float:right;
+ 	width:32px;
+ 	height:32px;
+ 	margin-right:3px;
+}		
+#icon_button_div a:hover{
+	background: url("../../images/bi/navigation-up-button24_y.png") no-repeat scroll 0 0 transparent;
+ 	border:0px;
+ 	float:right;
+ 	width:32px;
+ 	height:32px;
+ 	margin-right:3px;
+}

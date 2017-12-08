@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.UserOrgsMapper" >
+
+    <resultMap id="RM.UserOrgs" type="com.sc.system.pojo.UserOrgs">
+        <result property="sn" column="SN"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="orgCode" column="ORG_CODE"/>
+    </resultMap>
+
+	<sql id="UserOrgs.columns">
+	    <![CDATA[
+        SN ,USER_ID ,ORG_CODE 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_user_orgs ( 
+        	USER_ID ,
+        	ORG_CODE 
+        ) VALUES ( 
+			#{userId} ,
+			#{orgCode} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_user_orgs SET
+	        USER_ID = #{userId} ,
+	        ORG_CODE = #{orgCode} 
+        WHERE 
+	        SN = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_user_orgs WHERE
+        USER_ID = #{userId}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.UserOrgs">
+	    SELECT <include refid="UserOrgs.columns"/>
+	    <![CDATA[
+	        FROM dev_user_orgs 
+	        WHERE 
+		        SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="UserOrgs.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="userId !=null">
+		            AND USER_ID = #{userId}
+		       </if>
+		       <if test="orgCode !=null">
+		            AND ORG_CODE = #{orgCode}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_user_orgs <include refid="UserOrgs.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.UserOrgs">
+    	
+    	SELECT <include refid="UserOrgs.columns"/> FROM dev_user_orgs 
+		<include refid="UserOrgs.findPage.where"/>
+		
+    </select>
+    
+    <select id="query" resultMap="RM.UserOrgs">
+    	SELECT <include refid="UserOrgs.columns"/> FROM dev_user_orgs 
+		<include refid="UserOrgs.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

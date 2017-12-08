@@ -1,0 +1,36 @@
+body {font:.75em Tahoma, Arial, Verdana;}
+#headerIndex {background:url(../images/headerbg.jpg) repeat-x; height:123px; border-bottom:1px solid #2E6BAB;}
+.logoIndex {height:82px; width:920px; margin:auto;}
+.v2s {float:left; width:150px; height:81px; display:block; background:url(../images/logo.jpg) no-repeat center center;}
+.itrackstar {float:right; width:250px; height:81px; display:block; background:url(../images/tzlogo.jpg) no-repeat center center;}
+.mainmenu {height:41px; width:915px; margin:auto; background:url(../images/menu_left.jpg) no-repeat left; padding-left:5px;}
+.mainmenu div {height:41px; width:910px; background:url(../images/menu_right.jpg) no-repeat right; padding-right:5px;}
+.mainmenu div ul {background:url(../images/menu_bg.jpg) repeat-x; height:41px; padding:0 10px; height:41px; width:890px;}
+.mainmenu div ul li {float:left;}
+.mainmenu div ul li a {display:block; padding:0 30px; background:url(../images/menu_line.jpg) no-repeat right; line-height:41px; color:white;}
+.mainmenu div ul li a:hover {font-weight:bold; text-decoration:none;}
+.mainmenu div ul li.active a {background:url(../images/menu_hover.jpg) repeat-x; color:#10345B; font-weight:bold;}
+#body {background:#FFF url(../images/bg.jpg) repeat-x; padding:15px 0;}
+.wrapper {width:920px; margin:auto; overflow:auto;}
+.left {width:221px; float:left;}
+.module1 {background:url(../images/left_bg.jpg) repeat-y; overflow:hidden; zoom:1;}
+.module1_top {background:url(../images/left_top.jpg) no-repeat top;}
+.module1_foot {background:url(../images/left_foot.jpg) no-repeat bottom; padding:20px 15px;}
+.module1_foot h3 {font-size:120%; font-weight:bold; color:white; background:url(../images/h3_bg.jpg) no-repeat bottom; padding-bottom:10px; margin-bottom:10px;}
+.module1_foot h3 span {font-size:70%; text-transform:uppercase; color:#ACC2DB;}
+.module1_foot td {padding:5px 0; color:white;}
+.module1_foot td a {color:white; background:url(../images/left_icon.jpg) no-repeat left center; padding-left:15px;}
+.right {width:672px; float:right;}
+.banner {width:672px; margin-bottom:15px;}
+.right_column {background:url(../images/right_bg.png) no-repeat bottom center; padding-bottom:13px;}
+.right_column div {border:1px solid #2F5884; background:#F2F2F2; padding:20px 30px;}
+.right_column div h3 {font-size:110%; margin-bottom:10px; color:#133960;}
+.right_column div p {line-height:20px;}
+.right_column ul {border:1px solid #2F5884; background:#F2F2F2; padding:20px; overflow:hidden; zoom:1;}
+.right_column ul li {float:left;}
+.right_column ul li a {display:block; height:42px; line-height:42px; color:#143761;}
+.a1 {background:url(../images/right_img1.jpg) no-repeat left center; padding-left:90px; width:160px;}
+.a2 {background:url(../images/right_img2.jpg) no-repeat left center; padding-left:60px; width:140px;}
+.a3 {background:url(../images/right_img3.jpg) no-repeat left center; padding-left:40px;}
+#footerIndex {background:#000 url(../images/foot_bg.jpg) repeat-x top; padding:15px; line-height:20px; color:white; text-align:center;}
+#footerIndex a {color:white;}

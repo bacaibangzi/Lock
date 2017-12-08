@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:sec="http://www.springframework.org/schema/security"
+	   xsi:schemaLocation="
+  	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  	   http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+	
+	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+	   <sec:filter-chain-map path-type="ant">
+			<sec:filter-chain pattern="/**" filters="
+			      securityContextPersistenceFilter,
+			      logoutFilter,
+			      rememberMeFilter,
+			      usernamePasswordAuthenticationFilter,
+			      securityContextHolderAwareRequestFilter,
+			      sessionManagementFilter,
+			      anonymousProcessingFilter,
+			      exceptionTranslationFilter,
+			      filterSecurityInterceptor, 
+			      sessionFilter" />
+	   </sec:filter-chain-map>
+	</bean>
+	
+
+	<!-- Session过滤判是否登录 -->
+	<bean id="sessionFilter" class="com.sc.framework.security.filter.SessionFilter">
+		<property name="excludedUrls">
+			<list>
+	          	<value>.cab</value> 
+	          	<value>.css</value> 
+	          	<value>.js</value> 
+	          	<value>.jpg</value> 
+	          	<value>.gif</value> 
+	          	<value>.png</value> 
+	          	<value>/shakeForAward.htm</value>
+	          	<value>/shakeIndex.htm</value>
+	          	<value>/shakeRule.htm</value>
+	          	<value>/shakeGameStart.htm</value>
+	          	<value>/toLogin.htm</value>
+	          	<value>/toReg.htm</value>
+	          	<value>/toContact.htm</value>
+	          	<value>/toLy.htm</value>
+	          	<value>/toPass.htm</value>
+	          	<value>/sendPass.htm</value>
+	          	<value>/default.htm</value>
+	          	<value>/toAndroid.htm</value>
+				<value>/j_spring_security_check</value>
+				<value>-rest</value>
+				<value>-mobile</value>
+				<value>-weixin</value>
+				<value>.upload</value>
+				<value>-server</value>
+				<value>-account</value>
+				<value>ReportServer</value>
+				<value>.cpt</value>
+	          	<value>/test.jsp</value>
+	          	<value>/download.htm</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="securityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository" />
+	
+	<bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+	   <property name="securityContextRepository" ref="securityContextRepository"/>
+	</bean>
+	
+	<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+	   <constructor-arg value="/toLogin"/>
+	   <constructor-arg>
+	    <list>
+	     <ref local="rememberMeServices"/>
+	     <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"></bean>
+	    </list>
+	   </constructor-arg>
+	</bean>
+	
+
+	<bean id="usernamePasswordAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+	   <property name="authenticationManager" ref="authenticationManager"/>
+	   <property name="authenticationFailureHandler" ref="failureHandler" />
+	   <property name="authenticationSuccessHandler" ref="successHandler" />
+	   <property name="rememberMeServices" ref="rememberMeServices"/>
+	</bean>
+	
+	<bean id="successHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler" >
+	   <property name="defaultTargetUrl" value="/main" />
+	   <property name="alwaysUseDefaultTargetUrl" value="true" />
+	</bean>
+	
+	<bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" >
+	   <property name="defaultFailureUrl" value="/toLogin.htm?login_error=1" />
+	</bean>
+
+	<bean name="securityContextHolderAwareRequestFilter" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter"></bean>
+	   <bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+	   <property name="authenticationManager" ref="authenticationManager"/>
+	   <property name="rememberMeServices" ref="rememberMeServices"/>
+	</bean>
+
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+	   <property name="userDetailsService" ref="userDetailServiceImpl"/>
+	   <property name="parameter" value="springrememberme"></property>
+	   <property name="key" value="springRocks"/>
+	   <property name="alwaysRemember" value="false"/>
+	</bean>
+
+	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+	   <property name="key" value="springRocks"/>
+	</bean>
+
+	<bean name="sessionManagementFilter" class="org.springframework.security.web.session.SessionManagementFilter">
+	   <constructor-arg name="securityContextRepository" ref="securityContextRepository"/>
+	   <!-- <property name="invalidSessionUrl" value="/test.jsp"></property> -->
+	</bean>
+    
+    <bean id="anonymousProcessingFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+	   <property name="key" value="changeThis"/>
+	   <property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS"/>
+	</bean>  
+
+	<bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint">   
+		    <bean class="org.springframework.security.web.authentication.AuthenticationProcessingFilterEntryPoint">   
+		        <property name="loginFormUrl" value="/toLogin.htm"/>   
+		    </bean>   
+		</property>   
+		<property name="accessDeniedHandler">   
+		    <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">   
+		        <property name="errorPage" value="/toLogin.htm"/>
+		    </bean>   
+		</property>   
+	</bean>
+
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager"/>
+		<property name="securityMetadataSource" ref="filterInvocationDefinitionSource"/>
+	</bean>
+	
+	<bean id="filterInvocationDefinitionSource" class="org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource">
+      <constructor-arg type="org.springframework.security.web.util.UrlMatcher" ref="urlMatcher" />
+      <constructor-arg type="java.util.LinkedHashMap" ref="baseSafeMap" />
+    </bean>
+    
+   <bean id="urlMatcher" class="org.springframework.security.web.util.AntUrlPathMatcher" >
+      <constructor-arg type="boolean" value="true" />
+   </bean>
+
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+	   <property name="allowIfAllAbstainDecisions" value="false"/>
+	   <property name="decisionVoters">
+	    <list>
+	     <bean class="org.springframework.security.access.vote.RoleVoter">
+	     	<!-- 处理当前资源名称命名要求,当配置空字符串过程中代表的是不做任何处理 -->
+	     	<property name="rolePrefix" value=""></property>
+	     </bean>
+	     <bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+	    </list>
+	   </property>
+	</bean>
+
+	<bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+	   <property name="providers">
+	    <list>
+	     <ref local="daoAuthenticationProvider"/>
+	     <ref local="rememberMeAuthenticationProvider" /> 
+	    </list>
+	   </property>
+	</bean>
+
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+	   <property name="userDetailsService" ref="userDetailServiceImpl"/>
+	   <property name="hideUserNotFoundExceptions" value="false"></property>
+	</bean>
+<!--
+	<bean id="userDetailsService" class="com.sc.framework.security.util.UserDetailServiceImpl">
+		
+		<property name="accountInterface">
+			<ref bean="accountInterface"/>
+		</property>
+		<property name="ruleInterface">
+			<ref bean="ruleInterface" />
+		</property>
+		<property name="loggingInterface">
+			<ref bean="loggingInterface" />
+		</property>
+		<property name="sessionInterface">
+			<ref bean="sessionInterface"/>
+		</property>
+		
+		<property name="checkException">
+			<ref bean="checkException" />
+		</property>
+		
+		<property name="resourceInterface">
+			<ref bean="resourceInterface"/>
+		</property>
+		
+	</bean>-->
+	
+	<!--
+	<bean id="checkException" class="com.fiberhome.mss.account.util.CheckCubeException"/>
+	-->
+	<bean id="passwordEncoder" class = "org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	
+	<bean id="baseSafeMap" class="com.sc.framework.security.util.AppInitFactory" >
+		<!--
+		<property name="resourceInterface">
+			<ref bean="resourceInterface" />
+		</property>
+		-->
+	</bean>
+	
+  <bean id="loginSessionCheck" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+  	<constructor-arg name="sessionRegistry" ref="sessionRegistry"></constructor-arg>
+    <property name="maximumSessions" value="1" />
+  </bean>
+  
+  <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+  
+  <!-- 
+  <bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
+    <property name="sessionRegistry" ref="sessionRegistry" />
+    <property name="expiredUrl" value="/session.html" />
+  </bean>
+	-->
+   
+  <bean id="concurrencyFilter" class="com.sc.framework.security.filter.MyConcurrentSessionFilter">
+    <property name="sessionRegistry" ref="sessionRegistry" />
+    <property name="expiredUrl" value="/session.html" />
+    <property name="rememberMeServices" ref="rememberMeServices" />
+  </bean>
+ 
+</beans>
+
+
+

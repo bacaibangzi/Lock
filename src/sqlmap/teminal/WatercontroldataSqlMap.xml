@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.WatercontroldataMapper" >
+
+    <resultMap id="RM.Watercontroldata" type="com.sc.teminal.pojo.Watercontroldata">
+        <result property="id" column="ID"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="terminalCode" column="TerminalCode"/>
+        <result property="cardNo" column="CardNo"/>
+        <result property="mainBalance" column="MainBalance"/>
+        <result property="expenditure" column="Expenditure"/>
+        <result property="newBalance" column="NewBalance"/>
+        <result property="waterAmount" column="WaterAmount"/>
+        <result property="surplusAmount" column="SurplusAmount"/>
+        <result property="pulseFlag" column="PulseFlag"/>
+        <result property="cardSerialNo" column="CardSerialNo"/>
+        <result property="tradeSerialNo" column="TradeSerialNo"/>
+        <result property="consumptionTime" column="ConsumptionTime"/>
+        <result property="gatherTime" column="GatherTime"/>
+        <result property="chargingType" column="ChargingType"/>
+        <result property="succeedFlag" column="SucceedFlag"/>
+    </resultMap>
+
+	<sql id="Watercontroldata.columns">
+	    <![CDATA[
+        ID ,TerminalID ,TerminalCode ,CardNo ,MainBalance ,Expenditure ,NewBalance ,WaterAmount ,SurplusAmount ,PulseFlag ,CardSerialNo ,TradeSerialNo ,ConsumptionTime ,GatherTime ,ChargingType ,SucceedFlag 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO watercontroldata (
+        	ID ,
+        	TerminalID ,
+        	TerminalCode ,
+        	CardNo ,
+        	MainBalance ,
+        	Expenditure ,
+        	NewBalance ,
+        	WaterAmount ,
+        	SurplusAmount ,
+        	PulseFlag ,
+        	CardSerialNo ,
+        	TradeSerialNo ,
+        	ConsumptionTime ,
+        	GatherTime ,
+        	ChargingType ,
+        	SucceedFlag 
+        ) VALUES (
+			#{id} ,
+			#{terminalId} ,
+			#{terminalCode} ,
+			#{cardNo} ,
+			#{mainBalance} ,
+			#{expenditure} ,
+			#{newBalance} ,
+			#{waterAmount} ,
+			#{surplusAmount} ,
+			#{pulseFlag} ,
+			#{cardSerialNo} ,
+			#{tradeSerialNo} ,
+			#{consumptionTime} ,
+			#{gatherTime} ,
+			#{chargingType} ,
+			#{succeedFlag} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="id" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE watercontroldata SET
+	        TerminalID = #{terminalId} ,
+	        TerminalCode = #{terminalCode} ,
+	        CardNo = #{cardNo} ,
+	        MainBalance = #{mainBalance} ,
+	        Expenditure = #{expenditure} ,
+	        NewBalance = #{newBalance} ,
+	        WaterAmount = #{waterAmount} ,
+	        SurplusAmount = #{surplusAmount} ,
+	        PulseFlag = #{pulseFlag} ,
+	        CardSerialNo = #{cardSerialNo} ,
+	        TradeSerialNo = #{tradeSerialNo} ,
+	        ConsumptionTime = #{consumptionTime} ,
+	        GatherTime = #{gatherTime} ,
+	        ChargingType = #{chargingType} ,
+	        SucceedFlag = #{succeedFlag} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM watercontroldata WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Watercontroldata">
+	    SELECT <include refid="Watercontroldata.columns"/>
+	    <![CDATA[
+	        FROM watercontroldata 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+    </select>
+
+	<sql id="Watercontroldata.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="id !=null">
+		            AND ID = #{id}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="terminalCode !=null">
+		            AND TerminalCode = #{terminalCode}
+		       </if>
+		       <if test="cardNo !=null">
+		            AND CardNo = #{cardNo}
+		       </if>
+		       <if test="mainBalance !=null">
+		            AND MainBalance = #{mainBalance}
+		       </if>
+		       <if test="expenditure !=null">
+		            AND Expenditure = #{expenditure}
+		       </if>
+		       <if test="newBalance !=null">
+		            AND NewBalance = #{newBalance}
+		       </if>
+		       <if test="waterAmount !=null">
+		            AND WaterAmount = #{waterAmount}
+		       </if>
+		       <if test="surplusAmount !=null">
+		            AND SurplusAmount = #{surplusAmount}
+		       </if>
+		       <if test="pulseFlag !=null">
+		            AND PulseFlag = #{pulseFlag}
+		       </if>
+		       <if test="cardSerialNo !=null">
+		            AND CardSerialNo = #{cardSerialNo}
+		       </if>
+		       <if test="tradeSerialNo !=null">
+		            AND TradeSerialNo = #{tradeSerialNo}
+		       </if>
+		       <if test="consumptionTimeBegin !=null">
+		            AND ConsumptionTime >= #consumptionTimeBegin#
+		       </if>
+		       <if test="consumptionTimeEnd !=null">
+		            AND ConsumptionTime &lt;= #consumptionTimeEnd#
+		       </if>
+		       <if test="gatherTimeBegin !=null">
+		            AND GatherTime >= #gatherTimeBegin#
+		       </if>
+		       <if test="gatherTimeEnd !=null">
+		            AND GatherTime &lt;= #gatherTimeEnd#
+		       </if>
+		       <if test="chargingType !=null">
+		            AND ChargingType = #{chargingType}
+		       </if>
+		       <if test="succeedFlag !=null">
+		            AND SucceedFlag = #{succeedFlag}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM watercontroldata <include refid="Watercontroldata.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Watercontroldata">
+    	SELECT <include refid="Watercontroldata.columns"/> FROM watercontroldata 
+		<include refid="Watercontroldata.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Watercontroldata">
+    	SELECT <include refid="Watercontroldata.columns"/> FROM watercontroldata 
+		<include refid="Watercontroldata.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

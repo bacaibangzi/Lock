@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DoorswipedataMapper" >
+
+    <resultMap id="RM.Doorswipedata" type="com.sc.teminal.pojo.Doorswipedata">
+        <result property="id" column="ID"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="terminalCode" column="TerminalCode"/>
+        <result property="cardNo" column="CardNo"/>
+        <result property="swipeType" column="SwipeType"/>
+        <result property="tradeSerialNo" column="TradeSerialNo"/>
+        <result property="swipeTime" column="SwipeTime"/>
+        <result property="gatherTime" column="GatherTime"/>
+        
+        <result property="uiName" column="ui_name"/>
+        <result property="uiNum" column="ui_num"/>
+        <result property="type" column="type"/>
+        <result property="doorname" column="doorname"/>
+    </resultMap>
+
+	<sql id="Doorswipedata.columns">
+	    <![CDATA[
+        ID ,TerminalID ,TerminalCode ,CardNo ,SwipeType ,TradeSerialNo ,SwipeTime ,GatherTime ,ui_name, ui_num, doorname
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO doorswipedata (
+        	ID ,
+        	TerminalID ,
+        	TerminalCode ,
+        	CardNo ,
+        	SwipeType ,
+        	TradeSerialNo ,
+        	SwipeTime ,
+        	GatherTime 
+        ) VALUES (
+			#{id} ,
+			#{terminalId} ,
+			#{terminalCode} ,
+			#{cardNo} ,
+			#{swipeType} ,
+			#{tradeSerialNo} ,
+			#{swipeTime} ,
+			#{gatherTime} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="id" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE doorswipedata SET
+	        TerminalID = #{terminalId} ,
+	        TerminalCode = #{terminalCode} ,
+	        CardNo = #{cardNo} ,
+	        SwipeType = #{swipeType} ,
+	        TradeSerialNo = #{tradeSerialNo} ,
+	        SwipeTime = #{swipeTime} ,
+	        GatherTime = #{gatherTime} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM doorswipedata WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Doorswipedata">
+	    SELECT <include refid="Doorswipedata.columns"/>
+	    <![CDATA[
+	        FROM doorswipedata 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+    </select>
+
+	<sql id="Doorswipedata.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="id !=null">
+		            AND ID = #{id}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="terminalCode !=null">
+		            AND TerminalCode = #{terminalCode}
+		       </if>
+		       <if test="cardNo !=null">
+		            AND CardNo = #{cardNo}
+		       </if>
+		       <if test="swipeType !=null">
+		            AND SwipeType = #{swipeType}
+		       </if>
+		       <if test="tradeSerialNo !=null">
+		            AND TradeSerialNo = #{tradeSerialNo}
+		       </if>
+		       <if test="swipeTimeBegin !=null">
+		            AND SwipeTime >= #{swipeTimeBegin}
+		       </if>
+		       <if test="swipeTimeEnd !=null">
+		            AND SwipeTime &lt;= #{swipeTimeEnd}
+		       </if>
+		       <if test="gatherTimeBegin !=null">
+		            AND GatherTime >= #{gatherTimeBegin}
+		       </if>
+		       <if test="gatherTimeEnd !=null">
+		            AND GatherTime &lt;= #{gatherTimeEnd}
+		       </if>
+		       <if test="doorname !=null">
+		            AND doorname = #{doorname}
+		       </if>
+		       <if test="uiNum !=null">
+		            AND ui_num = #{uiNum}
+		       </if>
+		       
+		       
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM v_doorswipedata <include refid="Doorswipedata.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Doorswipedata">
+    	select top ${oracleEnd} * from
+	    (
+    
+    	SELECT <include refid="Doorswipedata.columns"/> FROM v_doorswipedata 
+    	
+		<include refid="Doorswipedata.findPage.where"/>  
+	 	) z where   ( id NOT IN (SELECT TOP ${oracleStart} id FROM v_doorswipedata  <include refid="Doorswipedata.findPage.where"/>   ORDER BY id desc)) order by id desc
+    </select>
+    
+    <select id="query" resultMap="RM.Doorswipedata">
+    	SELECT <include refid="Doorswipedata.columns"/> FROM v_doorswipedata 
+		<include refid="Doorswipedata.findPage.where"/> 
+		order by GatherTime
+    </select>
+
+	
+</mapper>
+

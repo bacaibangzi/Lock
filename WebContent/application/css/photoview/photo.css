@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+.mod_opts-photo,.mod_opts-photo:link,.mod_opts-photo:visited{position:absolute;padding-left:20px;background:url(../../../common/images/icon/show.png) #fff no-repeat 0 0;line-height:20px;font-size:15px;color:#000;outline:none;cursor:pointer;}
+.sprite_mod-photo{margin:0px 0px 3px 0px;height:20px;width:100%; line-height:0px;font-size:0px; }
+.filter-label-photo{ display:inline-block;*display:inline;*zoom:1; width:65px; text-align:right; padding-right:2px;vertical-align:middle}
+.filter-list-photo .filter-item-photo{*zoom:1; float:left;width:300px; padding:2px 0px; }
+.filter-list-photo-head{}
+.photo-head-div{*zoom:1;width:300px; padding:2px 0px;}
+.photo-show{overflow-y: auto;height:130px}
+.photo-show table{border:1px solid red;border-collapse:collapse}
+.img-style{width:200px;height:100px}
+.middle-mod{margin:0px 0px 10px; padding:10px; background-color:#DBDADA; border:1px solid #cdcdcd;-moz-border-radius:8px;-o-border-radius:8px;-webkit-border-radius:8px; border-radius:8px;}
+.filter-mod-photo{display:block;background:#F5F7F7}
+
+
+/*查询按钮*/
+.grid_summay_opts-photo:after{ content:"\0020"; display:block; clear:both; height:0; font-size:0;}
+.grid_summay_opts-photo{zoom:1;}
+.grid_summay_opts-photo{padding:0px 2px;}
+.grid_summay_opts-photo div{float:left; padding:10px;}
+.left_opts-photo{  }
+.center_opts-photo{ margin-right:50px;}
+.right_opts-photo{}
+
+.result_page{height:22px;clear:both;text-align:right;margin-top:10px;}
+.pagination a{text-decoration:none;border:1px solid #aae;color:#15b;}
+.pagination a,.pagination span{display:inline-block;padding:0.1em 0.4em;margin-right:5px;margin-bottom:5px;}
+.pagination .current{background:#26b;color:#fff;border:1px solid #aae;}
+.pagination .current.prev,.pagination .current.next{color:#999;border-color:#999;background:#fff;}
+.pagination .prev,.pagination .next{margin-top:-2px !important;}

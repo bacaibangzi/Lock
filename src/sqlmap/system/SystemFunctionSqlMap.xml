@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.ISystemFunctionDao" >
+
+    <resultMap id="RM.SystemFunction" type="com.sc.system.pojo.SystemFunction">
+        <result property="fiId" column="FI_ID"/>
+        <result property="fiName" column="FI_NAME"/>
+        <result property="fiPic" column="FI_PIC"/>
+        <result property="fiMemo" column="FI_MEMO"/>
+        <result property="fiIndex" column="FI_INDEX"/>
+    </resultMap>
+
+	<sql id="SystemFunction.columns">
+	    <![CDATA[
+        FI_ID ,FI_NAME ,FI_PIC ,FI_MEMO ,FI_INDEX 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_system_function (
+        	FI_ID ,
+        	FI_NAME ,
+        	FI_PIC ,
+        	FI_MEMO ,
+        	FI_INDEX 
+        ) VALUES (
+			#{fiId} ,
+			#{fiName} ,
+			#{fiPic} ,
+			#{fiMemo} ,
+			#{fiIndex} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="fiId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_system_function SET
+	        FI_NAME = #{fiName} ,
+	        FI_PIC = #{fiPic} ,
+	        FI_MEMO = #{fiMemo} ,
+	        FI_INDEX = #{fiIndex} 
+        WHERE 
+	        FI_ID = #{fiId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_system_function WHERE
+        FI_ID = #{fiId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.SystemFunction">
+	    SELECT <include refid="SystemFunction.columns"/>
+	    <![CDATA[
+	        FROM dev_system_function 
+	        WHERE 
+		        FI_ID = #{fiId} 
+	    ]]>
+    </select>
+
+	<sql id="SystemFunction.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="fiId !=null">
+		            AND FI_ID = #{fiId}
+		       </if>
+		       <if test="fiName !=null">
+		            AND FI_NAME = #{fiName}
+		       </if>
+		       <if test="fiPic !=null">
+		            AND FI_PIC = #{fiPic}
+		       </if>
+		       <if test="fiMemo !=null">
+		            AND FI_MEMO = #{fiMemo}
+		       </if>
+		       <if test="fiIndex !=null">
+		            AND FI_INDEX = #{fiIndex}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_system_function <include refid="SystemFunction.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.SystemFunction">
+    	SELECT <include refid="SystemFunction.columns"/> FROM dev_system_function 
+		<include refid="SystemFunction.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.SystemFunction">
+    	SELECT <include refid="SystemFunction.columns"/> FROM dev_system_function 
+		<include refid="SystemFunction.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

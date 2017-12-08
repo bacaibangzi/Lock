@@ -1,0 +1,192 @@
+@charset "UTF-8"; 
+
+body, html {
+	height: 100%
+}
+
+body {
+	background-color: #f0f0f0
+}
+
+.mod-login {
+	min-height: 100%;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-box;
+	display: box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-ms-box-orient: vertical;
+	box-orient: vertical;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	-ms-box-pack: justify;
+	box-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-box-align: center;
+	box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	padding: 45px 35px 0
+}
+
+.mod-login .main {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-box;
+	display: box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-ms-box-orient: vertical;
+	box-orient: vertical;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	-ms-box-pack: justify;
+	box-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-box-align: center;
+	box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	width: 100%
+}
+
+.mod-login i {
+	display: block;
+	width: 49px;
+	height: 35px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-image:
+		url(/CateSystem/weixin/img/id-icon_68dafcf.png);
+	margin-bottom: 18px
+}
+
+.mod-login .tips {
+	colors: #333;
+	font-size: 14px;
+	line-height: 1.2;
+	margin-bottom: 20px
+}
+
+.mod-login .tips.fail {
+	color: #dc1b0c
+}
+
+.mod-login form {
+	width: 100%
+}
+
+.mod-login .wrap {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-box;
+	display: box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-box-align: center;
+	box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	height: 40px;
+	box-sizing: border-box;
+	background-color: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 5px;
+	padding: 3px;
+	margin-bottom: 8px
+}
+
+.mod-login .wrap input {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-ms-box-flex: 1;
+	box-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+	display: block;
+	height: 100%;
+	box-sizing: border-box;
+	border: 0;
+	font-size: 16px
+}
+
+.mod-login .wrap input:focus {
+	outline: 0
+}
+
+.mod-login .wrap input::placeholder {
+	color: #ccc
+}
+
+.mod-login .wrap.focus {
+	border: 1px solid #ff8903
+}
+
+.mod-login .verify-btn {
+	width: 66px;
+	height: 100%;
+	border-radius: 3px;
+	border: 0;
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
+	line-height: 100%;
+	background-color: #e0e0e0
+}
+
+.mod-login .verify-btn:focus {
+	outline: 0
+}
+
+.mod-login .verify-btn.enable {
+	background-color: #ff8903
+}
+
+.mod-login .submit-btn {
+	box-sizing: border-box;
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	line-height: 100%;
+	border-radius: 5px;
+	font-size: 16px;
+	border: 0;
+	color: #fff;
+	background-color: #e0e0e0;
+	margin-top: 14px
+}
+
+.mod-login .submit-btn.enable {
+	background-color: #ff8903
+}
+
+.mod-login .submit-btn:focus {
+	outline: 0
+}
+
+.mod-login footer {
+	color: #999;
+	font-size: 12px;
+	margin-top: 20px;
+	margin-bottom: 17px;
+	text-align: center;
+	line-height: 1.2
+}

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevcmdlistMapper" >
+
+    <resultMap id="RM.Devcmdlist" type="com.sc.teminal.pojo.Devcmdlist">
+        <result property="devCmdId" column="DevCmdID"/>
+        <result property="controllerId" column="ControllerID"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="cmdType" column="CmdType"/>
+        <result property="cmdNumber" column="CmdNumber"/>
+        <result property="cmdContent" column="CmdContent"/>
+        <result property="cmdMakeTime" column="CmdMakeTime"/>
+    </resultMap>
+
+	<sql id="Devcmdlist.columns">
+	    <![CDATA[
+        DevCmdID ,ControllerID ,TerminalID ,CmdType ,CmdNumber ,CmdContent ,CmdMakeTime 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO devcmdlist (
+        	ControllerID ,
+        	TerminalID ,
+        	CmdType ,
+        	CmdNumber ,
+        	CmdContent ,
+        	CmdMakeTime 
+        ) VALUES (
+			#{controllerId} ,
+			#{terminalId} ,
+			#{cmdType} ,
+			#{cmdNumber} ,
+			#{cmdContent} ,
+			GETDATE()
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="devCmdId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE devcmdlist SET
+	        ControllerID = #{controllerId} ,
+	        TerminalID = #{terminalId} ,
+	        CmdType = #{cmdType} ,
+	        CmdNumber = #{cmdNumber} ,
+	        CmdContent = #{cmdContent} ,
+	        CmdMakeTime = #{cmdMakeTime} 
+        WHERE 
+	        DevCmdID = #{devCmdId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM devcmdlist WHERE
+        DevCmdID = #{devCmdId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Devcmdlist">
+	    SELECT <include refid="Devcmdlist.columns"/>
+	    <![CDATA[
+	        FROM devcmdlist 
+	        WHERE 
+		        DevCmdID = #{devCmdId} 
+	    ]]>
+    </select>
+
+	<sql id="Devcmdlist.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="devCmdId !=null">
+		            AND DevCmdID = #{devCmdId}
+		       </if>
+		       <if test="controllerId !=null">
+		            AND ControllerID = #{controllerId}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="cmdType !=null">
+		            AND CmdType = #{cmdType}
+		       </if>
+		       <if test="cmdNumber !=null">
+		            AND CmdNumber = #{cmdNumber}
+		       </if>
+		       <if test="cmdContent !=null">
+		            AND CmdContent = #{cmdContent}
+		       </if>
+		       <if test="cmdMakeTimeBegin !=null">
+		            AND CmdMakeTime >= #cmdMakeTimeBegin#
+		       </if>
+		       <if test="cmdMakeTimeEnd !=null">
+		            AND CmdMakeTime &lt;= #cmdMakeTimeEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM devcmdlist <include refid="Devcmdlist.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Devcmdlist">
+    	SELECT <include refid="Devcmdlist.columns"/> FROM devcmdlist 
+		<include refid="Devcmdlist.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Devcmdlist">
+    	SELECT <include refid="Devcmdlist.columns"/> FROM devcmdlist 
+		<include refid="Devcmdlist.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+    <select id="getMaxVersion" resultType="java.lang.String">
+        SELECT ISNULL(max(DevCmdID),1)+1 FROM devcmdlist 
+    </select>
+</mapper>
+

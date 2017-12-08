@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.XfofflinedataMapper" >
+
+    <resultMap id="RM.Xfofflinedata" type="com.sc.teminal.pojo.Xfofflinedata">
+        <result property="id" column="ID"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="terminalCode" column="TerminalCode"/>
+        <result property="cardNo" column="CardNo"/>
+        <result property="mainBalance" column="MainBalance"/>
+        <result property="expenditure" column="Expenditure"/>
+        <result property="newBalance" column="NewBalance"/>
+        <result property="cardSerialNo" column="CardSerialNo"/>
+        <result property="tradeSerialNo" column="TradeSerialNo"/>
+        <result property="consumptionTime" column="ConsumptionTime"/>
+        <result property="gatherTime" column="GatherTime"/>
+        <result property="chargingType" column="ChargingType"/>
+        <result property="isMainWallet" column="IsMainWallet"/>
+        <result property="isGuaZhang" column="IsGuaZhang"/>
+        <result property="isMealOrder" column="IsMealOrder"/>
+        <result property="isOnCount" column="IsOnCount"/>
+        <result property="succeedFlag" column="SucceedFlag"/>
+    </resultMap>
+
+	<sql id="Xfofflinedata.columns">
+	    <![CDATA[
+        ID ,TerminalID ,TerminalCode ,CardNo ,MainBalance ,Expenditure ,NewBalance ,CardSerialNo ,TradeSerialNo ,ConsumptionTime ,GatherTime ,ChargingType ,IsMainWallet ,IsGuaZhang ,IsMealOrder ,IsOnCount ,SucceedFlag 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO xfofflinedata (
+        	ID ,
+        	TerminalID ,
+        	TerminalCode ,
+        	CardNo ,
+        	MainBalance ,
+        	Expenditure ,
+        	NewBalance ,
+        	CardSerialNo ,
+        	TradeSerialNo ,
+        	ConsumptionTime ,
+        	GatherTime ,
+        	ChargingType ,
+        	IsMainWallet ,
+        	IsGuaZhang ,
+        	IsMealOrder ,
+        	IsOnCount ,
+        	SucceedFlag 
+        ) VALUES (
+			#{id} ,
+			#{terminalId} ,
+			#{terminalCode} ,
+			#{cardNo} ,
+			#{mainBalance} ,
+			#{expenditure} ,
+			#{newBalance} ,
+			#{cardSerialNo} ,
+			#{tradeSerialNo} ,
+			#{consumptionTime} ,
+			#{gatherTime} ,
+			#{chargingType} ,
+			#{isMainWallet} ,
+			#{isGuaZhang} ,
+			#{isMealOrder} ,
+			#{isOnCount} ,
+			#{succeedFlag} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="id" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE xfofflinedata SET
+	        TerminalID = #{terminalId} ,
+	        TerminalCode = #{terminalCode} ,
+	        CardNo = #{cardNo} ,
+	        MainBalance = #{mainBalance} ,
+	        Expenditure = #{expenditure} ,
+	        NewBalance = #{newBalance} ,
+	        CardSerialNo = #{cardSerialNo} ,
+	        TradeSerialNo = #{tradeSerialNo} ,
+	        ConsumptionTime = #{consumptionTime} ,
+	        GatherTime = #{gatherTime} ,
+	        ChargingType = #{chargingType} ,
+	        IsMainWallet = #{isMainWallet} ,
+	        IsGuaZhang = #{isGuaZhang} ,
+	        IsMealOrder = #{isMealOrder} ,
+	        IsOnCount = #{isOnCount} ,
+	        SucceedFlag = #{succeedFlag} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM xfofflinedata WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Xfofflinedata">
+	    SELECT <include refid="Xfofflinedata.columns"/>
+	    <![CDATA[
+	        FROM xfofflinedata 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+    </select>
+
+	<sql id="Xfofflinedata.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="id !=null">
+		            AND ID = #{id}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="terminalCode !=null">
+		            AND TerminalCode = #{terminalCode}
+		       </if>
+		       <if test="cardNo !=null">
+		            AND CardNo = #{cardNo}
+		       </if>
+		       <if test="mainBalance !=null">
+		            AND MainBalance = #{mainBalance}
+		       </if>
+		       <if test="expenditure !=null">
+		            AND Expenditure = #{expenditure}
+		       </if>
+		       <if test="newBalance !=null">
+		            AND NewBalance = #{newBalance}
+		       </if>
+		       <if test="cardSerialNo !=null">
+		            AND CardSerialNo = #{cardSerialNo}
+		       </if>
+		       <if test="tradeSerialNo !=null">
+		            AND TradeSerialNo = #{tradeSerialNo}
+		       </if>
+		       <if test="consumptionTimeBegin !=null">
+		            AND ConsumptionTime >= #consumptionTimeBegin#
+		       </if>
+		       <if test="consumptionTimeEnd !=null">
+		            AND ConsumptionTime &lt;= #consumptionTimeEnd#
+		       </if>
+		       <if test="gatherTimeBegin !=null">
+		            AND GatherTime >= #gatherTimeBegin#
+		       </if>
+		       <if test="gatherTimeEnd !=null">
+		            AND GatherTime &lt;= #gatherTimeEnd#
+		       </if>
+		       <if test="chargingType !=null">
+		            AND ChargingType = #{chargingType}
+		       </if>
+		       <if test="isMainWallet !=null">
+		            AND IsMainWallet = #{isMainWallet}
+		       </if>
+		       <if test="isGuaZhang !=null">
+		            AND IsGuaZhang = #{isGuaZhang}
+		       </if>
+		       <if test="isMealOrder !=null">
+		            AND IsMealOrder = #{isMealOrder}
+		       </if>
+		       <if test="isOnCount !=null">
+		            AND IsOnCount = #{isOnCount}
+		       </if>
+		       <if test="succeedFlag !=null">
+		            AND SucceedFlag = #{succeedFlag}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM xfofflinedata <include refid="Xfofflinedata.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Xfofflinedata">
+    	SELECT <include refid="Xfofflinedata.columns"/> FROM xfofflinedata 
+		<include refid="Xfofflinedata.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Xfofflinedata">
+    	SELECT <include refid="Xfofflinedata.columns"/> FROM xfofflinedata 
+		<include refid="Xfofflinedata.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.CmdlogMapper" >
+
+    <resultMap id="RM.Cmdlog" type="com.sc.teminal.pojo.Cmdlog">
+        <result property="sn" column="sn"/>
+        <result property="type" column="type"/>
+        <result property="value" column="value"/>
+    </resultMap>
+
+	<sql id="Cmdlog.columns">
+	    <![CDATA[
+        sn ,type ,value
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO Cmdlog (
+        	sn ,
+        	type ,
+        	value
+        ) VALUES (
+			#{sn} ,
+			#{type} ,
+			#{value}
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="stationId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM Cmdlog WHERE
+        sn = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Cmdlog">
+	    SELECT <include refid="Cmdlog.columns"/>
+	    <![CDATA[
+	        FROM Cmdlog 
+	        WHERE 
+		        sn = #{sn} 
+	    ]]>
+    </select>
+	
+</mapper>
+

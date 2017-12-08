@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevcmdresultMapper" >
+
+    <resultMap id="RM.Devcmdresult" type="com.sc.teminal.pojo.Devcmdresult">
+        <result property="id" column="ID"/>
+        <result property="devCmdId" column="DevCmdID"/>
+        <result property="cmdType" column="CmdType"/>
+        <result property="terminalId" column="TerminalID"/>
+        <result property="cmdNumber" column="CmdNumber"/>
+        <result property="cmdContent" column="CmdContent"/>
+        <result property="cmdTimeout" column="CmdTimeout"/>
+        <result property="cmdMakeTime" column="CmdMakeTime"/>
+        <result property="cmdSendTimes" column="CmdSendTimes"/>
+        <result property="cmdSendTime" column="CmdSendTime"/>
+        <result property="cmdAnswerContent" column="CmdAnswerContent"/>
+        <result property="errNo" column="ErrNo"/>
+        <result property="errMsg" column="ErrMsg"/>
+    </resultMap>
+
+	<sql id="Devcmdresult.columns">
+	    <![CDATA[
+        ID ,DevCmdID ,CmdType ,TerminalID ,CmdNumber ,CmdContent ,CmdTimeout ,CmdMakeTime ,CmdSendTimes ,CmdSendTime ,CmdAnswerContent ,ErrNo ,ErrMsg 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO devcmdresult (
+        	ID ,
+        	DevCmdID ,
+        	CmdType ,
+        	TerminalID ,
+        	CmdNumber ,
+        	CmdContent ,
+        	CmdTimeout ,
+        	CmdMakeTime ,
+        	CmdSendTimes ,
+        	CmdSendTime ,
+        	CmdAnswerContent ,
+        	ErrNo ,
+        	ErrMsg 
+        ) VALUES (
+			#{id} ,
+			#{devCmdId} ,
+			#{cmdType} ,
+			#{terminalId} ,
+			#{cmdNumber} ,
+			#{cmdContent} ,
+			#{cmdTimeout} ,
+			#{cmdMakeTime} ,
+			#{cmdSendTimes} ,
+			#{cmdSendTime} ,
+			#{cmdAnswerContent} ,
+			#{errNo} ,
+			#{errMsg} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="id" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE devcmdresult SET
+	        DevCmdID = #{devCmdId} ,
+	        CmdType = #{cmdType} ,
+	        TerminalID = #{terminalId} ,
+	        CmdNumber = #{cmdNumber} ,
+	        CmdContent = #{cmdContent} ,
+	        CmdTimeout = #{cmdTimeout} ,
+	        CmdMakeTime = #{cmdMakeTime} ,
+	        CmdSendTimes = #{cmdSendTimes} ,
+	        CmdSendTime = #{cmdSendTime} ,
+	        CmdAnswerContent = #{cmdAnswerContent} ,
+	        ErrNo = #{errNo} ,
+	        ErrMsg = #{errMsg} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM devcmdresult WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Devcmdresult">
+	    SELECT <include refid="Devcmdresult.columns"/>
+	    <![CDATA[
+	        FROM devcmdresult 
+	        WHERE 
+		        DevCmdID = #{id} 
+	    ]]>
+    </select>
+
+	<sql id="Devcmdresult.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="id !=null">
+		            AND ID = #{id}
+		       </if>
+		       <if test="devCmdId !=null">
+		            AND DevCmdID = #{devCmdId}
+		       </if>
+		       <if test="cmdType !=null">
+		            AND CmdType = #{cmdType}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND TerminalID = #{terminalId}
+		       </if>
+		       <if test="cmdNumber !=null">
+		            AND CmdNumber = #{cmdNumber}
+		       </if>
+		       <if test="cmdContent !=null">
+		            AND CmdContent = #{cmdContent}
+		       </if>
+		       <if test="cmdTimeout !=null">
+		            AND CmdTimeout = #{cmdTimeout}
+		       </if>
+		       <if test="cmdMakeTimeBegin !=null">
+		            AND CmdMakeTime >= #cmdMakeTimeBegin#
+		       </if>
+		       <if test="cmdMakeTimeEnd !=null">
+		            AND CmdMakeTime &lt;= #cmdMakeTimeEnd#
+		       </if>
+		       <if test="cmdSendTimes !=null">
+		            AND CmdSendTimes = #{cmdSendTimes}
+		       </if>
+		       <if test="cmdSendTimeBegin !=null">
+		            AND CmdSendTime >= #cmdSendTimeBegin#
+		       </if>
+		       <if test="cmdSendTimeEnd !=null">
+		            AND CmdSendTime &lt;= #cmdSendTimeEnd#
+		       </if>
+		       <if test="cmdAnswerContent !=null">
+		            AND CmdAnswerContent = #{cmdAnswerContent}
+		       </if>
+		       <if test="errNo !=null">
+		            AND ErrNo = #{errNo}
+		       </if>
+		       <if test="errMsg !=null">
+		            AND ErrMsg = #{errMsg}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM devcmdresult <include refid="Devcmdresult.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Devcmdresult">
+    	SELECT <include refid="Devcmdresult.columns"/> FROM devcmdresult 
+		<include refid="Devcmdresult.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Devcmdresult">
+    	SELECT <include refid="Devcmdresult.columns"/> FROM devcmdresult 
+		<include refid="Devcmdresult.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

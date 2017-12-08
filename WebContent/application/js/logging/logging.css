@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+.textareaMonitor 
+{
+	width: 1024px;
+	height: 378px;
+	font-size: 12px;
+	position: relative;
+	background: url(../images/main/input_bg.jpg) repeat-x;
+	border: 1px solid #BFBFC0;
+	padding-top: 0px;
+	cursor: text;
+}
+.demo-info
+{
+	background:#FFFEE6;
+	color:#8F5700;
+	padding:12px;
+}
+.demo-tip
+{
+	width:24px;
+	height:16px;
+	float:left;
+}
+
+.filter-mod-log{display:block;background:#F5F7F7;margin-bottom:20px}
+.pagitation{float: right;height: 24px;line-height: 24px;}
+.pagitation .paginate_enabled_previous{background: url("../../../common/images/table/previous.gif") no-repeat center center;height:16px;width:16px;display:inline-block;vertical-align:middle;margin-right:20px;cursor:pointer}
+.pagitation .paginate_enabled_next{background: url("../../../common/images/table/next.gif") no-repeat center center;height:16px;width:16px;display:inline-block;vertical-align:middle;cursor:pointer}
+
+.pagitation_opt{background:#D9E8FB}
+.show_pagesize{float: left;}
+.jump_btn{background: url("../../images/location/button_a_bg.gif") no-repeat right top;height:24px;line-height:24px;display:inline-block;padding-right:18px;}
+.jump_btn_l{background: url("../../images/location/button_span_bg.gif") no-repeat left top;height:24px;line-height:24px;display:inline-block;padding:0 0 0 18px;}
+.jump_btn:hover{background-position:right -24px}
+.jump_btn:hover .jump_btn_l{background-position:left -24px}
+

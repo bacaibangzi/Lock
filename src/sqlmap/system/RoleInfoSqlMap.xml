@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.RoleInfoMapper" >
+
+    <resultMap id="RM.RoleInfo" type="com.sc.system.pojo.RoleInfo">
+        <result property="riId" column="RI_ID"/>
+        <result property="riName" column="RI_NAME"/>
+        <result property="riMemo" column="RI_MEMO"/>
+        <result property="riLevel" column="RI_LEVEL"/>
+        <result property="orgCode" column="ORG_CODE"/>
+    </resultMap>
+
+	<sql id="RoleInfo.columns">
+	    <![CDATA[
+        RI_ID ,RI_NAME ,RI_MEMO ,RI_LEVEL ,ORG_CODE 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_role_info ( 
+        	RI_NAME ,
+        	RI_MEMO ,
+        	RI_LEVEL ,
+        	ORG_CODE 
+        ) VALUES ( 
+			#{riName} ,
+			#{riMemo} ,
+			#{riLevel} ,
+			#{orgCode} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="riId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_role_info SET
+	        RI_NAME = #{riName} ,
+	        RI_MEMO = #{riMemo} ,
+	        RI_LEVEL = #{riLevel} ,
+	        ORG_CODE = #{orgCode} 
+        WHERE 
+	        RI_ID = #{riId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_role_info WHERE
+        RI_ID = #{riId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.RoleInfo">
+	    SELECT <include refid="RoleInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_role_info 
+	        WHERE 
+		        RI_ID = #{riId} 
+	    ]]>
+    </select>
+
+	<sql id="RoleInfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="riId !=null">
+		            AND RI_ID = #{riId}
+		       </if>
+		       <if test="riName !=null and riName!='' ">
+		            AND RI_NAME like concat('%', #{riName}, '%')
+		       </if>
+		       <if test="riMemo !=null">
+		            AND RI_MEMO = #{riMemo}
+		       </if>
+		       <if test="riLevel !=null">
+		            AND RI_LEVEL = #{riLevel}
+		       </if>
+		       <if test="orgCode !=null">
+		            AND ORG_CODE like concat('', #{orgCode}, '%')
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_role_info <include refid="RoleInfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.RoleInfo"> 
+    	
+    	SELECT <include refid="RoleInfo.columns"/> FROM dev_role_info 
+		<include refid="RoleInfo.findPage.where"/> 
+    </select>
+    
+    <select id="query" resultMap="RM.RoleInfo">
+    	SELECT <include refid="RoleInfo.columns"/> FROM dev_role_info 
+		<include refid="RoleInfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

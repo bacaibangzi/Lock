@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.SystemMenuMapper" >
+
+    <resultMap id="RM.SystemMenu" type="com.sc.system.pojo.SystemMenu">
+        <result property="miId" column="MI_ID"/>
+        <result property="fiId" column="FI_ID"/>
+        <result property="miName" column="MI_NAME"/>
+        <result property="miUrl" column="MI_URL"/>
+        <result property="miPic" column="MI_PIC"/>
+        <result property="miMemo" column="MI_MEMO"/>
+        <result property="miIndex" column="MI_INDEX"/>
+        <result property="miLevel" column="MI_LEVEL"/>
+    </resultMap>
+
+	<sql id="SystemMenu.columns">
+	    <![CDATA[
+        MI_ID ,FI_ID ,MI_NAME ,MI_URL ,MI_PIC ,MI_MEMO ,MI_INDEX ,MI_LEVEL 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_system_menu ( 
+        	FI_ID ,
+        	MI_NAME ,
+        	MI_URL ,
+        	MI_PIC ,
+        	MI_MEMO ,
+        	MI_INDEX ,
+        	MI_LEVEL 
+        ) VALUES ( 
+			#{fiId} ,
+			#{miName} ,
+			#{miUrl} ,
+			#{miPic} ,
+			#{miMemo} ,
+			#{miIndex} ,
+			#{miLevel} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="miId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update">
+    <![CDATA[
+        UPDATE dev_system_menu SET
+	        FI_ID = #{fiId} ,
+	        MI_NAME = #{miName} ,
+	        MI_URL = #{miUrl} ,
+	        MI_PIC = #{miPic} ,
+	        MI_MEMO = #{miMemo} ,
+	        MI_INDEX = #{miIndex} ,
+	        MI_LEVEL = #{miLevel} 
+        WHERE 
+	        MI_ID = #{miId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_system_menu WHERE
+        MI_ID = #{miId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.SystemMenu">
+	    SELECT <include refid="SystemMenu.columns"/>
+	    <![CDATA[
+	        FROM dev_system_menu 
+	        WHERE 
+		        MI_ID = #{miId} 
+	    ]]>
+    </select>
+
+	<sql id="SystemMenu.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="miId !=null">
+		            AND MI_ID = #{miId}
+		       </if>
+		       <if test="fiId !=null and fiId !='' ">
+		            AND FI_ID = #{fiId}
+		       </if>
+		       <if test="miName !=null">
+		            AND MI_NAME like concat('%', #{miName}, '%')
+		       </if>
+		       <if test="miUrl !=null">
+		            AND MI_URL = #{miUrl}
+		       </if>
+		       <if test="miPic !=null">
+		            AND MI_PIC = #{miPic}
+		       </if>
+		       <if test="miMemo !=null">
+		            AND MI_MEMO = #{miMemo}
+		       </if>
+		       <if test="miIndex !=null">
+		            AND MI_INDEX = #{miIndex}
+		       </if>
+		       <if test="miLevel !=null">
+		            AND MI_LEVEL = #{miLevel}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_system_menu <include refid="SystemMenu.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.SystemMenu">
+    	 
+    	SELECT <include refid="SystemMenu.columns"/> FROM dev_system_menu 
+		<include refid="SystemMenu.findPage.where"/>
+		 
+    </select>
+    
+    <select id="query" resultMap="RM.SystemMenu">
+    	SELECT <include refid="SystemMenu.columns"/> FROM dev_system_menu 
+		<include refid="SystemMenu.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

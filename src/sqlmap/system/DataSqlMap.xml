@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.DataDao" >
+
+    <resultMap id="RM.devData" type="com.sc.system.pojo.Data">
+        <result property="sn" column="SN"/>
+        <result property="code" column="CODE"/>
+        <result property="name" column="NAME"/>
+        <result property="keys" column="keys"/>
+    </resultMap>
+
+	<sql id="devData.columns">
+	    <![CDATA[
+        SN ,CODE ,NAME ,keys  
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_data (
+        	CODE ,
+        	NAME ,
+        	keys  
+        ) VALUES (
+			
+			#{code} ,
+			#{name} ,
+			#{keys} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectkeys resultClass="java.lang.Long" type="post" keysProperty="sn" >
+            select last_insert_id()
+        </selectkeys>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_data SET
+	        CODE = #{code} ,
+	        NAME = #{name} ,
+	        keys = #{keys} 
+        WHERE 
+	        SN = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_data WHERE
+        SN = #{sn} 
+    ]]>
+    </delete>
+    
+    <delete id="batchDelete">
+     DELETE FROM dev_data WHERE
+     ORG_CODE = #{orgCode}
+    </delete>
+    
+    <select id="getById" resultMap="RM.devData">
+	    SELECT <include refid="devData.columns"/>
+	    <![CDATA[
+	        FROM dev_data 
+	        WHERE 
+		        SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="devData.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="code !=null">
+		            AND CODE = #{code}
+		       </if>
+		       <if test="name !=null">
+		            AND NAME = #{name}
+		       </if>
+		       <if test="orgCode !=null">
+		            AND ORG_CODE = #{orgCode}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND DATE >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND DATE &lt;= #dateEnd#
+		       </if>
+		       <if test="keys !=null">
+		            AND keys = #{keys}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_data <include refid="devData.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.devData">
+    
+    select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="devData.columns"/> FROM dev_data 
+		<include refid="devData.findPage.where"/>
+		) z where   ( sn NOT IN (SELECT TOP ${oracleStart} sn FROM dev_user_info  ORDER BY sn))
+    </select>
+    
+    <select id="query" resultMap="RM.devData">
+    	SELECT <include refid="devData.columns"/> FROM dev_data 
+		<include refid="devData.findPage.where"/>
+    </select>
+
+	
+</mapper>
+

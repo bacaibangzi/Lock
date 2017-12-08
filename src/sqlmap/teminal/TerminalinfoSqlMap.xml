@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.TerminalinfoMapper" >
+
+    <resultMap id="RM.Terminalinfo" type="com.sc.teminal.pojo.Terminalinfo">
+        <result property="terminalId" column="TerminalID"/>
+        <result property="controllerId" column="ControllerID"/>
+        <result property="terminalName" column="TerminalName"/>
+        <result property="devCode" column="DevCode"/>
+        <result property="devType" column="DevType"/>
+        <result property="isUse" column="IsUse"/>
+        <result property="templateId" column="TemplateID"/>
+        <result property="templateVersion" column="TemplateVersion"/>
+        <result property="firmwareVer" column="FirmwareVer"/>
+        <result property="remark" column="Remark"/>
+        <result property="repeater1" column="Repeater1"/>
+        <result property="repeater2" column="Repeater2"/>
+        <result property="repeater3" column="Repeater3"/>
+        <result property="code" column="code"/>
+        <result property="controllerName" column="controllerName"/>
+        <result property="devState" column="devState"/>
+        <result property="stateTime" column="stateTime"/>
+        <result property="devModel" column="devModel"/>
+    </resultMap>
+
+	<sql id="Terminalinfo.columns">
+	    <![CDATA[
+        TerminalID ,ControllerID ,TerminalName ,DevCode ,DevType ,IsUse ,TemplateID ,TemplateVersion ,FirmwareVer ,Remark ,Repeater1 ,Repeater2 ,Repeater3 ,TerminalID as code ,controllerName,devState,stateTime,devModel
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO terminalinfo (
+        	TerminalID ,
+        	ControllerID ,
+        	TerminalName ,
+        	DevCode ,
+        	DevType ,
+        	IsUse ,
+        	TemplateID ,
+        	TemplateVersion ,
+        	FirmwareVer ,
+        	Remark ,
+        	Repeater1 ,
+        	Repeater2 ,
+        	Repeater3 
+        ) VALUES (
+			#{terminalId} ,
+			#{controllerId} ,
+			#{terminalName} ,
+			#{devCode} ,
+			#{devType} ,
+			#{isUse} ,
+			#{templateId} ,
+			#{templateVersion} ,
+			#{firmwareVer} ,
+			#{remark} ,
+			#{repeater1} ,
+			#{repeater2} ,
+			#{repeater3} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="terminalId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE terminalinfo SET
+	        ControllerID = #{controllerId} ,
+	        TerminalName = #{terminalName} ,
+	        DevCode = #{devCode} ,
+	        DevType = #{devType} ,
+	        IsUse = #{isUse} ,
+	        TemplateID = #{templateId} ,
+	        TemplateVersion = #{templateVersion} ,
+	        FirmwareVer = #{firmwareVer} ,
+	        Remark = #{remark} ,
+	        Repeater1 = #{repeater1} ,
+	        Repeater2 = #{repeater2} ,
+	        Repeater3 = #{repeater3} 
+        WHERE 
+	        TerminalID = #{terminalId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM terminalinfo WHERE
+        TerminalID = #{terminalId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Terminalinfo">
+	    SELECT <include refid="Terminalinfo.columns"/>
+	    <![CDATA[
+	        FROM v_terminalinfo 
+	        WHERE 
+		        TerminalID = #{terminalId} 
+	    ]]>
+    </select>
+    
+    <select id="getByName" resultMap="RM.Terminalinfo">
+	    SELECT <include refid="Terminalinfo.columns"/>
+	    <![CDATA[
+	        FROM v_terminalinfo 
+	        WHERE 
+		        TerminalName = #{terminalName}
+	    ]]>
+    </select>
+
+	<sql id="Terminalinfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="terminalId !=null">
+		            AND TerminalID  like '%'+#{terminalId}+'%'
+		       </if>
+		       <if test="controllerId !=null">
+		            AND ControllerID like  ''+#{controllerId}+''
+		       </if>
+		       <if test="terminalName !=null">
+		            AND TerminalName like '%'+#{terminalName}+'%'
+		       </if>
+		       <if test="controllerName !=null">
+		            AND controllerName like '%'+#{controllerName}+'%'
+		       </if>
+		       <if test="devCode !=null">
+		            AND DevCode = #{devCode}
+		       </if>
+		       <if test="devType !=null">
+		            AND DevType = #{devType}
+		       </if>
+		       <if test="isUse !=null">
+		            AND IsUse = #{isUse}
+		       </if>
+		       <if test="templateId !=null">
+		            AND TemplateID = #{templateId}
+		       </if>
+		       <if test="templateVersion !=null">
+		            AND TemplateVersion = #{templateVersion}
+		       </if>
+		       <if test="firmwareVer !=null">
+		            AND FirmwareVer = #{firmwareVer}
+		       </if>
+		       <if test="remark !=null">
+		            AND Remark like '%'+#{remark}+'%'
+		       </if>
+		       <if test="repeater1 !=null">
+		            AND Repeater1 = #{repeater1}
+		       </if>
+		       <if test="repeater2 !=null">
+		            AND Repeater2 = #{repeater2}
+		       </if>
+		       <if test="repeater3 !=null">
+		            AND Repeater3 = #{repeater3}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM v_terminalinfo <include refid="Terminalinfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Terminalinfo">
+		
+		select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="Terminalinfo.columns"/> FROM v_terminalinfo  
+		<include refid="Terminalinfo.findPage.where"/>  
+		) z where   ( TerminalID NOT IN (SELECT TOP ${oracleStart} TerminalID FROM v_terminalinfo <include refid="Terminalinfo.findPage.where"/>   ORDER BY TerminalName))   ORDER BY TerminalName
+		 
+    </select>
+    
+    <select id="query" resultMap="RM.Terminalinfo">
+    	SELECT <include refid="Terminalinfo.columns"/> FROM v_terminalinfo 
+		<include refid="Terminalinfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+ 
+	
+</mapper>
+

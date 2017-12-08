@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.developer.dao.AppRunMapper" >
+
+    <resultMap id="RM.AppRun" type="com.sc.developer.pojo.AppRun">
+        <result property="sn" column="SN"/>
+        <result property="appid" column="APPID"/>
+        <result property="userid" column="USERID"/>
+        <result property="state" column="STATE"/>
+        <result property="appUserId" column="APP_USER_ID"/>
+        <result property="appUserName" column="APP_USER_NAME"/>
+        <result property="appUserPhone" column="APP_USER_PHONE"/>
+        <result property="appUserRemark" column="APP_USER_REMARK"/>
+        <result property="date" column="DATE"/>
+    </resultMap>
+
+	<sql id="AppRun.columns">
+	    <![CDATA[
+        SN ,APPID ,USERID ,STATE ,APP_USER_ID ,APP_USER_NAME ,APP_USER_PHONE ,APP_USER_REMARK ,DATE 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_app_run (
+        	SN ,
+        	APPID ,
+        	USERID ,
+        	STATE ,
+        	APP_USER_ID ,
+        	APP_USER_NAME ,
+        	APP_USER_PHONE ,
+        	APP_USER_REMARK ,
+        	DATE 
+        ) VALUES (
+			nextVal('app_run') ,
+			#{appid} ,
+			#{userid} ,
+			#{state} ,
+			#{appUserId} ,
+			#{appUserName} ,
+			#{appUserPhone} ,
+			#{appUserRemark} ,
+			now() 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_app_run SET
+	        APPID = #{appid} ,
+	        USERID = #{userid} ,
+	        STATE = #{state} ,
+	        APP_USER_ID = #{appUserId} ,
+	        APP_USER_NAME = #{appUserName} ,
+	        APP_USER_PHONE = #{appUserPhone} ,
+	        APP_USER_REMARK = #{appUserRemark} ,
+	        DATE = now() 
+        WHERE 
+	        SN = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_app_run WHERE
+        SN = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.AppRun">
+	    SELECT <include refid="AppRun.columns"/>
+	    <![CDATA[
+	        FROM dev_app_run 
+	        WHERE 
+		        SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="AppRun.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="appid !=null">
+		            AND APPID = #{appid}
+		       </if>
+		       <if test="userid !=null">
+		            AND USERID = #{userid}
+		       </if>
+		       <if test="state !=null">
+		            AND STATE = #{state}
+		       </if>
+		       <if test="appUserId !=null">
+		            AND APP_USER_ID = #{appUserId}
+		       </if>
+		       <if test="appUserName !=null">
+		            AND APP_USER_NAME = #{appUserName}
+		       </if>
+		       <if test="appUserPhone !=null">
+		            AND APP_USER_PHONE = #{appUserPhone}
+		       </if>
+		       <if test="appUserRemark !=null">
+		            AND APP_USER_REMARK = #{appUserRemark}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND DATE >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND DATE &lt;= #dateEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_app_run <include refid="AppRun.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.AppRun">
+    	SELECT <include refid="AppRun.columns"/> FROM dev_app_run 
+		<include refid="AppRun.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.AppRun">
+    	SELECT <include refid="AppRun.columns"/> FROM dev_app_run 
+		<include refid="AppRun.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

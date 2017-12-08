@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.zhouse.dao.UserHouseMapper" >
+
+    <resultMap id="RM.UserHouse" type="com.sc.zhouse.pojo.UserHouse">
+        <result property="sn" column="sn"/>
+        <result property="userId" column="user_id"/>
+        <result property="houseId" column="house_id"/>
+        <result property="type" column="type"/>
+        <result property="date" column="date"/>
+        <result property="param1" column="param1"/>
+        <result property="param2" column="param2"/>
+        <result property="param3" column="param3"/>
+        <result property="param4" column="param4"/>
+    </resultMap>
+
+	<sql id="UserHouse.columns">
+	    <![CDATA[
+        sn ,user_id ,house_id ,type ,date ,param1 ,param2 ,param3 ,param4 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        replace INTO user_house (
+        	sn ,
+        	user_id ,
+        	house_id ,
+        	type ,
+        	date ,
+        	param1 ,
+        	param2 ,
+        	param3 ,
+        	param4 
+        ) VALUES (
+			nextVal('user_house') ,
+			#{userId} ,
+			#{houseId} ,
+			#{type} ,
+			now() ,
+			#{param1} ,
+			#{param2} ,
+			#{param3} ,
+			#{param4} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE user_house SET
+	        sn = #{sn} ,
+	        user_id = #{userId} ,
+	        house_id = #{houseId} ,
+	        type = #{type} ,
+	        date = #{date} ,
+	        param1 = #{param1} ,
+	        param2 = #{param2} ,
+	        param3 = #{param3} ,
+	        param4 = #{param4} 
+        WHERE 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM user_house WHERE
+    ]]>
+    </delete>
+    
+    <update id="updateParam" >
+    	UPDATE user_house SET  param1 = #{param1}  WHERE  sn = #{sn}
+    </update>
+    
+    <select id="getById" resultMap="RM.UserHouse">
+	    SELECT <include refid="UserHouse.columns"/>
+	    <![CDATA[
+	        FROM user_house 
+	        WHERE 
+	    ]]>
+    </select>
+
+	<sql id="UserHouse.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="userId !=null">
+		            AND user_id = #{userId}
+		       </if>
+		       <if test="houseId !=null">
+		            AND house_id = #{houseId}
+		       </if>
+		       <if test="type !=null">
+		            AND type = #{type}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND date >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND date &lt;= #dateEnd#
+		       </if>
+		       <if test="param1 !=null">
+		            AND param1 = #{param1}
+		       </if>
+		       <if test="param2 !=null">
+		            AND param2 = #{param2}
+		       </if>
+		       <if test="param3 !=null">
+		            AND param3 = #{param3}
+		       </if>
+		       <if test="param4 !=null">
+		            AND param4 = #{param4}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM user_house <include refid="UserHouse.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.UserHouse">
+    	SELECT <include refid="UserHouse.columns"/> FROM user_house 
+		<include refid="UserHouse.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.UserHouse">
+    	SELECT <include refid="UserHouse.columns"/> FROM user_house 
+		<include refid="UserHouse.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

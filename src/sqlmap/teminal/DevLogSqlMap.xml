@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevLogMapper" >
+
+    <resultMap id="RM.DevLog" type="com.sc.teminal.pojo.DevLog">
+        <result property="sn" column="sn"/>
+        <result property="user" column="user_name"/>
+        <result property="context" column="context"/>
+        <result property="date" column="date"/>
+        <result property="ip" column="ip"/>
+        <result property="ex1" column="ex1"/>
+        <result property="ex2" column="ex2"/>
+    </resultMap>
+
+	<sql id="DevLog.columns">
+	    <![CDATA[
+        sn ,user_name ,context ,date ,ip ,ex1 ,ex2 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_log (
+        	user_name ,
+        	context ,
+        	date ,
+        	ip ,
+        	ex1 ,
+        	ex2 
+        ) VALUES (
+			#{user} ,
+			#{context} ,
+			#{date} ,
+			#{ip} ,
+			#{ex1} ,
+			#{ex2} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_log SET
+	        user = #{user} ,
+	        context = #{context} ,
+	        date = #{date} ,
+	        ip = #{ip} ,
+	        ex1 = #{ex1} ,
+	        ex2 = #{ex2} 
+        WHERE 
+	        sn = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_log WHERE
+        sn = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.DevLog">
+	    SELECT <include refid="DevLog.columns"/>
+	    <![CDATA[
+	        FROM dev_log 
+	        WHERE 
+		        sn = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="DevLog.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="user !=null">
+		            AND user = #{user}
+		       </if>
+		       <if test="context !=null">
+		            AND context = #{context}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND date >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND date &lt;= #dateEnd#
+		       </if>
+		       <if test="ip !=null">
+		            AND ip = #{ip}
+		       </if>
+		       <if test="ex1 !=null">
+		            AND ex1 = #{ex1}
+		       </if>
+		       <if test="ex2 !=null">
+		            AND ex2 = #{ex2}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_log <include refid="DevLog.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.DevLog">
+		
+		select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="DevLog.columns"/> FROM dev_log 
+		<include refid="DevLog.findPage.where"/>  
+		) z where   ( sn NOT IN (SELECT TOP ${oracleStart} sn FROM dev_log <include refid="DevLog.findPage.where"/>   ORDER by sn ))
+		
+		
+		
+    </select>
+    
+    <select id="query" resultMap="RM.DevLog">
+    	SELECT <include refid="DevLog.columns"/> FROM dev_log 
+		<include refid="DevLog.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

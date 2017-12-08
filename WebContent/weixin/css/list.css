@@ -1,0 +1,120 @@
+.container{
+	max-width:640px;
+	margin:auto;
+	min-height:100%;
+	background-color:#e1e0de;
+	position:relative;
+	font-size:12px;
+}
+
+.container{
+	display:block;
+	background-color:#ffffff;
+}
+
+.list_ul a{
+	display: block;
+	position: relative;
+}
+/*.list_ul a:after{
+	content: "";
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	top: 50%;
+	right: 0px;
+	margin-top: -15px;
+	background: url(../imgs/icons.svg) no-repeat center -4px;
+	-webkit-background-size: 40px auto;
+}*/
+.list_ul a>div{
+	vertical-align: middle;
+	padding:20px 0;
+}
+.list_ul .icon_span{
+	display: inline-block;
+	width:50px;
+	height:50px;
+	margin:0 15px;
+	border-radius:100px;
+	/*background:-webkit-gradient(linear,0 0, 0 100%, from(#ff5e3a), to(#eb3c27));
+	color:transparent;
+	text-align:center;*/
+	position: relative;
+}
+.list_ul li{
+	counter-increment: mycounter;
+}
+.list_ul .icon_span:after{
+	content:counter(mycounter);
+	display: inline-block;
+	width:25px;
+	height:25px;
+	border-radius: 50px;
+	text-align: center;
+	line-height:25px;
+	color:#ffffff;
+	background:-webkit-gradient(linear,0 0, 0 100%, from(#ff5e3a), to(#eb3c27));
+	position: absolute;
+	right: -7px;
+	top: -7px;
+}
+/*.list_ul .icon_span:empty{
+	color:#ffffff;
+}
+.list_ul .icon_span:before{
+	font-size:30px;
+	line-height:50px;
+	position: absolute;
+	width:50px;
+	height:50px;
+	text-align: center;
+	top:0;
+	left:0;
+}*/
+.list_ul .icon_span img{
+	width:100%;
+	height:100%;
+	border-radius:100px;
+}
+.list_ul .tbox>div:nth-of-type(1){
+	vertical-align: top;
+}
+.list_ul .tbox>div:nth-of-type(2){
+	border-bottom:1px solid #d4d4d4;
+	padding:15px 0;
+	padding-right: 5px;
+}
+.list_ul h3{
+	font-size:15px;
+	color: #ed5e50;
+	line-height:18px;
+	padding:5px 0;
+}
+.list_ul p{
+	font-size:18px;
+	line-height:24px;
+	color:#000000;
+}
+.list_ul p label{
+	display: inline-block;
+	float: right;
+	font-size: 10px;
+	color: #919090;
+	height: 24px;
+	line-height: 30px;
+	background: url(../imgs/icons.svg) no-repeat 0px -20px;
+	-webkit-background-size: 23px auto;
+	padding-left: 23px;
+}
+
+
+footer .copyright{
+	line-height:25px;
+	display: block;
+	color:#000000;
+	text-align:center;
+	padding:5px;
+	overflow: hidden;
+}

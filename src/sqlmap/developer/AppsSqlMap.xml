@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.developer.dao.AppsMapper" >
+
+    <resultMap id="RM.Apps" type="com.sc.developer.pojo.Apps">
+        <result property="sn" column="SN"/>
+        <result property="appid" column="APPID"/>
+        <result property="appkey" column="APPKEY"/>
+        <result property="name" column="NAME"/>
+        <result property="remark" column="REMARK"/>
+        <result property="iconPath" column="ICON_PATH"/>
+        <result property="img1Path" column="IMG1_PATH"/>
+        <result property="img2Path" column="IMG2_PATH"/>
+        <result property="img3Path" column="IMG3_PATH"/>
+        <result property="img4Path" column="IMG4_PATH"/>
+        <result property="filePath" column="FILE_PATH"/>
+        <result property="fileSize" column="FILE_SIZE"/>
+        <result property="state" column="STATE"/>
+        <result property="userid" column="USERID"/>
+        <result property="date" column="DATE"/>
+    </resultMap>
+
+	<sql id="Apps.columns">
+	    <![CDATA[
+        SN ,APPID ,NAME ,REMARK ,ICON_PATH ,IMG1_PATH ,IMG2_PATH ,IMG3_PATH ,IMG4_PATH ,FILE_PATH ,FILE_SIZE , ifnull(STATE,0) STATE ,USERID ,DATE ,APPKEY
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_apps (
+        	SN ,
+        	APPID ,
+        	APPKEY ,
+        	NAME ,
+        	REMARK ,
+        	ICON_PATH ,
+        	IMG1_PATH ,
+        	IMG2_PATH ,
+        	IMG3_PATH ,
+        	IMG4_PATH ,
+        	FILE_PATH ,
+        	FILE_SIZE ,
+        	STATE ,
+        	USERID ,
+        	DATE 
+        ) VALUES (
+			nextVal('apps') ,
+			#{appid} ,
+			#{appkey} ,
+			#{name} ,
+			#{remark} ,
+			#{iconPath} ,
+			#{img1Path} ,
+			#{img2Path} ,
+			#{img3Path} ,
+			#{img4Path} ,
+			#{filePath} ,
+			#{fileSize} ,
+			#{state} ,
+			#{userid} ,
+			now() 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_apps SET
+	        SN = #{sn} ,
+	        APPID = #{appid} ,
+	        APPKEY = #{appkey} ,
+	        NAME = #{name} ,
+	        REMARK = #{remark} ,
+	        ICON_PATH = #{iconPath} ,
+	        IMG1_PATH = #{img1Path} ,
+	        IMG2_PATH = #{img2Path} ,
+	        IMG3_PATH = #{img3Path} ,
+	        IMG4_PATH = #{img4Path} ,
+	        FILE_PATH = #{filePath} ,
+	        FILE_SIZE = #{fileSize} ,
+	        STATE = #{state} ,
+	        USERID = #{userid} ,
+	        DATE = now() 
+        WHERE  SN = #{sn} 
+    ]]>
+    </update>
+
+    <update id="sh" >
+    <![CDATA[
+        UPDATE dev_apps SET
+	        STATE = #{state} 
+        WHERE  SN = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_apps WHERE SN = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Apps">
+	    SELECT <include refid="Apps.columns"/>
+	    <![CDATA[
+	        FROM dev_apps 
+	        WHERE  SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="Apps.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="appid !=null">
+		            AND APPID = #{appid}
+		       </if>
+		       <if test="appkey !=null">
+		            AND APPKEY = #{appkey}
+		       </if>
+		       <if test="name !=null">
+		            AND NAME   like concat('%', #{name}, '%')
+		       </if>
+		       <if test="remark !=null">
+		            AND REMARK = #{remark}
+		       </if>
+		       <if test="iconPath !=null">
+		            AND ICON_PATH = #{iconPath}
+		       </if>
+		       <if test="img1Path !=null">
+		            AND IMG1_PATH = #{img1Path}
+		       </if>
+		       <if test="img2Path !=null">
+		            AND IMG2_PATH = #{img2Path}
+		       </if>
+		       <if test="img3Path !=null">
+		            AND IMG3_PATH = #{img3Path}
+		       </if>
+		       <if test="img4Path !=null">
+		            AND IMG4_PATH = #{img4Path}
+		       </if>
+		       <if test="filePath !=null">
+		            AND FILE_PATH = #{filePath}
+		       </if>
+		       <if test="fileSize !=null">
+		            AND FILE_SIZE = #{fileSize}
+		       </if>
+		       <if test="state !=null">
+		            AND STATE = #{state}
+		       </if>
+		       <if test="userid !=null">
+		            AND USERID = #{userid}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND DATE >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND DATE &lt;= #dateEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_apps <include refid="Apps.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Apps">
+    	SELECT <include refid="Apps.columns"/> FROM dev_apps 
+		<include refid="Apps.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by sn desc
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.Apps">
+    	SELECT <include refid="Apps.columns"/> FROM dev_apps 
+		<include refid="Apps.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

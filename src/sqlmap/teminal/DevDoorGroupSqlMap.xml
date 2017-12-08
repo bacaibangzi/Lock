@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevDoorGroupMapper" >
+
+    <resultMap id="RM.DevDoorGroup" type="com.sc.teminal.pojo.DevDoorGroup">
+        <result property="sn" column="sn"/>
+        <result property="fisn" column="FI_sn"/>
+        <result property="name" column="NAME"/>
+        <result property="memo" column="MEMO"/>
+        <result property="max" column="MAX"/>
+    </resultMap>
+
+	<sql id="DevDoorGroup.columns">
+	    <![CDATA[
+        sn ,FI_sn ,NAME ,MEMO ,MAX
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_door_group (
+        	FI_sn ,
+        	NAME ,
+        	MEMO ,
+        	MAX
+        ) VALUES (
+			#{fisn} ,
+			#{name} ,
+			#{memo} ,
+			#{max} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_door_group SET
+	        FI_sn = #{fisn} ,
+	        NAME = #{name} ,
+	        MEMO = #{memo} ,
+	        MAX = #{max} 
+        WHERE  sn = #{sn}
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_door_group WHERE sn = #{sn}
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.DevDoorGroup">
+	    SELECT <include refid="DevDoorGroup.columns"/>
+	    <![CDATA[
+	        FROM dev_door_group 
+	        WHERE  sn = #{sn}
+	    ]]>
+    </select>
+
+	<sql id="DevDoorGroup.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="fisn !=null">
+		            AND FI_sn = #{fisn}
+		       </if>
+		       <if test="name !=null">
+		            AND NAME like  '%'+ #{name} +'%'
+		       </if>
+		       <if test="memo !=null">
+		            AND MEMO = #{memo}
+		       </if>
+		       <if test="userId !=null">
+		            AND sn not in ( select ORG_CODE from dev_user_orgs where USER_ID = #{userId})
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_door_group <include refid="DevDoorGroup.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.DevDoorGroup">
+    	SELECT <include refid="DevDoorGroup.columns"/> FROM dev_door_group 
+		<include refid="DevDoorGroup.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.DevDoorGroup">
+    	SELECT <include refid="DevDoorGroup.columns"/> FROM dev_door_group 
+		<include refid="DevDoorGroup.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,54 @@
+/***行为轨迹***/
+.map_frame{overflow:hidden}
+.track-search{overflow: hidden;position: relative;width:100%;}
+.tack-table{width:100%;height:100%;border:0px;border-collapse: collapse;}
+.search_items{vertical-align: top;background: #DEDEDE}
+.search_items div.label-title,.search_items div.label-input {margin:2px 5px 5px 5px;width:215px;}
+.search_items .label-title span{color:#3D7EB0;font-weight: bold;font: 14px}
+.search_items input,.search_items select{width:100%;border: 1px solid #BFBFC0;}
+.status_warn{background: #DEDEDE;padding:10px 0px 10px 3px;position: absolute;width:100%;bottom:0px;left:0px;vertical-align: middle}
+.status_warn img{cursor:pointer;}
+.status_warn .actual_line{cursor:pointer;display:inline-block;width:40px;background:#800080;height:4px;margin-right:3px;*margin-right:8px;}
+.status_warn .standard_line{cursor:pointer;display:inline-block;width:40px;background:#259C2D;height:4px}
+.vertical-mod{display:inline}
+#bigTreeDiv{overflow:auto;}
+.div_tip{position: absolute;z-index:1000;bottom:60px;left:0px;background:#FFFFCC;border:1px solid #000000;font-size:12px}
+.toobars{position: absolute; z-index: 3000; left: 220px; top: 8px;}
+.toobars label{color:#416AA3;font-weight:bold;font-size:14px}
+.btn_l{left:80px;}
+.searchInput {border: 2px solid #0681C4;font-size: 12px;height: 20px; line-height: 20px;margin: 0 0 0 2px;padding: 2px;}
+.searchButton {border-width: 0;color: #FFFFFF;cursor: pointer;height: 24px;margin: 0 0 0 5px;padding: 0;text-indent: -999999px;width: 57px;}
+
+/***行为轨迹明细***/
+#hrefUserTrack{float:right}
+.trackBar{position:absolute;right:0px;bottom:0px;width:100%;}
+.mapUserTrack{width:100%;height:150px;overflow-y:scroll;background:#ffffff}
+.ui-grid {background:#ffffff;width:100%;overflow: hidden;border: 1px solid #DBDADA;border-collapse: collapse;table-layout: fixed;}
+.ui-grid td{border:1px solid #DBDADA}
+.ui-grid-tr-odd {overflow: hidden;white-space: normal;background: #FFFFFF;height: 30px;line-height: 30px;}
+.ui-grid td.text-align-l{text-align:left;}
+.ui-grid td.text-align-r{text-align:right;}
+.ui-grid td.text-align-mid{text-align:center;}
+.ui-grid .track_detail{height:30px;color:#000000; background-color: #DEDEDE;border: 1px solid #CDCDCD;text-align:center}
+.ui-grid .track_detail td{border: 1px solid #CDCDCD;}
+
+/**定位模板***/
+.multi_date_range{vertical-align:middle;height:20px;line-height:20px;display:inline-block}
+.range_mark{ position: relative;top: 4px;}
+
+/***定位设置**/
+.batch_set{background:#EFEFEF;border-bottom: 1px solid #CCCCCC;position: relative;padding:5px 10px;}
+.batch_opt_memo{width: 210px;background:#EFEFEF;border-top: 1px solid #CCCCCC;padding:10px 10px;position:absolute;left:0px;bottom:0px;}
+.batch_opt_memo font{font-size:12px}
+
+/***员工定位***/
+.search_area{background:#FFFFFF;}
+.names_input{width: 150px; height: 37px;background:url(../../images/location/input_bg.jpg) repeat-x;border:1px solid #BFBFC0;font-size:12px;}
+.tip_line_height{margin-top:3px}
+
+/***遮罩层***/
+.loading-mask{position:absolute;top:0px; left:0px;z-index:100000; background:#fff;width:100%;height:100%;filter:alpha(opacity=50);opacity:0.5;}
+.loading-content{position:absolute;top:50%; left:50%;z-index:100001; background:#fff;border:3px solid #4588BA; padding:10px; margin-left:-60px;margin-top:-20px; font-size:14px; font-weight:blod;}
+
+
+

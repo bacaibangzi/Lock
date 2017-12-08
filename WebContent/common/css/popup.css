@@ -1,0 +1,125 @@
+/*-----------弹出窗口头部样式---------------*/
+ul{ list-style:none;}
+.pophead{width:100%;height:62px;} 
+.popheadleft{float:left;background:url(../images/popheadleft.gif) no-repeat;height:62px;width:75px; }
+.popheadcenter{background:url(../images/popheadcenter.gif) repeat-x;height:62px;width:100%; }
+.popheadright{float:right;background:url(../images/popheadright.gif) no-repeat;height:62px;width:202px;}
+h2{font-size:16px; font-weight:bold;line-height:62px;color:#fff;}
+
+
+
+
+/*-----------弹出窗口时间信息等样式---------------*/
+.condition{background:url(../images/tablemiddle.gif) repeat-x;width:100%;}
+.twolist{float:left;width:45%;margin-left:15px;}
+.condition span{float:left}
+.condition li{display:block;width:100%;overflow:hidden;margin:0;padding:0;}
+.text{margin:5px;width:30%;font-size:12px;font-weight:bold;}
+.words{margin:5px;font-size:12px;font-weight:bold;color:#18469c}
+
+
+
+
+/*-----------弹出窗口表格样式---------------*/
+.poptable{width:100%}
+.poptable table{width:100%; font-size:12px;border-collapse:collapse;  border-spacing:0; border-spacing:expression(this.cellSpacing="0px"); background:#f0f0f0; }
+.poptable  tbody{width:100%;}
+.poptable  tr{width:100%;  text-align:left; }
+.poptable  td{padding:0 6px; border:1px solid #fff;line-height:18px;}
+.poptable  th{border:1px solid #fff; text-align:left;  padding:0 6px; background:#d3d7e0; color:#333; line-height:24px;}
+
+
+/*-----------修改信息窗口样式---------------*/
+.pagercontent_pop{width:470px;overflow:hidden;margin:3px;background:#f1f1f1;height:100%}
+.pagercontent_pop_lj{width:570px;overflow:hidden;margin:3px;background:#f1f1f1;height:100%}
+.titleth{font-size:13px;color:#18469c;font-weight:bold;height:22px;line-height:21px;margin:25px 0 0 10px;}
+.signleft{float:left;width:27%;border:1px solid #99b1dd;background:#97b3e5 url(../images/bg_popup.gif) repeat-x top;height:98%;}
+.signright{float:left;width:70%;background:#f1f1f1;border-left:1px solid #fff;height:98%}
+.signright select{_margin-left:5px}
+.signmain{margin:10px 0;}
+.signmain img{vertical-align:middle;}
+.signmain fieldset{*margin-left:5px}
+.signmain ul {margin:10px 5px 20px 10px;*margin-left:5px}
+.signmain ul li{line-height:25px;height:25px}
+.signmain input{height:21px;margin-right:5px;vertical-align:middle;}
+.signmain select{height:21px;width:160px;border:1px solid #000;vertical-align:middle;}
+.signmain .list_other{margin-top:55px}
+.textright{text-align:right;margin-right:10px}
+.red{color:red;margin:0 5px}
+
+.signmain ul .give_h1{height:408px;height:430px;_height:420px}
+
+.signmain ul .give_h2{height:415px;height:440px;_height:432px}
+
+/*-----------车辆活动日志窗口样式---------------*/
+.nextbtn{float:left;margin:22px 0 0 40px;}
+.nextbtn a{margin-right:5px}
+.drawstatusplot .pophead h2{float:left}
+.radio_pop input{margin:0 5px 0 0;}
+
+
+
+/*-----------路线添加窗口样式---------------*/
+.moda{width:180px;background:#ccc;overflow:hidden; margin:0 auto;}
+.modtop{background:transparent url(../images/moda_top.gif) repeat-x scroll 0 0;height:4px;width:100%;overflow:hidden;}
+.modatl{background:transparent url(../images/bg_popup1.png) no-repeat scroll -8px 0;float:left;height:4px;width:4px;}
+.modatr{background:transparent url(../images/bg_popup1.png) no-repeat scroll -12px 0;float:right;height:4px;width:4px;}
+.modbody{height:460px;width:178px;background:#f4f4f4;border-left:1px solid #dbdbdb;border-right:1px solid #dbdbdb;}
+.modbottom{background:transparent url(../images/moda_bt.gif) repeat-x scroll 0 0;height:4px;width:100%;overflow:hidden;}
+.modabl{background:transparent url(../images/bg_popup1.png) no-repeat scroll 0 0;float:left;height:4px;width:4px;}
+.modabr{background:transparent url(../images/bg_popup1.png) no-repeat scroll -4px 0;float:right;height:4px;width:4px;}
+.routeadd{padding:20px 0 0 30px;}
+.routeadd ul li{text-align:left}
+.routeadd .titleth{margin-left:0}
+
+/*-----------阈值报警车辆活动总报窗口样式---------------*/
+.routeblserve{text-align:center;background:#eee;margin:0;}
+.routeblserve .searchwords{text-align:left;padding:5px 0 5px 20px}
+
+/*-----------参数设置窗口样式---------------*/
+.parameterset{background:url(../images/bgset_popup.gif) repeat-x;height:239px;width:100%;text-align:center}
+.parameterinfo{background:url(../images/bg_infopopup.gif) no-repeat;height:239px;width:575px;text-align:center;}
+.parameterinfo ul{width:80%;}
+.parameterinfo li{line-height:20px}
+.infowords{width:35%;height:25px; background:#f3f3f3;display:block;float:left;border-bottom:1px solid #cfcfcf}
+.popuptext{font-size:12px;color:#000}
+.infovalues{float:left;width:65%;display:block; background:#fff;border-bottom:1px solid #cfcfcf;height:25px;text-align:left;}
+
+
+
+.fieldserpopup{width:99%;text-align:center;margin:5px 0 0 0;display:none}
+.fieldserpopup img{vertical-align:middle}
+.fieldserpopup input{vertical-align:middle}
+.fieldserpopup fieldset{background:#f3f3f3}
+.fieldserpopup table{text-align:center;font-size:12px;width:100%;margin:10px 0 0 0;}
+.fieldserpopup table td{text-align:left;height:22px}
+.fieldserpopup table th{text-align:left;height:22px}
+.captionsub{font-size:13px;color:#18469c;font-weight:bold;text-align:left;padding:10px 0 0 10px;border-bottom:1px solid #6083d3;width:99%}
+.addnew{text-align:left;margin:8px 0 20px 10px;}
+
+
+
+.other_modify{position:absolute;top:50px;}
+.other_modify table{font-size:12px}
+.other_left{width:160px;text-align:right;height:22px;font-weight:bold;padding-right:20px}
+.other_subleft{width:160px;text-align:right;height:22px;padding-right:20px;color:#333}
+
+
+/*-----------车辆活动日志样式---------------*/
+.hoverStyle{background:#d3d7e0 url(../../../images/bg_line.gif) repeat-x;height:26px;line-height:26px;padding:5px 0 0 10px;_padding:0px 0 0 10px; border-left:1px solid #729abc;border-right:1px solid #729abc; width:430px; margin-top:10px}
+.chartl{float:left;overflow:hidden;width:28px}
+.chartr{float:left;overflow:hidden;width:956px}
+.chartdetail{width:100%;overflow:hidden;margin:5px 0 0 0}
+.chartl li{display:block; height:18px;line-height:18px;border:1px solid #000;margin:0 0 3px 0;text-indent:1px}
+.chartl ul{margin-top:50px}
+.contentblock{background:#f6f9ff;border-left:1px solid #729abc;border-right:1px solid #729abc;border-bottom:1px solid #729abc;text-align:center;margin-bottom:5px;padding:5px 0;overflow:hidden;}
+.titleimg{float:right;margin:3 50px 0 0;cursor: pointer;}
+.block{margin:5px 0 5px 0;overflow:hidden;}
+.hoverStyle input{border:0;background:none;font-size:12px}
+
+
+/*-----------车辆详细信息样式---------------*/
+.InfoDetails_table{border:0;margin:0;padding:0;font-size:12px;}
+.InfoDetails_table table{margin:0;padding:0;font-size:12px;}
+.InfoDetails_table th{height:25px;}
+.InfoDetails_table td{padding:0 6px;}

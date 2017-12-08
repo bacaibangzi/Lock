@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.UserRoleMenuMapper" >
+
+    <resultMap id="RM.UserRoleMenu" type="com.sc.system.pojo.UserRoleMenu">
+        <result property="miId" column="MI_ID"/>
+        <result property="fiId" column="FI_ID"/>
+        <result property="miName" column="MI_NAME"/>
+        <result property="miUrl" column="MI_URL"/>
+        <result property="miPic" column="MI_PIC"/>
+        <result property="miMemo" column="MI_MEMO"/>
+        <result property="miIndex" column="MI_INDEX"/>
+        <result property="miLevel" column="MI_LEVEL"/>
+        <result property="uiId" column="UI_ID"/>
+    </resultMap>
+
+	<sql id="UserRoleMenu.columns">
+	    <![CDATA[
+        MI_ID ,FI_ID ,MI_NAME ,MI_URL ,MI_PIC ,MI_MEMO ,MI_INDEX ,MI_LEVEL ,UI_ID
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_user_role_menu (
+        	MI_ID ,
+        	FI_ID ,
+        	MI_NAME ,
+        	MI_URL ,
+        	MI_PIC ,
+        	MI_MEMO ,
+        	MI_INDEX ,
+        	MI_LEVEL 
+        ) VALUES (
+			#{miId} ,
+			#{fiId} ,
+			#{miName} ,
+			#{miUrl} ,
+			#{miPic} ,
+			#{miMemo} ,
+			#{miIndex} ,
+			#{miLevel} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_user_role_menu SET
+	        MI_ID = #{miId} ,
+	        FI_ID = #{fiId} ,
+	        MI_NAME = #{miName} ,
+	        MI_URL = #{miUrl} ,
+	        MI_PIC = #{miPic} ,
+	        MI_MEMO = #{miMemo} ,
+	        MI_INDEX = #{miIndex} ,
+	        MI_LEVEL = #{miLevel} 
+        WHERE 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_user_role_menu WHERE
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.UserRoleMenu">
+	    SELECT <include refid="UserRoleMenu.columns"/>
+	    <![CDATA[
+	        FROM dev_user_role_menu 
+	        WHERE 
+	    ]]>
+    </select>
+
+	<sql id="UserRoleMenu.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="miId !=null">
+		            AND MI_ID = #{miId}
+		       </if>
+		       <if test="fiId !=null">
+		            AND FI_ID = #{fiId}
+		       </if>
+		       <if test="miName !=null">
+		            AND MI_NAME = #{miName}
+		       </if>
+		       <if test="miUrl !=null">
+		            AND MI_URL = #{miUrl}
+		       </if>
+		       <if test="miPic !=null">
+		            AND MI_PIC = #{miPic}
+		       </if>
+		       <if test="miMemo !=null">
+		            AND MI_MEMO = #{miMemo}
+		       </if>
+		       <if test="miIndex !=null">
+		            AND MI_INDEX = #{miIndex}
+		       </if>
+		       <if test="miLevel !=null">
+		            AND MI_LEVEL = #{miLevel}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_user_role_menu <include refid="UserRoleMenu.findPage.where"/>    
+    </select>
+    
+    <!--  
+    <select id="findPage" resultMap="RM.UserRoleMenu">
+    	select distinct(T1.MI_ID) as MI_ID, T1.FI_ID as FI_ID,T1.MI_NAME as MI_NAME,T1.MI_URL as MI_URL,T1.MI_PIC as MI_PIC,T1.MI_MEMO as MI_MEMO,T1.MI_INDEX as MI_INDEX,T1.MI_LEVEL as MI_LEVEL  from system_menu T1,
+ 
+ 		role_menu T2, user_role T3 ,role_info T4,user_info T5 where T1.MI_ID = T2.MI_ID and T3.RI_ID = T4.RI_ID and T4.RI_ID = T3.RI_ID and T5.UI_ID = T3.UI_ID  and T3.RI_ID = T2.RI_ID 
+ 
+ 		and T5.UI_LOGIN_NAME =#{userName} and T1.MI_LEVEL = #{miLevel} order by T1.MI_ID
+    </select>
+    
+    <select id="query" resultMap="RM.UserRoleMenu">
+    	
+    	select distinct(T1.MI_ID) as MI_ID, T1.FI_ID as FI_ID,T1.MI_NAME as MI_NAME,T1.MI_URL as MI_URL,T1.MI_PIC as MI_PIC,T1.MI_MEMO as MI_MEMO,T1.MI_INDEX as MI_INDEX,T1.MI_LEVEL as MI_LEVEL  from system_menu T1,
+ 
+ 		role_menu T2, user_role T3 ,role_info T4,user_info T5 where T1.MI_ID = T2.MI_ID and T3.RI_ID = T4.RI_ID and T4.RI_ID = T3.RI_ID and T3.RI_ID = T2.RI_ID  and T5.UI_ID = T3.UI_ID
+ 
+ 		and T5.UI_ID =#{userId} and T1.MI_LEVEL = #{miLevel} 
+ 				<if test="fiId !=null">
+		            AND FI_ID = #{fiId}
+		       </if> 
+		order by T1.MI_INDEX
+    </select>
+    -->
+    <select id="findPage" resultMap="RM.UserRoleMenu"> 
+    	select distinct(T1.MI_ID) as MI_ID, T1.FI_ID as FI_ID,T1.MI_NAME as MI_NAME,T1.MI_URL as MI_URL,T1.MI_PIC as MI_PIC,T1.MI_MEMO as MI_MEMO,T1.MI_INDEX as MI_INDEX,T1.MI_LEVEL as MI_LEVEL  from dev_system_menu T1,
+ 
+ 		dev_role_menu T2, dev_user_role T3 ,dev_role_info T4,dev_user_info T5 where T1.MI_ID = T2.MI_ID and T3.RI_ID = T4.RI_ID and T4.RI_ID = T3.RI_ID and T5.UI_ID = T3.UI_ID  and T3.RI_ID = T2.RI_ID 
+ 
+ 		and T5.UI_LOGIN_NAME =#{userName} and T1.MI_LEVEL = #{miLevel} order by T1.MI_ID
+ 		
+		 
+    </select>
+    
+    <select id="query" resultMap="RM.UserRoleMenu">
+    	
+    	select distinct(T1.MI_ID) as MI_ID, T1.FI_ID as FI_ID,T1.MI_NAME as MI_NAME,T1.MI_URL as MI_URL,T1.MI_PIC as MI_PIC,T1.MI_MEMO as MI_MEMO,T1.MI_INDEX as MI_INDEX,T1.MI_LEVEL as MI_LEVEL  from dev_system_menu T1,
+ 
+ 		dev_role_menu T2, dev_user_role T3 ,dev_role_info T4 where T1.MI_ID = T2.MI_ID and T3.RI_ID = T4.RI_ID and T4.RI_ID = T3.RI_ID and T3.RI_ID = T2.RI_ID
+ 
+ 		and T3.UI_ID =#{userId} and T1.MI_LEVEL = #{miLevel} 
+ 				<if test="fiId !=null">
+		            AND FI_ID = #{fiId}
+		       </if> 
+		order by T1.MI_INDEX
+    </select>
+	
+</mapper>
+

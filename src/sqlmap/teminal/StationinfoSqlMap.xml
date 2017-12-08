@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.StationinfoMapper" >
+
+    <resultMap id="RM.Stationinfo" type="com.sc.teminal.pojo.Stationinfo">
+        <result property="stationId" column="StationID"/>
+        <result property="stationCode" column="StationCode"/>
+        <result property="stationName" column="StationName"/>
+        <result property="stationPosition" column="StationPosition"/>
+        <result property="isUse" column="IsUse"/>
+        <result property="remark" column="Remark"/>
+    </resultMap>
+
+	<sql id="Stationinfo.columns">
+	    <![CDATA[
+        StationID ,StationCode ,StationName ,StationPosition ,IsUse ,Remark 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO stationinfo (
+        	StationID ,
+        	StationCode ,
+        	StationName ,
+        	StationPosition ,
+        	IsUse ,
+        	Remark 
+        ) VALUES (
+			#{stationId} ,
+			#{stationCode} ,
+			#{stationName} ,
+			#{stationPosition} ,
+			#{isUse} ,
+			#{remark} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="stationId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE stationinfo SET
+	        StationCode = #{stationCode} ,
+	        StationName = #{stationName} ,
+	        StationPosition = #{stationPosition} ,
+	        IsUse = #{isUse} ,
+	        Remark = #{remark} 
+        WHERE 
+	        StationID = #{stationId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM stationinfo WHERE
+        StationID = #{stationId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.Stationinfo">
+	    SELECT <include refid="Stationinfo.columns"/>
+	    <![CDATA[
+	        FROM stationinfo 
+	        WHERE 
+		        StationID = #{stationId} 
+	    ]]>
+    </select>
+
+	<sql id="Stationinfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="stationId !=null">
+		            AND StationID = #{stationId}
+		       </if>
+		       <if test="stationCode !=null">
+		            AND StationCode = #{stationCode}
+		       </if>
+		       <if test="stationName !=null">
+		            AND StationName = #{stationName}
+		       </if>
+		       <if test="stationPosition !=null">
+		            AND StationPosition = #{stationPosition}
+		       </if>
+		       <if test="isUse !=null">
+		            AND IsUse = #{isUse}
+		       </if>
+		       <if test="remark !=null">
+		            AND Remark = #{remark}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM stationinfo <include refid="Stationinfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.Stationinfo">
+    	SELECT <include refid="Stationinfo.columns"/> FROM stationinfo 
+		<include refid="Stationinfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.Stationinfo">
+    	SELECT <include refid="Stationinfo.columns"/> FROM stationinfo 
+		<include refid="Stationinfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

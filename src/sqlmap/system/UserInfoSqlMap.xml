@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.UserInfoMapper" >
+
+    <resultMap id="RM.UserInfo" type="com.sc.system.pojo.UserInfo">
+        <result property="uiId" column="UI_ID"/>
+        <result property="uiType" column="UI_TYPE"/>
+        <result property="uiLoginName" column="UI_LOGIN_NAME"/>
+        <result property="uiPassword" column="UI_PASSWORD"/>
+        <result property="uiName" column="UI_NAME"/>
+        <result property="uiNickName" column="UI_NICK_NAME"/>
+        <result property="uiSex" column="UI_SEX"/>
+        <result property="uiImg" column="UI_IMG"/>
+        <result property="uiPrId" column="UI_PR_ID"/>
+        <result property="uiCyId" column="UI_CY_ID"/>
+        <result property="uiArId" column="UI_AR_ID"/>
+        <result property="uiProvince" column="UI_PROVINCE"/>
+        <result property="uiCity" column="UI_CITY"/>
+        <result property="uiArea" column="UI_AREA"/>
+        <result property="uiMobile" column="UI_MOBILE"/>
+        <result property="uiEmail" column="UI_EMAIL"/>
+        <result property="uiCompany" column="UI_COMPANY"/>
+        <result property="uiAddress" column="UI_ADDRESS"/>
+        <result property="uiTelphone" column="UI_TELPHONE"/>
+        <result property="uiVipLevelId" column="UI_VIP_LEVEL_ID"/>
+        <result property="uiVipLevelName" column="UI_VIP_LEVEL_NAME"/>
+        <result property="uiVipLevelTime" column="UI_VIP_LEVEL_TIME"/>
+        <result property="uiCtLimit" column="UI_CT_LIMIT"/>
+        <result property="uiTotalSmsCount" column="UI_TOTAL_SMS_COUNT"/>
+        <result property="uiBalance" column="UI_BALANCE"/>
+        <result property="uiFindPasswordCode" column="UI_FIND_PASSWORD_CODE"/>
+        <result property="uiFindPasswordTime" column="UI_FIND_PASSWORD_TIME"/>
+        <result property="uiOrgCode" column="UI_ORG_CODE"/>
+        <result property="uiSh" column="UI_SH"/>
+        <result property="uiNum" column="UI_NUM"/>
+    </resultMap>
+
+	<sql id="UserInfo.columns">
+	    <![CDATA[
+        UI_ID ,UI_TYPE ,UI_LOGIN_NAME ,UI_PASSWORD ,UI_NAME ,UI_NICK_NAME ,UI_SEX ,UI_IMG ,UI_PR_ID ,UI_CY_ID ,UI_AR_ID ,UI_PROVINCE ,UI_CITY ,UI_AREA ,UI_MOBILE ,UI_EMAIL ,UI_COMPANY ,UI_ADDRESS ,UI_TELPHONE ,UI_VIP_LEVEL_ID ,UI_VIP_LEVEL_NAME ,UI_VIP_LEVEL_TIME ,UI_CT_LIMIT ,UI_TOTAL_SMS_COUNT ,UI_BALANCE ,UI_FIND_PASSWORD_CODE ,UI_FIND_PASSWORD_TIME ,UI_ORG_CODE,UI_SH ,UI_NUM
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_user_info ( 
+        	UI_TYPE ,
+        	UI_LOGIN_NAME ,
+        	UI_PASSWORD ,
+        	UI_NAME ,
+        	UI_NICK_NAME ,
+        	UI_SEX ,
+        	UI_IMG ,
+        	UI_PR_ID ,
+        	UI_CY_ID ,
+        	UI_AR_ID ,
+        	UI_PROVINCE ,
+        	UI_CITY ,
+        	UI_AREA ,
+        	UI_MOBILE ,
+        	UI_EMAIL ,
+        	UI_COMPANY ,
+        	UI_ADDRESS ,
+        	UI_TELPHONE ,
+        	UI_VIP_LEVEL_ID ,
+        	UI_VIP_LEVEL_NAME ,
+        	UI_VIP_LEVEL_TIME ,
+        	UI_CT_LIMIT ,
+        	UI_TOTAL_SMS_COUNT ,
+        	UI_BALANCE ,
+        	UI_FIND_PASSWORD_CODE ,
+        	UI_FIND_PASSWORD_TIME ,
+        	UI_REG_TIME ,
+        	UI_ORG_CODE ,
+        	UI_SH , UI_NUM
+        ) VALUES ( 
+			#{uiType} ,
+			#{uiLoginName} ,
+			#{uiPassword} ,
+			#{uiName} ,
+			#{uiNickName} ,
+			#{uiSex} ,
+			#{uiImg} ,
+			#{uiPrId} ,
+			#{uiCyId} ,
+			#{uiArId} ,
+			#{uiProvince} ,
+			#{uiCity} ,
+			#{uiArea} ,
+			#{uiMobile} ,
+			#{uiEmail} ,
+			#{uiCompany} ,
+			#{uiAddress} ,
+			#{uiTelphone} ,
+			#{uiVipLevelId} ,
+			#{uiVipLevelName} ,
+			#{uiVipLevelTime} ,
+			#{uiCtLimit} ,
+			#{uiTotalSmsCount} ,
+			#{uiBalance} ,
+			#{uiFindPasswordCode} ,
+			#{uiFindPasswordTime} ,
+			getdate(),
+			#{uiOrgCode} ,
+			#{uiSh} ,
+			#{uiNum} 
+        )
+    ]]>
+    </insert>
+	
+    <insert id="insertSn" >
+    <![CDATA[
+        INSERT INTO dev_user_info (
+        	UI_ID ,
+        	UI_TYPE ,
+        	UI_LOGIN_NAME ,
+        	UI_PASSWORD ,
+        	UI_NAME ,
+        	UI_NICK_NAME ,
+        	UI_SEX ,
+        	UI_IMG ,
+        	UI_PR_ID ,
+        	UI_CY_ID ,
+        	UI_AR_ID ,
+        	UI_PROVINCE ,
+        	UI_CITY ,
+        	UI_AREA ,
+        	UI_MOBILE ,
+        	UI_EMAIL ,
+        	UI_COMPANY ,
+        	UI_ADDRESS ,
+        	UI_TELPHONE ,
+        	UI_VIP_LEVEL_ID ,
+        	UI_VIP_LEVEL_NAME ,
+        	UI_VIP_LEVEL_TIME ,
+        	UI_CT_LIMIT ,
+        	UI_TOTAL_SMS_COUNT ,
+        	UI_BALANCE ,
+        	UI_FIND_PASSWORD_CODE ,
+        	UI_FIND_PASSWORD_TIME ,
+        	UI_REG_TIME ,
+        	UI_ORG_CODE ,
+        	UI_SH
+        ) VALUES (
+			#{uiId} ,
+			#{uiType} ,
+			#{uiLoginName} ,
+			#{uiPassword} ,
+			#{uiName} ,
+			#{uiNickName} ,
+			#{uiSex} ,
+			#{uiImg} ,
+			#{uiPrId} ,
+			#{uiCyId} ,
+			#{uiArId} ,
+			#{uiProvince} ,
+			#{uiCity} ,
+			#{uiArea} ,
+			#{uiMobile} ,
+			#{uiEmail} ,
+			#{uiCompany} ,
+			#{uiAddress} ,
+			#{uiTelphone} ,
+			#{uiVipLevelId} ,
+			#{uiVipLevelName} ,
+			#{uiVipLevelTime} ,
+			#{uiCtLimit} ,
+			#{uiTotalSmsCount} ,
+			#{uiBalance} ,
+			#{uiFindPasswordCode} ,
+			#{uiFindPasswordTime} ,
+			getdate(),
+			#{uiOrgCode} ,
+			#{uiSh} 
+        )
+    ]]>    
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="uiId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+
+   
+   <update id="saveGly" >
+      UPDATE dev_user_info SET  UI_LOGIN_NAME = #{uiLoginName} ,UI_PASSWORD = #{uiPassword} , UI_SH=1 where  UI_ID = #{uiId} 
+   </update>
+
+
+    <update id="update" >
+        UPDATE dev_user_info SET
+        <trim suffix="" suffixOverrides=",">
+        	<if test="uiType!=null">
+	        UI_TYPE = #{uiType} ,
+	        </if>
+	        <if test="uiLoginName!=null">
+	        UI_LOGIN_NAME = #{uiLoginName} ,
+	        </if>
+	        <if test="uiName!=null">
+	        UI_NAME = #{uiName} ,
+	        </if>
+	        <!--  
+	        <if test="uiNickName!=null">
+	        UI_NICK_NAME = #{uiNickName} ,
+	        </if>
+	        -->
+	        <if test="uiSex!=null">
+	        UI_SEX = #{uiSex} ,
+	        </if>
+	        <if test="uiImg!=null">
+	        UI_IMG = #{uiImg} ,
+	        </if>
+	        <if test="uiPrId!=null">
+	        UI_PR_ID = #{uiPrId} ,
+	        </if>
+	        <if test="uiCyId!=null">
+	        UI_CY_ID = #{uiCyId} ,
+	        </if>
+	        <if test="uiArId!=null">
+	        UI_AR_ID = #{uiArId} ,
+	        </if>
+	        <if test="uiProvince!=null">
+	        UI_PROVINCE = #{uiProvince} ,
+	        </if>
+	        <if test="uiCity!=null">
+	        UI_CITY = #{uiCity} ,
+	        </if>
+	        <if test="uiArea!=null">
+	        UI_AREA = #{uiArea} ,
+	        </if>
+	        <if test="uiMobile!=null">
+	        UI_MOBILE = #{uiMobile} ,
+	        </if>
+	        <if test="uiEmail!=null">
+	        UI_EMAIL = #{uiEmail} ,
+	        </if>
+	        <if test="uiCompany!=null">
+	        UI_COMPANY = #{uiCompany} ,
+	        </if>
+	        <if test="uiAddress!=null">
+	        UI_ADDRESS = #{uiAddress} ,
+	        </if>
+	        <if test="uiTelphone!=null">
+	        UI_TELPHONE = #{uiTelphone} ,
+	        </if>
+	        <if test="uiVipLevelId!=null">
+	        UI_VIP_LEVEL_ID = #{uiVipLevelId} ,
+	        </if>
+	        <if test="uiVipLevelName!=null">
+	        UI_VIP_LEVEL_NAME = #{uiVipLevelName} ,
+	        </if>
+	        <if test="uiVipLevelTime!=null">
+	        UI_VIP_LEVEL_TIME = #{uiVipLevelTime} ,
+	        </if>
+	        <if test="uiCtLimit!=null">
+	        UI_CT_LIMIT = #{uiCtLimit} ,
+	        </if>
+	        <if test="uiTotalSmsCount!=null">
+	        UI_TOTAL_SMS_COUNT = #{uiTotalSmsCount} ,
+	        </if>
+	        <if test="uiBalance!=null">
+	        UI_BALANCE = #{uiBalance} ,
+	        </if>
+	        <if test="uiFindPasswordCode!=null">
+	        UI_FIND_PASSWORD_CODE = #{uiFindPasswordCode} ,
+	        </if>
+	        <if test="uiFindPasswordTime!=null">
+	        UI_FIND_PASSWORD_TIME = #{uiFindPasswordTime} ,
+	        </if>
+	        <if test="uiOrgCode!=null">
+	        UI_ORG_CODE = #{uiOrgCode} ,
+	        </if>
+	        <if test="uiSh!=null">
+	        UI_SH = #{uiSh}, 
+	        </if>
+	        <if test="uiNum!=null">
+	        UI_NUM = #{uiNum}, 
+	        UI_NICK_NAME = #{uiNum} ,
+	        </if>
+	        <if test="uiPassword!=null">
+	        UI_PASSWORD = #{uiPassword} 
+	        </if>
+	        </trim>
+        WHERE 
+	        UI_ID = #{uiId} 
+    </update>
+    
+    <update id="updatepassword" >
+    <![CDATA[
+        UPDATE dev_user_info SET
+	        UI_TYPE = #{uiType} ,
+	        UI_PASSWORD = #{uiPassword} ,
+	        UI_NAME = #{uiName} ,
+	        UI_NICK_NAME = #{uiNickName} ,
+	        UI_SEX = #{uiSex} ,
+	        UI_IMG = #{uiImg} ,
+	        UI_PR_ID = #{uiPrId} ,
+	        UI_CY_ID = #{uiCyId} ,
+	        UI_AR_ID = #{uiArId} ,
+	        UI_PROVINCE = #{uiProvince} ,
+	        UI_CITY = #{uiCity} ,
+	        UI_AREA = #{uiArea} ,
+	        UI_EMAIL = #{uiEmail} ,
+	        UI_COMPANY = #{uiCompany} ,
+	        UI_ADDRESS = #{uiAddress} ,
+	        UI_TELPHONE = #{uiTelphone} ,
+	        UI_VIP_LEVEL_ID = #{uiVipLevelId} ,
+	        UI_VIP_LEVEL_NAME = #{uiVipLevelName} ,
+	        UI_VIP_LEVEL_TIME = #{uiVipLevelTime} ,
+	        UI_CT_LIMIT = #{uiCtLimit} ,
+	        UI_TOTAL_SMS_COUNT = #{uiTotalSmsCount} ,
+	        UI_BALANCE = #{uiBalance} ,
+	        UI_FIND_PASSWORD_CODE = #{uiFindPasswordCode} ,
+	        UI_FIND_PASSWORD_TIME = #{uiFindPasswordTime} ,
+	        UI_ORG_CODE = #{uiOrgCode} ,
+	        UI_SH = #{uiSh} ,
+	        UI_NUM = #{uiNum} 
+        WHERE 
+	        UI_MOBILE = #{uiMobile} 
+    ]]>
+    </update>
+
+    <delete id="sh">
+    <![CDATA[
+        UPDATE dev_user_info SET
+        UI_SH = #{uiSh} 
+        WHERE
+        UI_ID = #{uiId} 
+    ]]>
+    </delete>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_user_info WHERE
+        UI_ID = #{uiId} 
+    ]]>
+    </delete>
+    
+    <select id="getByNickName" resultMap="RM.UserInfo">
+	    SELECT <include refid="UserInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_user_info 
+	        WHERE 
+		       UI_NICK_NAME = #{uiNickName} 
+	    ]]>
+    </select>
+    
+    <select id="getById" resultMap="RM.UserInfo">
+	    SELECT <include refid="UserInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_user_info 
+	        WHERE 
+		        UI_ID = #{uiId} 
+	    ]]>
+    </select>
+    
+ 	<select id="getByLoginName" resultMap="RM.UserInfo">
+	    SELECT <include refid="UserInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_user_info 
+	        WHERE 
+		        UI_LOGIN_NAME = #{uiLoginName}
+	    ]]>
+    </select>
+    
+    <select id="getByUIName" resultMap="RM.UserInfo">
+	    SELECT <include refid="UserInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_user_info 
+	        WHERE 
+		        UI_NAME = #{loginUserName}
+	    ]]>
+    </select>
+    
+    <select id="getByUINUm" resultMap="RM.UserInfo">
+	    SELECT <include refid="UserInfo.columns"/>
+	    <![CDATA[
+	        FROM dev_user_info 
+	        WHERE 
+		          UI_NUM  = #{uiNum} 
+	    ]]>
+    </select>
+
+	<sql id="UserInfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="uiId !=null">
+		            AND UI_ID = #{uiId}
+		       </if>
+		       <if test="uiType !=null">
+		            AND UI_TYPE = #{uiType}
+		       </if>
+		       <if test="uiLoginName !=null">
+		            AND UI_LOGIN_NAME = #{uiLoginName}
+		       </if>
+		       <if test="uiPassword !=null">
+		            AND UI_PASSWORD = #{uiPassword}
+		       </if>
+		       <if test="uiName !=null and uiName!='' ">
+		            AND UI_NAME like '%'+#{uiName}+'%'
+		       </if>
+		       <if test="uiNickName !=null">
+		            AND UI_NICK_NAME = #{uiNickName}
+		       </if>
+		       <if test="uiSex !=null">
+		            AND UI_SEX = #{uiSex}
+		       </if>
+		       <if test="uiImg !=null">
+		            AND UI_IMG = #{uiImg}
+		       </if>
+		       <if test="uiPrId !=null">
+		            AND UI_PR_ID = #{uiPrId}
+		       </if>
+		       <if test="uiCyId !=null">
+		            AND UI_CY_ID = #{uiCyId}
+		       </if>
+		       <if test="uiArId !=null">
+		            AND UI_AR_ID = #{uiArId}
+		       </if>
+		       <if test="uiProvince !=null">
+		            AND UI_PROVINCE = #{uiProvince}
+		       </if>
+		       <if test="uiCity !=null">
+		            AND UI_CITY = #{uiCity}
+		       </if>
+		       <if test="uiArea !=null">
+		            AND UI_AREA = #{uiArea}
+		       </if>
+		       <if test="uiMobile !=null">
+		            AND UI_MOBILE = #{uiMobile}
+		       </if>
+		       <if test="uiEmail !=null">
+		            AND UI_EMAIL = #{uiEmail}
+		       </if>
+		       <if test="uiCompany !=null">
+		            AND UI_COMPANY = #{uiCompany}
+		       </if>
+		       <if test="uiAddress !=null">
+		            AND UI_ADDRESS = #{uiAddress}
+		       </if>
+		       <if test="uiTelphone !=null">
+		            AND UI_TELPHONE = #{uiTelphone}
+		       </if>
+		       <if test="uiVipLevelId !=null">
+		            AND UI_VIP_LEVEL_ID = #{uiVipLevelId}
+		       </if>
+		       <if test="uiVipLevelName !=null">
+		            AND UI_VIP_LEVEL_NAME = #{uiVipLevelName}
+		       </if>
+		       <if test="uiVipLevelTimeBegin !=null">
+		            AND UI_VIP_LEVEL_TIME >= #uiVipLevelTimeBegin#
+		       </if>
+		       <if test="uiVipLevelTimeEnd !=null">
+		            AND UI_VIP_LEVEL_TIME &lt;= #uiVipLevelTimeEnd#
+		       </if>
+		       <if test="uiCtLimit !=null">
+		            AND UI_CT_LIMIT = #{uiCtLimit}
+		       </if>
+		       <if test="uiTotalSmsCount !=null">
+		            AND UI_TOTAL_SMS_COUNT = #{uiTotalSmsCount}
+		       </if>
+		       <if test="uiBalance !=null">
+		            AND UI_BALANCE = #{uiBalance}
+		       </if>
+		       <if test="uiFindPasswordCode !=null">
+		            AND UI_FIND_PASSWORD_CODE = #{uiFindPasswordCode}
+		       </if>
+		       <if test="uiFindPasswordTimeBegin !=null">
+		            AND UI_FIND_PASSWORD_TIME >= #uiFindPasswordTimeBegin#
+		       </if>
+		       <if test="uiFindPasswordTimeEnd !=null">
+		            AND UI_FIND_PASSWORD_TIME &lt;= #uiFindPasswordTimeEnd#
+		       </if>
+		       <if test="uiOrgCode !=null">
+		            AND UI_ORG_CODE = #{uiOrgCode}
+		       </if>
+		       <if test="uiSh !=null">
+		            AND UI_SH = #{uiSh}
+		       </if>
+		       <if test="flag !=null">
+		            AND UI_ID != #{flag}
+		       </if>
+		       <if test="uiNum !=null">
+		            AND UI_NUM  like '%'+#{uiNum}+'%'
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_user_info <include refid="UserInfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.UserInfo">
+    	select top ${oracleEnd} * from
+	    ( 
+    	SELECT <include refid="UserInfo.columns"/> FROM dev_user_info 
+		<include refid="UserInfo.findPage.where"/>  
+		) z where   ( UI_ID NOT IN (SELECT TOP ${oracleStart} UI_ID FROM dev_user_info <include refid="UserInfo.findPage.where"/>   ORDER BY UI_ID)) 
+    </select>
+    
+    <select id="query" resultMap="RM.UserInfo">
+    	SELECT <include refid="UserInfo.columns"/> FROM dev_user_info 
+		<include refid="UserInfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+   <select id="nextValue" resultType="string">
+    	SELECT nextVal('user')
+   </select>
+	
+</mapper>
+

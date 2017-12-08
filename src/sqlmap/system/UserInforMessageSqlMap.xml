@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.UserInforMessageDao" >
+
+    <resultMap id="RM.UserInforMessage" type="com.sc.system.pojo.UserInforMessage">
+        <result property="idnumber" column="IDNumber"/>
+        <result property="messageType" column="MessageType"/>
+        <result property="cardno" column="CARDNO"/>
+        <result property="cardid" column="CARDID"/>
+        <result property="oldcardno" column="OLDCARDNO"/>
+        <result property="oldcardid" column="OLDCARDID"/>
+        <result property="cdtype" column="CDTYPE"/>
+        <result property="username" column="USERNAME"/>
+        <result property="idtype" column="IDTYPE"/>
+        <result property="idserial" column="IDSERIAL"/>
+        <result property="pid" column="PID"/>
+        <result property="deptstr" column="DEPTSTR"/>
+        <result property="ctrcode" column="CTRCODE"/>
+        <result property="natcode" column="NATCODE"/>
+        <result property="sex" column="SEX"/>
+        <result property="birthday" column="BIRTHDAY"/>
+        <result property="inschool" column="INSCHOOL"/>
+        <result property="jobcode" column="JOBCODE"/>
+        <result property="rectype" column="RECTYPE"/>
+        <result property="grade" column="GRADE"/>
+        <result property="idserial1" column="IDSERIAL1"/>
+        <result property="otherstr" column="OTHERSTR"/>
+        <result property="readFlag" column="ReadFlag"/>
+        <result property="dealFlag" column="DealFlag"/>
+        <result property="remark" column="REMARK"/>
+        <result property="updatedate" column="UPDATEDATE"/>
+    </resultMap>
+
+	<sql id="UserInforMessage.columns">
+	    <![CDATA[
+        IDNumber ,MessageType ,CARDNO ,CARDID ,OLDCARDNO ,OLDCARDID ,CDTYPE ,USERNAME ,IDTYPE ,IDSERIAL ,PID ,DEPTSTR ,CTRCODE ,NATCODE ,SEX ,BIRTHDAY ,INSCHOOL ,JOBCODE ,RECTYPE ,GRADE ,IDSERIAL1 ,OTHERSTR ,ReadFlag ,DealFlag ,REMARK,UPDATEDATE
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO user_infor_message (
+        	IDNumber ,
+        	MessageType ,
+        	CARDNO ,
+        	CARDID ,
+        	OLDCARDNO ,
+        	OLDCARDID ,
+        	CDTYPE ,
+        	USERNAME ,
+        	IDTYPE ,
+        	IDSERIAL ,
+        	PID ,
+        	DEPTSTR ,
+        	CTRCODE ,
+        	NATCODE ,
+        	SEX ,
+        	BIRTHDAY ,
+        	INSCHOOL ,
+        	JOBCODE ,
+        	RECTYPE ,
+        	GRADE ,
+        	IDSERIAL1 ,
+        	OTHERSTR ,
+        	ReadFlag ,
+        	DealFlag ,
+        	REMARK
+        ) VALUES (
+			#{idnumber} ,
+			#{messageType} ,
+			#{cardno} ,
+			#{cardid} ,
+			#{oldcardno} ,
+			#{oldcardid} ,
+			#{cdtype} ,
+			#{username} ,
+			#{idtype} ,
+			#{idserial} ,
+			#{pid} ,
+			#{deptstr} ,
+			#{ctrcode} ,
+			#{natcode} ,
+			#{sex} ,
+			#{birthday} ,
+			#{inschool} ,
+			#{jobcode} ,
+			#{rectype} ,
+			#{grade} ,
+			#{idserial1} ,
+			#{otherstr} ,
+			#{readFlag} ,
+			#{dealFlag} ,
+			#{remark} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="idnumber" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE user_infor_message SET
+	        MessageType = #{messageType} ,
+	        CARDNO = #{cardno} ,
+	        CARDID = #{cardid} ,
+	        OLDCARDNO = #{oldcardno} ,
+	        OLDCARDID = #{oldcardid} ,
+	        CDTYPE = #{cdtype} ,
+	        USERNAME = #{username} ,
+	        IDTYPE = #{idtype} ,
+	        IDSERIAL = #{idserial} ,
+	        PID = #{pid} ,
+	        DEPTSTR = #{deptstr} ,
+	        CTRCODE = #{ctrcode} ,
+	        NATCODE = #{natcode} ,
+	        SEX = #{sex} ,
+	        BIRTHDAY = #{birthday} ,
+	        INSCHOOL = #{inschool} ,
+	        JOBCODE = #{jobcode} ,
+	        RECTYPE = #{rectype} ,
+	        GRADE = #{grade} ,
+	        IDSERIAL1 = #{idserial1} ,
+	        OTHERSTR = #{otherstr} ,
+	        ReadFlag = #{readFlag} ,
+	        DealFlag = #{dealFlag} 
+        WHERE 
+	        IDNumber = #{idnumber} 
+    ]]>
+    </update>
+    
+    <update id="updateDealFlag" >
+    <![CDATA[
+        UPDATE user_infor_message SET 
+	        DealFlag = #{dealFlag} , UPDATEDATE = convert(char(100),getdate(),120),
+	        REMARK = #{remark} 
+        WHERE 
+	        IDNumber = #{idnumber} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM user_infor_message WHERE
+        IDNumber = #{idnumber} 
+    ]]>
+    </delete>
+    
+    
+
+    <update id="syn">
+    <![CDATA[
+
+
+insert into User_Infor_Message(IDNumber ,MessageType ,CARDNO ,CARDID ,OLDCARDNO ,OLDCARDID ,CDTYPE ,USERNAME ,IDTYPE ,IDSERIAL ,PID ,DEPTSTR ,CTRCODE ,NATCODE ,SEX ,BIRTHDAY ,INSCHOOL ,JOBCODE ,RECTYPE ,GRADE ,IDSERIAL1 ,OTHERSTR ,ReadFlag ,DealFlag)
+select IDNumber ,MessageType ,CARDNO ,CARDID ,OLDCARDNO ,OLDCARDID ,CDTYPE ,USERNAME ,IDTYPE ,IDSERIAL ,PID ,DEPTSTR ,CTRCODE ,NATCODE ,SEX ,BIRTHDAY ,INSCHOOL ,JOBCODE ,RECTYPE ,GRADE ,IDSERIAL1 ,OTHERSTR ,ReadFlag ,'0' as DealFlag 
+from opendatasource('SQLOLEDB','server=172.16.10.25;uid=sa;pwd=sa!@#123;database=Third_SyncData').[Third_SyncData].dbo.User_Infor_Message a 
+where not exists(select 1 from User_Infor_Message b where a.IDNumber=b.idNumber)
+
+    ]]>
+    </update>
+    
+    
+
+    <update id="del">
+    <![CDATA[
+
+
+insert into User_Infor_Message(IDNumber ,MessageType ,CARDNO ,CARDID ,OLDCARDNO ,OLDCARDID ,CDTYPE ,USERNAME ,IDTYPE ,IDSERIAL ,PID ,DEPTSTR ,CTRCODE ,NATCODE ,SEX ,BIRTHDAY ,INSCHOOL ,JOBCODE ,RECTYPE ,GRADE ,IDSERIAL1 ,OTHERSTR ,ReadFlag ,DealFlag)
+select IDNumber ,MessageType ,CARDNO ,CARDID ,OLDCARDNO ,OLDCARDID ,CDTYPE ,USERNAME ,IDTYPE ,IDSERIAL ,PID ,DEPTSTR ,CTRCODE ,NATCODE ,SEX ,BIRTHDAY ,INSCHOOL ,JOBCODE ,RECTYPE ,GRADE ,IDSERIAL1 ,OTHERSTR ,ReadFlag ,'0' as DealFlag 
+from opendatasource('SQLOLEDB','server=localhost;uid=sa;pwd=123456;database=tongbu').[tongbu].dbo.User_Infor_Message a 
+where not exists(select 1 from User_Infor_Message b where a.IDNumber=b.idNumber)
+
+    ]]>
+    </update>
+    
+    <select id="getById" resultMap="RM.UserInforMessage">
+	    SELECT <include refid="UserInforMessage.columns"/>
+	    <![CDATA[
+	        FROM user_infor_message 
+	        WHERE 
+		        IDNumber = #{idnumber} 
+	    ]]>
+    </select>
+
+	<sql id="UserInforMessage.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="idnumber !=null">
+		            AND IDNumber = #{idnumber}
+		       </if>
+		       <if test="messageType !=null">
+		            AND MessageType = #{messageType}
+		       </if>
+		       <if test="cardno !=null">
+		            AND CARDNO = #{cardno}
+		       </if>
+		       <if test="cardid !=null">
+		            AND CARDID like '%'+ #{cardid}+'%'
+		       </if>
+		       <if test="oldcardno !=null">
+		            AND OLDCARDNO = #{oldcardno}
+		       </if>
+		       <if test="oldcardid !=null">
+		            AND OLDCARDID like '%'+ #{oldcardid}+'%'
+		       </if>
+		       <if test="cdtype !=null">
+		            AND CDTYPE = #{cdtype}
+		       </if>
+		       <if test="username !=null">
+		            AND USERNAME = #{username}
+		       </if>
+		       <if test="idtype !=null">
+		            AND IDTYPE = #{idtype}
+		       </if>
+		       <if test="idserial !=null">
+		            AND IDSERIAL = #{idserial}
+		       </if>
+		       <if test="pid !=null">
+		            AND PID = #{pid}
+		       </if>
+		       <if test="deptstr !=null">
+		            AND DEPTSTR = #{deptstr}
+		       </if>
+		       <if test="ctrcode !=null">
+		            AND CTRCODE = #{ctrcode}
+		       </if>
+		       <if test="natcode !=null">
+		            AND NATCODE = #{natcode}
+		       </if>
+		       <if test="sex !=null">
+		            AND SEX = #{sex}
+		       </if>
+		       <if test="birthday !=null">
+		            AND BIRTHDAY = #{birthday}
+		       </if>
+		       <if test="inschool !=null">
+		            AND INSCHOOL = #{inschool}
+		       </if>
+		       <if test="jobcode !=null">
+		            AND JOBCODE = #{jobcode}
+		       </if>
+		       <if test="rectype !=null">
+		            AND RECTYPE = #{rectype}
+		       </if>
+		       <if test="grade !=null">
+		            AND GRADE = #{grade}
+		       </if>
+		       <if test="idserial1 !=null">
+		            AND IDSERIAL1 = #{idserial1}
+		       </if>
+		       <if test="otherstr !=null">
+		            AND OTHERSTR = #{otherstr}
+		       </if>
+		       <if test="readFlag !=null">
+		            AND ReadFlag = #{readFlag}
+		       </if>
+		       <if test="dealFlag !=null">
+		            AND DealFlag = #{dealFlag}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM user_infor_message <include refid="UserInforMessage.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.UserInforMessage">
+		
+		select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="UserInforMessage.columns"/> FROM user_infor_message 
+		<include refid="UserInforMessage.findPage.where"/>  
+		) z where   ( IDNumber NOT IN (SELECT TOP ${oracleStart} IDNumber FROM user_infor_message <include refid="UserInfo.findPage.where"/>   ORDER BY IDNumber desc))
+		order by IDNumber desc 
+    </select>
+    
+    <select id="query" resultMap="RM.UserInforMessage">
+    	SELECT <include refid="UserInforMessage.columns"/> FROM user_infor_message 
+    	<include refid="UserInforMessage.findPage.where"/>
+		order by IDNumber 
+    </select>
+
+	
+</mapper>
+

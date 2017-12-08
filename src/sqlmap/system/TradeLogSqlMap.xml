@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.TradeLogDao" >
+
+    <resultMap id="RM.TradeLog" type="com.sc.system.pojo.TradeLog">
+        <result property="sn" column="SN"/>
+        <result property="productSn" column="PRODUCT_SN"/>
+        <result property="productPrice" column="PRODUCT_PRICE"/>
+        <result property="tradeUser" column="TRADE_USER"/>
+        <result property="tradeTime" column="TRADE_TIME"/>
+        <result property="orgCode" column="ORG_CODE"/>
+        <result property="tradeState" column="TRADE_STATE"/>
+        <result property="tradeNote" column="TRADE_NOTE"/>
+        <result property="date" column="DATE"/>
+    </resultMap>
+
+	<sql id="TradeLog.columns">
+	    <![CDATA[
+        SN ,PRODUCT_SN ,PRODUCT_PRICE ,TRADE_USER ,TRADE_TIME ,ORG_CODE ,TRADE_STATE ,TRADE_NOTE ,DATE 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_trade_log (
+        	SN ,
+        	PRODUCT_SN ,
+        	PRODUCT_PRICE ,
+        	TRADE_USER ,
+        	TRADE_TIME ,
+        	ORG_CODE ,
+        	TRADE_STATE ,
+        	TRADE_NOTE ,
+        	DATE 
+        ) VALUES (
+			nextVal('trade_log') ,
+			#{productSn} ,
+			#{productPrice} ,
+			#{tradeUser} ,
+			#{tradeTime} ,
+			#{orgCode} ,
+			#{tradeState} ,
+			#{tradeNote} ,
+			#{date} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_trade_log SET
+	        PRODUCT_SN = #{productSn} ,
+	        PRODUCT_PRICE = #{productPrice} ,
+	        TRADE_USER = #{tradeUser} ,
+	        TRADE_TIME = #{tradeTime} ,
+	        ORG_CODE = #{orgCode} ,
+	        TRADE_STATE = #{tradeState} ,
+	        TRADE_NOTE = #{tradeNote} ,
+	        DATE = #{date} 
+        WHERE 
+	        SN = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_trade_log WHERE
+        SN = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.TradeLog">
+	    SELECT <include refid="TradeLog.columns"/>
+	    <![CDATA[
+	        FROM dev_trade_log 
+	        WHERE 
+		        SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="TradeLog.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="productSn !=null">
+		            AND PRODUCT_SN = #{productSn}
+		       </if>
+		       <if test="productPrice !=null">
+		            AND PRODUCT_PRICE = #{productPrice}
+		       </if>
+		       <if test="tradeUser !=null">
+		            AND TRADE_USER = #{tradeUser}
+		       </if>
+		       <if test="tradeTimeBegin !=null">
+		            AND TRADE_TIME >= #tradeTimeBegin#
+		       </if>
+		       <if test="tradeTimeEnd !=null">
+		            AND TRADE_TIME &lt;= #tradeTimeEnd#
+		       </if>
+		       <if test="orgCode !=null">
+		            AND ORG_CODE = #{orgCode}
+		       </if>
+		       <if test="tradeState !=null">
+		            AND TRADE_STATE = #{tradeState}
+		       </if>
+		       <if test="tradeNote !=null">
+		            AND TRADE_NOTE = #{tradeNote}
+		       </if>
+		       <if test="dateBegin !=null">
+		            AND DATE >= #dateBegin#
+		       </if>
+		       <if test="dateEnd !=null">
+		            AND DATE &lt;= #dateEnd#
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_trade_log <include refid="TradeLog.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.TradeLog">
+    	SELECT <include refid="TradeLog.columns"/> FROM dev_trade_log 
+		<include refid="TradeLog.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.TradeLog">
+    	SELECT <include refid="TradeLog.columns"/> FROM dev_trade_log 
+		<include refid="TradeLog.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

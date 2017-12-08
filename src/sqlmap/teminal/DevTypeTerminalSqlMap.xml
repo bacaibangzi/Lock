@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevTypeTerminalMapper" >
+
+    <resultMap id="RM.DevTypeTerminal" type="com.sc.teminal.pojo.DevTypeTerminal">
+        <result property="sn" column="sn"/>
+        <result property="typeId" column="type_id"/>
+        <result property="typeName" column="type_name"/>
+        <result property="status" column="status"/>
+        <result property="years" column="years"/>
+        <result property="terminalId" column="terminal_id"/>
+        <result property="terminalName" column="terminal_name"/>
+    </resultMap>
+
+	<sql id="DevTypeTerminal.columns">
+	    <![CDATA[
+         type_id ,type_name ,status ,years ,terminal_id ,terminal_name 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_type_terminal (
+        	type_id ,
+        	type_name ,
+        	status ,
+        	years ,
+        	terminal_id ,
+        	terminal_name 
+        ) VALUES (
+			#{typeId} ,
+			#{typeName} ,
+			#{status} ,
+			#{years} ,
+			#{terminalId} ,
+			#{terminalName} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_type_terminal SET
+	        type_id = #{typeId} ,
+	        type_name = #{typeName} ,
+	        status = #{status} ,
+	        years = #{years} ,
+	        terminal_id = #{terminalId} ,
+	        terminal_name = #{terminalName} 
+        WHERE 
+	        sn = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+     
+        DELETE FROM dev_type_terminal WHERE
+        type_id = #{typeId} 
+    
+    </delete>
+    
+    <select id="getById" resultMap="RM.DevTypeTerminal">
+	    SELECT <include refid="DevTypeTerminal.columns"/>
+	    <![CDATA[
+	        FROM dev_type_terminal 
+	        WHERE 
+		        sn = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="DevTypeTerminal.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="typeId !=null">
+		            AND type_id = #{typeId}
+		       </if>
+		       <if test="typeName !=null">
+		            AND type_name = #{typeName}
+		       </if>
+		       <if test="status !=null">
+		            AND status = #{status}
+		       </if>
+		       <if test="years !=null">
+		            AND years = #{years}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND terminal_id = #{terminalId}
+		       </if>
+		       <if test="terminalName !=null">
+		            AND terminal_name = #{terminalName}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) from (  select   distinct  type_id FROM dev_type_terminal <include refid="DevTypeTerminal.findPage.where"/>     ) t
+    </select>
+    
+    <select id="findPage" resultMap="RM.DevTypeTerminal">
+    	SELECT distinct   type_id ,type_name ,status ,years  FROM dev_type_terminal 
+		<include refid="DevTypeTerminal.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    <select id="query" resultMap="RM.DevTypeTerminal">
+    	SELECT <include refid="DevTypeTerminal.columns"/> FROM dev_type_terminal 
+		<include refid="DevTypeTerminal.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

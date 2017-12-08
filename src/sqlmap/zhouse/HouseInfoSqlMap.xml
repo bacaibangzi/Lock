@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.zhouse.dao.HouseInfoMapper" >
+
+    <resultMap id="RM.HouseInfo" type="com.sc.zhouse.pojo.HouseInfo">
+        <result property="sn" column="sn"/>
+        <result property="biaoTi" column="biao_ti"/>
+        <result property="fangShi" column="fang_shi"/>
+        <result property="jianZhuMianJi" column="jian_zhu_mian_ji"/>
+        <result property="huXing1" column="hu_xing1"/>
+        <result property="huXing2" column="hu_xing2"/>
+        <result property="huXing3" column="hu_xing3"/>
+        <result property="chaoXiang" column="chao_xiang"/>
+        <result property="zhuangXiu" column="zhuang_xiu"/>
+        <result property="ptChuang" column="pt_chuang"/>
+        <result property="ptKuangDai" column="pt_kuang_dai"/>
+        <result property="ptDianShi" column="pt_dian_shi"/>
+        <result property="ptXiYiJi" column="pt_xi_yi_ji"/>
+        <result property="ptNuanQi" column="pt_nuan_qi"/>
+        <result property="ptKongTiao" column="pt_kong_tiao"/>
+        <result property="ptBinXiang" column="pt_bin_xiang"/>
+        <result property="ptReShuiQi" column="pt_re_shui_qi"/>
+        <result property="fangWuMiaoShu" column="fang_wu_miao_shu"/>
+        <result property="xiaoQuMiaoShu" column="xiao_qu_miao_shu"/>
+        <result property="diZhi" column="di_zhi"/>
+        <result property="lon" column="lon"/>
+        <result property="lat" column="lat"/>
+        <result property="faBuShiJian" column="fa_bu_shi_jian"/>
+        <result property="shenHe" column="shen_he"/>
+        <result property="shen" column="shen"/>
+        <result property="shi" column="shi"/>
+        <result property="quYu" column="qu_yu"/>
+        <result property="xiaoQu" column="xiao_qu"/>
+        <result property="xiaoQuMingCheng" column="xiao_qu_ming_cheng"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="img1Path" column="img1_path"/>
+        <result property="img2Path" column="img2_path"/>
+        <result property="img3Path" column="img3_path"/>
+        <result property="img4Path" column="img4_path"/>
+        <result property="img5Path" column="img5_path"/>
+        <result property="img6Path" column="img6_path"/>
+        <result property="img7Path" column="img7_path"/>
+        <result property="img8Path" column="img8_path"/>
+        <result property="img9Path" column="img9_path"/>
+        <result property="img10Path" column="img10_path"/>
+        
+        <result property="zuJin" column="zu_jin"/>
+        <result property="lianXiRen" column="lian_xi_ren"/>
+        <result property="lianXiDianHua" column="lian_xi_dian_hua"/>
+        
+    </resultMap>
+
+	<sql id="HouseInfo.columns">
+	    <![CDATA[
+        sn ,biao_ti ,fang_shi ,jian_zhu_mian_ji ,hu_xing1,hu_xing2,hu_xing3 ,chao_xiang ,zhuang_xiu ,pt_chuang ,pt_kuang_dai ,pt_dian_shi ,pt_xi_yi_ji ,pt_nuan_qi ,pt_kong_tiao ,pt_bin_xiang ,pt_re_shui_qi ,fang_wu_miao_shu ,xiao_qu_miao_shu ,di_zhi ,lon ,lat ,fa_bu_shi_jian ,shen_he ,shen ,shi ,qu_yu ,xiao_qu ,user_id 
+        ,user_name , img1_path , img2_path , img3_path, img4_path,xiao_qu_ming_cheng ,zu_jin, lian_xi_ren, lian_xi_dian_hua,img5_path,img6_path,img7_path,img8_path,img9_path,img10_path
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO house_info (
+        	sn ,
+        	biao_ti ,
+        	fang_shi ,
+        	jian_zhu_mian_ji ,
+        	hu_xing1 ,
+        	hu_xing2 ,
+        	hu_xing3 ,
+        	chao_xiang ,
+        	zhuang_xiu ,
+        	pt_chuang ,
+        	pt_kuang_dai ,
+        	pt_dian_shi ,
+        	pt_xi_yi_ji ,
+        	pt_nuan_qi ,
+        	pt_kong_tiao ,
+        	pt_bin_xiang ,
+        	pt_re_shui_qi ,
+        	fang_wu_miao_shu ,
+        	xiao_qu_miao_shu ,
+        	di_zhi ,
+        	lon ,
+        	lat ,
+        	fa_bu_shi_jian ,
+        	shen_he ,
+        	shen ,
+        	shi ,
+        	qu_yu ,
+        	xiao_qu ,
+        	user_id ,
+        	user_name ,
+        	img1_path,
+        	img2_path,
+        	img3_path,
+        	img4_path,
+        	img5_path,
+        	img6_path,
+        	img7_path,
+        	img8_path,
+        	img9_path,
+        	img10_path,
+        	xiao_qu_ming_cheng ,zu_jin ,lian_xi_ren, lian_xi_dian_hua
+        ) VALUES (
+			nextVal('house_info') ,
+			#{biaoTi} ,
+			#{fangShi} ,
+			#{jianZhuMianJi} ,
+			#{huXing1} ,
+			#{huXing2} ,
+			#{huXing3} ,
+			#{chaoXiang} ,
+			#{zhuangXiu} ,
+			#{ptChuang} ,
+			#{ptKuangDai} ,
+			#{ptDianShi} ,
+			#{ptXiYiJi} ,
+			#{ptNuanQi} ,
+			#{ptKongTiao} ,
+			#{ptBinXiang} ,
+			#{ptReShuiQi} ,
+			#{fangWuMiaoShu} ,
+			#{xiaoQuMiaoShu} ,
+			#{diZhi} ,
+			#{lon} ,
+			#{lat} ,
+			now() ,
+			0 ,
+			#{shen} ,
+			#{shi} ,
+			#{quYu} ,
+			#{xiaoQu} ,
+			#{userId}  ,
+			#{userName} ,
+			#{img1Path} ,
+			#{img2Path} ,
+			#{img3Path} ,
+			#{img4Path} ,
+			#{img5Path} ,
+			#{img6Path} ,
+			#{img7Path} ,
+			#{img8Path} ,
+			#{img9Path} ,
+			#{img10Path} ,
+			#{xiaoQuMingCheng}  ,
+			#{zuJin}  ,
+			#{lianXiRen}  ,
+			#{lianXiDianHua} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE house_info SET
+	        biao_ti = #{biaoTi} ,
+	        fang_shi = #{fangShi} ,
+	        jian_zhu_mian_ji = #{jianZhuMianJi} ,
+	        hu_xing1 = #{huXing1} ,
+	        hu_xing2 = #{huXing2} ,
+	        hu_xing3 = #{huXing3} ,
+	        chao_xiang = #{chaoXiang} ,
+	        zhuang_xiu = #{zhuangXiu} ,
+	        pt_chuang = #{ptChuang} ,
+	        pt_kuang_dai = #{ptKuangDai} ,
+	        pt_dian_shi = #{ptDianShi} ,
+	        pt_xi_yi_ji = #{ptXiYiJi} ,
+	        pt_nuan_qi = #{ptNuanQi} ,
+	        pt_kong_tiao = #{ptKongTiao} ,
+	        pt_bin_xiang = #{ptBinXiang} ,
+	        pt_re_shui_qi = #{ptReShuiQi} ,
+	        fang_wu_miao_shu = #{fangWuMiaoShu} ,
+	        xiao_qu_miao_shu = #{xiaoQuMiaoShu} ,
+	        di_zhi = #{diZhi} ,
+	        lon = #{lon} ,
+	        lat = #{lat} ,
+	        fa_bu_shi_jian = now() ,
+	        shen_he = #{shenHe} ,
+	        shen = #{shen} ,
+	        shi = #{shi} ,
+	        qu_yu = #{quYu} ,
+	        xiao_qu = #{xiaoQu} ,
+	        user_id = #{userId} ,
+	        user_name = #{userName} ,
+	        img1_path = #{img1Path} ,
+	        img2_path = #{img2Path} ,
+	        img3_path = #{img3Path} ,
+	        img4_path = #{img4Path} ,
+	        img5_path = #{img5Path} ,
+	        img6_path = #{img6Path} ,
+	        img7_path = #{img7Path} ,
+	        img8_path = #{img8Path} ,
+	        img9_path = #{img9Path} ,
+	        img10_path = #{img10Path} ,
+	        xiao_qu_ming_cheng = #{xiaoQuMingCheng} ,
+	        zu_jin = #{zuJin} ,
+	        lian_xi_ren = #{lianXiRen} ,
+	        lian_xi_dian_hua = #{lianXiDianHua} 
+        WHERE 
+	        sn = #{sn} 
+    ]]>
+    </update>
+
+    <update id="sh" >
+    <![CDATA[
+        UPDATE house_info SET
+	        shen_he = #{shenHe}
+        WHERE  SN = #{sn} 
+    ]]>
+    </update>
+
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM house_info WHERE
+        sn = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.HouseInfo">
+	    SELECT <include refid="HouseInfo.columns"/>
+	    <![CDATA[
+	        FROM house_info 
+	        WHERE 
+		        sn = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="HouseInfo.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="biaoTi !=null">
+		            AND biao_ti  like concat('%', #{biaoTi}, '%')
+		       </if>
+		       <if test="fangShi !=null">
+		            AND fang_shi like concat('%', #{fangShi} , '%')
+		            
+		       </if>
+		       <if test="jianZhuMianJi !=null">
+		            AND jian_zhu_mian_ji = #{jianZhuMianJi}
+		       </if>
+		       <if test="huXing !=null">
+		            AND hu_xing = #{huXing}
+		       </if>
+		       <if test="chaoXiang !=null">
+		            AND chao_xiang = #{chaoXiang}
+		       </if>
+		       <if test="zhuangXiu !=null">
+		            AND zhuang_xiu = #{zhuangXiu}
+		       </if>
+		       <if test="ptChuang !=null">
+		            AND pt_chuang = #{ptChuang}
+		       </if>
+		       <if test="ptKuangDai !=null">
+		            AND pt_kuang_dai = #{ptKuangDai}
+		       </if>
+		       <if test="ptDianShi !=null">
+		            AND pt_dian_shi = #{ptDianShi}
+		       </if>
+		       <if test="ptXiYiJi !=null">
+		            AND pt_xi_yi_ji = #{ptXiYiJi}
+		       </if>
+		       <if test="ptNuanQi !=null">
+		            AND pt_nuan_qi = #{ptNuanQi}
+		       </if>
+		       <if test="ptKongTiao !=null">
+		            AND pt_kong_tiao = #{ptKongTiao}
+		       </if>
+		       <if test="ptBinXiang !=null">
+		            AND pt_bin_xiang = #{ptBinXiang}
+		       </if>
+		       <if test="ptReShuiQi !=null">
+		            AND pt_re_shui_qi = #{ptReShuiQi}
+		       </if>
+		       <if test="fangWuMiaoShu !=null">
+		            AND fang_wu_miao_shu = #{fangWuMiaoShu}
+		       </if>
+		       <if test="xiaoQuMiaoShu !=null">
+		            AND xiao_qu_miao_shu = #{xiaoQuMiaoShu}
+		       </if>
+		       <if test="diZhi !=null">
+		            AND di_zhi = #{diZhi}
+		       </if>
+		       <if test="lon !=null">
+		            AND lon = #{lon}
+		       </if>
+		       <if test="lat !=null">
+		            AND lat = #{lat}
+		       </if>
+		       <if test="faBuShiJianBegin !=null">
+		            AND fa_bu_shi_jian >= #faBuShiJianBegin#
+		       </if>
+		       <if test="faBuShiJianEnd !=null">
+		            AND fa_bu_shi_jian &lt;= #faBuShiJianEnd#
+		       </if>
+		       <if test="shenHe !=null">
+		            AND shen_he like concat('%', #{shenHe} , '%')
+		       </if>
+		       <if test="shen !=null">
+		            AND shen = #{shen}
+		       </if>
+		       <if test="shi !=null">
+		            AND shi = #{shi}
+		       </if>
+		       <if test="quYu !=null">
+		            AND qu_yu = #{quYu}
+		       </if>
+		       <if test="xiaoQu !=null">
+		            AND xiao_qu = #{xiaoQu}
+		       </if>
+		       <if test="userId !=null">
+		            AND user_id = #{userId}
+		       </if>
+		       <if test="flag !=null">
+		            AND sn  in (select house_id from user_house where user_id = #{flag}  and type = #{type} )
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM house_info <include refid="HouseInfo.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.HouseInfo">
+    	SELECT <include refid="HouseInfo.columns"/> FROM house_info 
+		<include refid="HouseInfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by fa_bu_shi_jian desc 
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.HouseInfo">
+    	SELECT <include refid="HouseInfo.columns"/> FROM house_info 
+		<include refid="HouseInfo.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+    
+    
+    
+    <select id="queryByLocation" resultMap="RM.HouseInfo">
+    	SELECT <include refid="HouseInfo.columns"/> FROM house_info 
+    	
+    	where shen_he = 1 and 
+    	
+    	ROUND(6378.138*2*ASIN(SQRT(POW(SIN(( #{lat} *PI()/180-lat*PI()/180)/2),2)+COS( #{lat} *PI()/180)*COS(lat*PI()/180)*POW(SIN(( #{lon}  *PI()/180-lon*PI()/180)/2),2)))) 
+		
+		 &lt;  20
+		 
+		  <if test="huXing1 !=null">
+		       AND hu_xing1  &gt;= #{huXing1} and zu_jin &lt;= #{huXing2} 
+		  </if>
+		  <if test="chaoXiang !=null">
+		       AND chao_xiang = #{chaoXiang}
+		  </if>
+		  <if test="zhuangXiu !=null">
+		        AND zhuang_xiu = #{zhuangXiu}
+		  </if>
+		 
+		  <if test="fangShi !=null">
+		        AND fang_shi = #{fangShi}
+		  </if>
+		 
+		  <if test="zuJin1 !=null">
+		      AND zu_jin  &gt;= #{zuJin1} and zu_jin &lt;= #{zuJin2} 
+		   </if>
+		 
+    </select>
+
+	
+</mapper>
+

@@ -1,0 +1,8 @@
+.Wdate{
+	height:20px;
+}
+
+.WdateFmtErr{
+	font-weight:bold;
+	color:red;
+}

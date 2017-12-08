@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.RoleMenuMapper" >
+
+    <resultMap id="RM.RoleMenu" type="com.sc.system.pojo.RoleMenu">
+        <result property="rmId" column="RM_ID"/>
+        <result property="riId" column="RI_ID"/>
+        <result property="miId" column="MI_ID"/>
+        <result property="rmMemo" column="RM_MEMO"/>
+    </resultMap>
+
+	<sql id="RoleMenu.columns">
+	    <![CDATA[
+        RM_ID ,RI_ID ,MI_ID ,RM_MEMO 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_role_menu ( 
+        	RI_ID ,
+        	MI_ID ,
+        	RM_MEMO 
+        ) VALUES ( 
+			#{riId} ,
+			#{miId} ,
+			#{rmMemo}
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="rmId" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_role_menu SET
+	        RI_ID = #{riId} ,
+	        MI_ID = #{miId} ,
+	        RM_MEMO = #{rmMemo} 
+        WHERE 
+	        RM_ID = #{rmId} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_role_menu WHERE
+        RI_ID = #{riId} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.RoleMenu">
+	    SELECT <include refid="RoleMenu.columns"/>
+	    <![CDATA[
+	        FROM dev_role_menu 
+	        WHERE 
+		        RM_ID = #{rmId} 
+	    ]]>
+    </select>
+
+	<sql id="RoleMenu.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="rmId !=null">
+		            AND RM_ID = #{rmId}
+		       </if>
+		       <if test="riId !=null">
+		            AND RI_ID = #{riId}
+		       </if>
+		       <if test="miId !=null">
+		            AND MI_ID = #{miId}
+		       </if>
+		       <if test="rmMemo !=null">
+		            AND RM_MEMO = #{rmMemo}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM dev_role_menu <include refid="RoleMenu.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.RoleMenu">
+    	select top ${oracleEnd} * from
+	    (
+    	SELECT <include refid="RoleMenu.columns"/> FROM dev_role_menu 
+		<include refid="RoleMenu.findPage.where"/>
+		) z where   ( RI_ID NOT IN (SELECT TOP ${oracleStart} RI_ID FROM dev_role_menu  ORDER BY RI_ID))
+    </select>
+    
+    <select id="query" resultMap="RM.RoleMenu">
+    	SELECT <include refid="RoleMenu.columns"/> FROM dev_role_menu 
+		<include refid="RoleMenu.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

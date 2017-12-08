@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.teminal.dao.DevDoorTeminalMapper" >
+
+    <resultMap id="RM.DevDoorTeminal" type="com.sc.teminal.pojo.Terminalinfo">
+        <result property="terminalId" column="TerminalID"/>
+        <result property="controllerId" column="ControllerID"/>
+        <result property="terminalName" column="TerminalName"/>
+        <result property="devCode" column="DevCode"/>
+        <result property="devType" column="DevType"/>
+        <result property="isUse" column="IsUse"/>
+        <result property="templateId" column="TemplateID"/>
+        <result property="templateVersion" column="TemplateVersion"/>
+        <result property="firmwareVer" column="FirmwareVer"/>
+        <result property="remark" column="Remark"/>
+        <result property="repeater1" column="Repeater1"/>
+        <result property="repeater2" column="Repeater2"/>
+        <result property="repeater3" column="Repeater3"/>
+        <result property="controllerName" column="controllerName"/>
+        <result property="devState" column="devState"/>
+        <result property="stateTime" column="stateTime"/>
+        <result property="swipetime" column="SwipeTime"/>
+        <result property="gathertime" column="GatherTime"/>
+        <result property="dl" column="dl"/>
+        <result property="sfbj" column="sfbj"/>
+    </resultMap>
+
+	<sql id="DevDoorTeminal.columns">
+	    <![CDATA[         
+	    TerminalID ,ControllerID ,TerminalName ,DevCode ,DevType ,IsUse ,TemplateID ,TemplateVersion ,FirmwareVer ,Remark ,Repeater1 ,Repeater2 ,Repeater3 ,controllerName,devState,stateTime
+
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_door_teminal ( 
+        	door_group_sn ,
+        	Terminal_id 
+        ) VALUES ( 
+			#{repeater1} ,
+			#{repeater2} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE dev_door_teminal SET
+	        sn = #{sn} ,
+	        door_group_sn = #{doorGroupSn} ,
+	        Terminal_id = #{terminalId} 
+        WHERE 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_door_teminal WHERE sn = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.DevDoorTeminal">
+	    SELECT  TerminalID ,ControllerID ,TerminalName ,DevCode ,DevType ,IsUse ,TemplateID ,TemplateVersion ,FirmwareVer ,Remark ,Repeater1 ,Repeater2 ,Repeater3 ,controllerName,devState,stateTime
+	    <![CDATA[
+	        FROM dev_door_teminal 
+	        WHERE  sn = #{sn} 
+	    ]]>
+    </select>
+    
+    
+    <select id="getTeminalIDById" resultType="java.lang.Integer">
+	    SELECT  Terminal_ID   
+	    <![CDATA[
+	        FROM dev_door_teminal 
+	        WHERE  sn = #{sn} 
+	    ]]>
+    </select>  
+
+	<sql id="DevDoorTeminal.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="doorGroupSn !=null">
+		            AND door_group_sn = #{doorGroupSn}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND Terminal_id = #{terminalId}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM  
+        (
+        select  TerminalID ,ControllerID ,TerminalName ,DevCode ,DevType ,IsUse ,TemplateID ,TemplateVersion ,FirmwareVer ,Remark ,Repeater1 ,Repeater2 ,Repeater3  
+		
+		from terminalinfo t1 , dev_door_teminal t2 where t1. TerminalID = t2. Terminal_id and door_group_sn = #{doorGroupSn}
+        
+        )
+        t
+        
+    </select>
+    
+    <select id="findPage" resultMap="RM.DevDoorTeminal">
+		
+
+		
+		select t2.sn ,t1.ControllerID ,t1.TerminalName ,t1.DevCode ,t1.DevType ,t1.IsUse ,t1.TemplateID ,t1.TemplateVersion ,t1.FirmwareVer ,t1.Remark ,t1.Repeater1 ,t1.Repeater2 ,t1.Repeater3  , t1. TerminalID ,t3.ControllerName,t1.DevModel,t1.DevState,t1.StateTime 
+		
+		from terminalinfo t1 , dev_door_teminal t2 ,ControllerInfo  t3 where t1. TerminalID = t2. Terminal_id and door_group_sn = #{doorGroupSn} and t1.ControllerID = t3.ControllerID order by t1.TerminalName
+
+
+    </select>
+    
+    <select id="query" resultMap="RM.DevDoorTeminal"> 
+    	SELECT * FROM dev_door_teminal 
+		where 1=1
+		
+		       <if test="doorGroupSn !=null">
+		            AND  door_group_sn = #{doorGroupSn}
+		       </if>
+		       <if test="terminalId !=null">
+		            AND  Terminal_id = #{terminalId}
+		       </if>
+		
+    </select>
+
+
+    <select id="queryDl" resultMap="RM.DevDoorTeminal"> 
+
+
+select t2.TerminalName,round(cast(t3.CardNo as bigInt)/1024.0*6.6,1) as dl,t3.SwipeTime,t3.GatherTime,case when t4.EXCEPTIONTIME>=t3.SwipeTime then 1 else 0 end sfbj
+     from dev_door_teminal t1
+      left join terminalinfo t2 on t1.terminal_ID=t2.terminalID
+      left join (
+       select a.terminalID,CardNo,SwipeTime,GatherTime 
+        from DoorSwipeData a
+       INNER JOIN  (select a.terminalID,max(ID) as ID from DoorSwipeData a where a.SwipeType=25 GROUP BY a.terminalID) b on a.terminalID=b.terminalID and a.ID=b.ID
+      ) t3 on t3.terminalID=t1.terminal_ID
+       left join (SELECT terminalID,max(EXCEPTIONTIME) as EXCEPTIONTIME from TerminalException WHERE EXCEPTIONTYPE=64 group by terminalID) t4 on t1.terminal_ID=t4.terminalID
+     
+      
+     where t1.door_group_sn=#{doorGroupSn}
+     
+ order by t2.TerminalName
+		
+    </select>
+
+
+	
+</mapper>
+

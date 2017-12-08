@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.zhouse.dao.HouseTypeMapper" >
+
+    <resultMap id="RM.HouseType" type="com.sc.zhouse.pojo.HouseType">
+        <result property="sn" column="sn"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="paix" column="paix"/>
+        <result property="param1" column="param1"/>
+        <result property="param2" column="param2"/>
+    </resultMap>
+
+	<sql id="HouseType.columns">
+	    <![CDATA[
+        sn ,name ,value ,paix ,param1 ,param2 
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO house_type (
+        	sn ,
+        	name ,
+        	value ,
+        	paix ,
+        	param1 ,
+        	param2 
+        ) VALUES (
+			nextVal('house_type') ,
+			#{name} ,
+			#{value} ,
+			#{paix} ,
+			#{param1} ,
+			#{param2} 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="update" >
+    <![CDATA[
+        UPDATE house_type SET
+	        name = #{name} ,
+	        value = #{value} ,
+	        paix = #{paix} ,
+	        param1 = #{param1} ,
+	        param2 = #{param2} 
+        WHERE 
+	        sn = #{sn} 
+    ]]>
+    </update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM house_type WHERE
+        sn = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.HouseType">
+	    SELECT <include refid="HouseType.columns"/>
+	    <![CDATA[
+	        FROM house_type 
+	        WHERE 
+		        sn = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="HouseType.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND sn = #{sn}
+		       </if>
+		       <if test="name !=null">
+		            AND name = #{name}
+		       </if>
+		       <if test="value !=null">
+		            AND value = #{value}
+		       </if>
+		       <if test="paix !=null">
+		            AND paix = #{paix}
+		       </if>
+		       <if test="param1 !=null">
+		            AND param1 = #{param1}
+		       </if>
+		       <if test="param2 !=null">
+		            AND param2 = #{param2}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM house_type <include refid="HouseType.findPage.where"/>    
+    </select>
+    
+    <select id="findPage" resultMap="RM.HouseType">
+    	SELECT <include refid="HouseType.columns"/> FROM house_type 
+		<include refid="HouseType.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by paix asc
+		<include refid="common.MySql_Pagination" />
+    </select>
+    
+    <select id="query" resultMap="RM.HouseType">
+    	SELECT <include refid="HouseType.columns"/> FROM house_type 
+		<include refid="HouseType.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+		order by paix asc
+    </select>
+
+	
+</mapper>
+

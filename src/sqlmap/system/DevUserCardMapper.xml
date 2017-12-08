@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.sc.system.dao.DevUserCardMapper" >
+
+    <resultMap id="RM.DevUserCard" type="com.sc.system.pojo.DevUserCard">
+        <result property="sn" column="SN"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="cardNum" column="CARD_NUM"/>
+        <result property="type" column="type"/>
+        
+        
+        <result property="flag" column="flag"/>
+        <result property="bm" column="bm"/>
+        <result property="kh" column="kh"/>
+        <result property="gh" column="gh"/>
+        <result property="mc" column="mc"/>
+        <result property="zt" column="zt"/>
+    </resultMap>
+
+	<sql id="DevUserCard.columns">
+	    <![CDATA[
+        SN ,USER_ID ,CARD_NUM ,flag,type
+	    ]]>
+	</sql>
+	
+    <insert id="insert" >
+    <![CDATA[
+        INSERT INTO dev_user_card ( 
+        	USER_ID ,
+        	CARD_NUM  ,
+        	flag ,type 
+        ) VALUES ( 
+			#{userId} ,
+			#{cardNum} ,1,#{type}
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="sn" >
+            select last_insert_id()
+        </selectKey>
+    -->
+    </insert>
+
+    <update id="updateFlag" >
+    <![CDATA[
+        UPDATE dev_user_card SET
+	        flag = #{flag} 
+        WHERE 
+	        USER_ID = #{userId} and
+	        CARD_NUM = #{cardNum} 
+    ]]>
+    </update>
+    
+    <update id="updateCardNumFlag" >
+    <![CDATA[
+        UPDATE dev_user_card SET
+	        flag = #{flag} ,
+	        CARD_NUM = #{kh} ,
+        WHERE 
+	        USER_ID = #{userId} and
+	        CARD_NUM = #{cardNum} 
+    ]]>
+    </update>
+    
+        <update id="update" >
+    <![CDATA[
+        UPDATE dev_user_card SET
+	        USER_ID = #{userId} ,
+	        CARD_NUM = #{cardNum} ,
+	        flag = #{flag} 
+        WHERE 
+	        SN = #{sn} 
+    ]]>
+    </update>
+    
+
+    <select id="getByCardNum" resultMap="RM.DevUserCard">
+	    SELECT <include refid="DevUserCard.columns"/>
+	    <![CDATA[
+	        FROM dev_user_card 
+	        WHERE 
+		        CARD_NUM = #{cardNum} 
+	    ]]>
+    </select>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM dev_user_card WHERE
+        SN = #{sn} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="RM.DevUserCard">
+	    SELECT <include refid="DevUserCard.columns"/>
+	    <![CDATA[
+	        FROM dev_user_card 
+	        WHERE 
+		        SN = #{sn} 
+	    ]]>
+    </select>
+
+	<sql id="DevUserCard.findPage.where">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR" >
+		       <if test="sn !=null">
+		            AND SN = #{sn}
+		       </if>
+		       <if test="userId !=null">
+		            AND USER_ID = #{userId}
+		       </if>
+		       <if test="cardNum !=null">
+		            AND CARD_NUM = #{cardNum}
+		       </if>
+	    </trim>	
+	</sql>
+	 
+    <select id="findPageCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM 
+    (
+    
+    	SELECT  
+    	
+    	t1. SN , t1.USER_ID , t1.CARD_NUM  kh , t2.UI_NAME  mc ,t3.OI_NAME bm , t2.UI_NUM  gh ,t1.type type
+    	
+    	FROM dev_user_card  t1 
+
+		  left JOIN dev_user_info t2 on t1.USER_ID = t2.UI_ID
+
+			left join dev_org_info t3  on t2.UI_ORG_CODE  =  t3.OI_CODE 
+
+where 1=1
+		 
+		
+		 <if test="mc !=null">
+		     AND t2.UI_NAME   like '%'+#{mc}+'%'
+		 </if>
+		  
+		 <if test="gh !=null">
+		     AND t2.UI_NUM   like '%'+#{gh}+'%'
+		 </if> 
+		  
+		 <if test="flag !=null">
+		     AND t1.flag  = #{flag}
+		 </if> 
+		  
+  		<if test="userId !=null">
+  			AND t1.USER_ID = #{userId} 
+  		</if>
+  		
+		 <if test="kh !=null">
+		     AND t1.CARD_NUM   like '%'+#{kh}+'%'
+		 </if> 
+ 
+		) z
+
+
+
+    </select>
+    
+    <select id="findPage" resultMap="RM.DevUserCard">
+    
+    select top ${oracleEnd} * from
+	    (
+    
+SELECT  
+    	
+    	t1. SN , t1.USER_ID , t1.CARD_NUM  kh , t2.UI_NAME  mc ,t3.OI_NAME bm , t2.UI_NUM  gh ,t1.type type ,t1.flag
+    	
+    	FROM dev_user_card  t1 
+
+		  left JOIN dev_user_info t2 on t1.USER_ID = t2.UI_ID
+
+			left join dev_org_info t3  on t2.UI_ORG_CODE  =  t3.OI_CODE 
+
+where 1=1
+		 
+		
+		 <if test="mc !=null">
+		     AND t2.UI_NAME   like '%'+#{mc}+'%'
+		 </if>
+		  
+		 <if test="gh !=null">
+		     AND t2.UI_NUM   like '%'+#{gh}+'%'
+		 </if> 
+		 
+		  
+		 <if test="kh !=null">
+		     AND t1.CARD_NUM   like '%'+#{kh}+'%'
+		 </if> 
+		  
+		 <if test="flag !=null">
+		     AND t1.flag  = #{flag}
+		 </if> 
+		  
+		  
+  		<if test="userId !=null">
+  			AND t1.USER_ID = #{userId} 
+  		</if>
+ 
+		) z where   ( SN NOT IN (SELECT TOP ${oracleStart} SN FROM dev_user_card  ORDER BY SN))
+    </select>
+    
+    <select id="query" resultMap="RM.DevUserCard">
+    	SELECT <include refid="DevUserCard.columns"/> FROM dev_user_card 
+		<include refid="DevUserCard.findPage.where"/>
+		<if test="sortColumns != null" >
+			order by #{sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

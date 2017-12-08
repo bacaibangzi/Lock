@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+		<!-- 
+	<plugins>
+		指定数据库分页方言Dialect, 其它方言:OracleDialect,SQLServerDialect,SybaseDialect,DB2Dialect,
+		PostgreSQLDialect,MySQLDialect,DerbyDialect,HSQLDialect
+		<plugin interceptor="com.sg.authority.common.mybatis.OffsetLimitInterceptor">
+			<property name="dialectClass" value="com.sg.authority.common.mybatis.dialect.OracleDialect"/>
+		</plugin>
+	</plugins>
+		-->
+		<mappers>
+			<!-- 系统信息 -->
+			<mapper resource="sqlmap/common_SqlMap.xml" />
+			<mapper resource="sqlmap/system/UserInfoSqlMap.xml" />
+			<mapper resource="sqlmap/system/UserRoleMenuSqlMap.xml" />
+			<mapper resource="sqlmap/system/AreaInfoSqlMap.xml" />
+			<mapper resource="sqlmap/system/OrgInfoSqlMap.xml" />
+			<mapper resource="sqlmap/system/SystemMenuSqlMap.xml" />
+			<mapper resource="sqlmap/system/RoleInfoSqlMap.xml" />
+			<mapper resource="sqlmap/system/RoleMenuSqlMap.xml" />
+			<mapper resource="sqlmap/system/UserRoleSqlMap.xml" />
+			<mapper resource="sqlmap/system/UserOrgsMapper.xml" />
+			<mapper resource="sqlmap/system/SmsLogSqlMap.xml" />
+			<mapper resource="sqlmap/system/TradeLogSqlMap.xml" /> 
+			<mapper resource="sqlmap/system/DevUserCardMapper.xml" /> 
+			<mapper resource="sqlmap/system/WebLocationSqlMap.xml" />
+			<mapper resource="sqlmap/system/DataSqlMap.xml" />
+			
+			<mapper resource="sqlmap/teminal/AttendancedataSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/ControllerinfoSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevcmdlistSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevcmdresultSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevDoorGroupSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevDoorTeminalSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevnamelistinfoSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DoorswipedataSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/StationinfoSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/TerminalexceptionSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/TerminalinfoSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/TerminalparameterSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/TerminaltemplateSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/WatercontroldataSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/XfofflinedataSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/VhuisYancSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/CmdlogSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevLogSqlMap.xml" />
+			<mapper resource="sqlmap/teminal/DevTypeTerminalSqlMap.xml" />
+			<mapper resource="sqlmap/system/UserInforMessageSqlMap.xml" />
+			<mapper resource="sqlmap/system/ViewXsZhusuSqlMap.xml" />
+		</mappers>
+</configuration>
